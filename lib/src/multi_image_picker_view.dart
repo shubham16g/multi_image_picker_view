@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 
-import '../multi_image_picker_view.dart';
-
+import 'multi_image_picker_controller.dart';
 
 class MultiImagePickerView extends StatefulWidget {
   const MultiImagePickerView(
@@ -21,7 +20,7 @@ class MultiImagePickerView extends StatefulWidget {
       : super(key: key);
 
   final MultiImagePickerController controller;
-  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
+  final Widget Function(BuildContext context, Function() pickerCallback)?
       initialContainerBuilder;
   final Function(Iterable<PlatformFile>)? onChange;
   final EdgeInsetsGeometry? padding;
@@ -39,7 +38,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   Widget build(BuildContext context) {
     if (widget.controller.hasNoImages) {
       return widget.initialContainerBuilder != null
-          ? widget.initialContainerBuilder!(context, _pickImages())
+          ? widget.initialContainerBuilder!(context, _pickImages)
           : Container(
               margin: widget.padding,
               decoration: BoxDecoration(
@@ -49,7 +48,9 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               ),
               height: 160,
               width: double.infinity,
-              child: Center(
+              child: SizedBox(
+                width: double.infinity,
+                height: double.infinity,
                 child: TextButton(
                   child: const Text('Add Images'),
                   onPressed: () {
@@ -59,25 +60,26 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               ),
       );
     }
-    final selector = GestureDetector(
-      key: UniqueKey(),
-      onVerticalDragDown: (_){},
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Colors.grey, width: 1),
-        ),
-        child: const Center(
-          child: Text(
-            'ADD',
+    final selector = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.blueGrey.withOpacity(0.07),
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: TextButton(
+          onPressed: () {
+
+            _pickImages();
+          },
+          child: const Text(
+            'Add More',
             style: TextStyle(
                 color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 16),
           ),
         ),
       ),
-      onTap: () {
-        _pickImages();
-      },
     );
 
     final scrollController = ScrollController();
@@ -177,14 +179,18 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   @override
   void initState() {
-    widget.controller.addListener(updateUi);
     super.initState();
+    print('initState');
+    widget.controller.addListener(updateUi);
   }
 
 
   @override
-  void didUpdateWidget(MultiImagePickerView oldWidget) {
+  void didUpdateWidget(MultiImagePickerView? oldWidget) {
+    print('didUpdateWidget');
+    if (oldWidget == null) return;
     if (widget.controller != oldWidget.controller) {
+      print('trying update');
       _migrate(widget.controller, oldWidget.controller, updateUi);
     }
     super.didUpdateWidget(oldWidget);
@@ -202,6 +208,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   @override
   void dispose() {
+    print('dispose');
     widget.controller.removeListener(updateUi);
     super.dispose();
   }
@@ -237,7 +244,10 @@ class _ItemView extends StatelessWidget {
         Positioned(
           right: 0,
           top: 0,
-          child: GestureDetector(
+          child: InkWell(
+            excludeFromSemantics: true,
+            onLongPress: () {
+            },
             child: Container(
                 margin: const EdgeInsets.all(4),
                 padding: const EdgeInsets.all(3),
@@ -245,7 +255,7 @@ class _ItemView extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const SizedBox(height: 20, width: 20,)),
+                child: const Icon(Icons.close, size: 20,)),
             onTap: (){
               onDelete(file);
             },
