@@ -30,6 +30,8 @@ class MultiImagePickerController with ChangeNotifier {
             allowedImageTypes.map((e) => _getExtension(e)).toList());
     if (result != null) {
       _addImages(result.files.map((e) => e));
+      notifyListeners();
+      print('notified');
       return true;
     }
     return false;
@@ -43,7 +45,6 @@ class MultiImagePickerController with ChangeNotifier {
       _images.add(images.elementAt(i));
       i++;
     }
-    notifyListeners();
   }
 
   void reOrderImage(int oldIndex, int newIndex) {

@@ -16,12 +16,17 @@ class MultiImagePickerView extends StatefulWidget {
       {Key? key,
       this.onChange,
       required this.controller,
-      this.padding})
+      this.padding,
+      this.initialContainerBuilder, this.gridDelegate})
       : super(key: key);
 
   final MultiImagePickerController controller;
+  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
+      initialContainerBuilder;
   final Function(Iterable<PlatformFile>)? onChange;
   final EdgeInsetsGeometry? padding;
+
+  final SliverGridDelegate? gridDelegate;
 
   // final images = <String>[];
 
@@ -32,19 +37,26 @@ class MultiImagePickerView extends StatefulWidget {
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   @override
   Widget build(BuildContext context) {
-    if (widget.controller.images.isEmpty) {
-      return Container(
-        margin: widget.padding,
-        color: Colors.grey[200],
-        height: 160,
-        child: Center(
-          child: TextButton(
-            child: Text('Add Image'),
-            onPressed: () {
-              _pickImages();
-            },
-          ),
-        ),
+    if (widget.controller.hasNoImages) {
+      return widget.initialContainerBuilder != null
+          ? widget.initialContainerBuilder!(context, _pickImages())
+          : Container(
+              margin: widget.padding,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.blueGrey.withOpacity(0.05),
+
+              ),
+              height: 160,
+              width: double.infinity,
+              child: Center(
+                child: TextButton(
+                  child: const Text('Add Images'),
+                  onPressed: () {
+                    _pickImages();
+                  },
+                ),
+              ),
       );
     }
     final selector = GestureDetector(
@@ -56,9 +68,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
           border: Border.all(color: Colors.grey, width: 1),
         ),
         child: const Center(
-          child: Icon(
-            Icons.add,
-            size: 50,
+          child: Text(
+            'ADD',
+            style: TextStyle(
+                color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 16),
           ),
         ),
       ),
@@ -127,12 +140,12 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             key: gridViewKey,
             controller: scrollController,
             shrinkWrap: true,
-            children: children,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            gridDelegate: widget.gridDelegate ?? const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 160,
                 childAspectRatio: 1,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10),
+            children: children,
           );
         },
         children: widget.controller.images
@@ -164,8 +177,23 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   @override
   void initState() {
-    super.initState();
     widget.controller.addListener(updateUi);
+    super.initState();
+  }
+
+
+  @override
+  void didUpdateWidget(MultiImagePickerView oldWidget) {
+    if (widget.controller != oldWidget.controller) {
+      _migrate(widget.controller, oldWidget.controller, updateUi);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void _migrate(Listenable a, Listenable b, void Function() listener) {
+    b.removeListener(listener);
+    a.addListener(listener);
+
   }
 
   void updateUi() {
