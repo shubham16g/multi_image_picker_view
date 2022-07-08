@@ -2,13 +2,11 @@ library multi_image_picker_view;
 
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 
-import 'multi_image_picker_controller.dart';
+import '../multi_image_picker_view.dart';
 
 class MultiImagePickerView extends StatefulWidget {
   const MultiImagePickerView(
@@ -16,13 +14,17 @@ class MultiImagePickerView extends StatefulWidget {
       this.onChange,
       required this.controller,
       this.padding,
-      this.initialContainerBuilder, this.gridDelegate})
+      this.initialContainerBuilder,
+      this.gridDelegate,
+      this.itemBuilder})
       : super(key: key);
 
   final MultiImagePickerController controller;
   final Widget Function(BuildContext context, Function() pickerCallback)?
       initialContainerBuilder;
-  final Function(Iterable<PlatformFile>)? onChange;
+  final Widget Function(BuildContext context, ImageFile file,
+      Function(ImageFile) deleteCallback)? itemBuilder;
+  final Function(Iterable<ImageFile>)? onChange;
   final EdgeInsetsGeometry? padding;
 
   final SliverGridDelegate? gridDelegate;
@@ -151,8 +153,12 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
           );
         },
         children: widget.controller.images
-                .map<Widget>((e) => _ItemView(
-                    key: UniqueKey(), file: e, onDelete: _deleteImage))
+                .map<Widget>((e) => SizedBox(
+                      key: UniqueKey(),
+                      child: widget.itemBuilder != null
+                          ? widget.itemBuilder!(context, e, _deleteImage)
+                          : _ItemView(file: e, onDelete: _deleteImage),
+                    ))
                 .toList() +
             (widget.controller.maxImages > widget.controller.images.length
                 ? [selector]
@@ -169,7 +175,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     }
   }
 
-  void _deleteImage(PlatformFile path) {
+  void _deleteImage(ImageFile path) {
     print('delete init');
     widget.controller.deleteImage(path);
     if (widget.onChange != null) {
@@ -215,12 +221,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 }
 
 class _ItemView extends StatelessWidget {
-  const _ItemView(
-      {required Key key, required this.file, required this.onDelete})
+  const _ItemView({Key? key, required this.file, required this.onDelete})
       : super(key: key);
 
-  final PlatformFile file;
-  final Function(PlatformFile path) onDelete;
+  final ImageFile file;
+  final Function(ImageFile path) onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -228,9 +233,9 @@ class _ItemView extends StatelessWidget {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       children: [
         Positioned.fill(
-          child: kIsWeb
+          child: !file.hasPath
               ? Image.memory(
-                  file.bytes!,
+                  file.bytes,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return const Center(child: Text('No Preview'));

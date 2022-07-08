@@ -3,7 +3,7 @@ library multi_image_picker_view;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
-import 'image_type.dart';
+import '../multi_image_picker_view.dart';
 
 class MultiImagePickerController with ChangeNotifier {
   final List<ImageType> allowedImageTypes;
@@ -18,8 +18,8 @@ class MultiImagePickerController with ChangeNotifier {
     this.maxImages = 10,
   });
 
-  final List<PlatformFile> _images = <PlatformFile>[];
-  Iterable<PlatformFile> get images => _images;
+  final List<ImageFile> _images = <ImageFile>[];
+  Iterable<ImageFile> get images => _images;
   bool get hasNoImages => _images.isEmpty;
 
   Future<bool> pickImages() async {
@@ -27,19 +27,17 @@ class MultiImagePickerController with ChangeNotifier {
         allowMultiple: true,
         type: FileType.custom,
         allowedExtensions:
-            allowedImageTypes.map((e) => _getExtension(e)).toList());
+            allowedImageTypes.map((e) => e.extension).toList());
     if (result != null) {
-      _addImages(result.files.map((e) => e));
+      _addImages(result.files.where((e) => e.extension != null && e.bytes != null)
+          .map((e) => ImageFile(name: e.name, extension: e.extension!, bytes: e.bytes!, path: !kIsWeb ? e.path: null)));
       notifyListeners();
-      print('notified');
       return true;
     }
     return false;
   }
 
-  void _addImages(Iterable<PlatformFile> images) {
-    print(_images.length);
-    // _images.addAll(images);
+  void _addImages(Iterable<ImageFile> images) {
     int i = 0;
     while (_images.length < maxImages && images.length > i) {
       _images.add(images.elementAt(i));
@@ -49,27 +47,13 @@ class MultiImagePickerController with ChangeNotifier {
 
   void reOrderImage(int oldIndex, int newIndex) {
     final oldItem = _images.removeAt(oldIndex);
-    print("reorder: $oldIndex -> $newIndex");
+    oldItem.size;
     _images.insert(newIndex, oldItem);
-    // notifyListeners();
   }
 
-  void deleteImage(PlatformFile path) {
-    print("delete: ${_images.indexOf(path)}");
+  void deleteImage(ImageFile path) {
     _images.remove(path);
     notifyListeners();
-  }
-
-  final _imageTypes = <ImageType, String>{
-    ImageType.png: 'png',
-    ImageType.jpeg: 'jpeg',
-    ImageType.jpg: 'jpg',
-    ImageType.gif: 'gif',
-    ImageType.svg: 'svg',
-  };
-
-  String _getExtension(ImageType mimeType) {
-    return _imageTypes[mimeType]!;
   }
 }
 

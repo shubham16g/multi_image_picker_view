@@ -19,7 +19,7 @@ class DemoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Multi Image Picker View Example'),
+        title: Text('Multi Image Picker View'),
       ),
       body: MultiImagePickerView(
         padding: const EdgeInsets.all(10),
@@ -44,8 +44,11 @@ class DemoPage extends StatelessWidget {
             ),
           );
         },
+       /* itemBuilder: (context, file, deleteCallback){
+          return Stack
+        },*/
         onChange: (list) {
-          print('got the list');
+          // print('got the list');
         },
         controller: MultiImagePickerController(
             maxImages: 12,
