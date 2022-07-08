@@ -16,7 +16,7 @@ class MultiImagePickerView extends StatefulWidget {
       this.padding,
       this.initialContainerBuilder,
       this.gridDelegate,
-      this.itemBuilder})
+      this.itemBuilder, this.addMoreBuilder})
       : super(key: key);
 
   final MultiImagePickerController controller;
@@ -24,6 +24,9 @@ class MultiImagePickerView extends StatefulWidget {
       initialContainerBuilder;
   final Widget Function(BuildContext context, ImageFile file,
       Function(ImageFile) deleteCallback)? itemBuilder;
+
+  final Widget Function(BuildContext context,Function() pickerCallback)? addMoreBuilder;
+
   final Function(Iterable<ImageFile>)? onChange;
   final EdgeInsetsGeometry? padding;
 
@@ -62,7 +65,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               ),
       );
     }
-    final selector = Container(
+    final selector = widget.addMoreBuilder != null ? widget.addMoreBuilder!(context, _pickImages) : Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: Colors.blueGrey.withOpacity(0.07),
@@ -72,7 +75,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         height: double.infinity,
         child: TextButton(
           onPressed: () {
-
             _pickImages();
           },
           child: const Text(
@@ -233,18 +235,21 @@ class _ItemView extends StatelessWidget {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       children: [
         Positioned.fill(
-          child: !file.hasPath
-              ? Image.memory(
-                  file.bytes,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Center(child: Text('No Preview'));
-                  },
-                )
-              : Image.file(
-                  File(file.path!),
-                  fit: BoxFit.cover,
-                ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: !file.hasPath
+                ? Image.memory(
+                    file.bytes,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Center(child: Text('No Preview'));
+                    },
+                  )
+                : Image.file(
+                    File(file.path!),
+                    fit: BoxFit.cover,
+                  ),
+          ),
         ),
         Positioned(
           right: 0,
