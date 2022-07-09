@@ -14,10 +14,11 @@ class MultiImagePickerView extends StatefulWidget {
       this.padding,
       this.initialContainerBuilder,
       this.gridDelegate,
-      this.itemBuilder, this.addMoreBuilder})
+      this.itemBuilder, this.addMoreBuilder, this.dragChildBoxDecoration})
       : super(key: key);
 
   final MultiImagePickerController controller;
+  final BoxDecoration? dragChildBoxDecoration;
   final Widget Function(BuildContext context, Function() pickerCallback)?
       initialContainerBuilder;
   final Widget Function(BuildContext context, ImageFile file,
@@ -117,12 +118,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         //   });
         // },
         scrollController: scrollController,
-        dragChildBoxDecoration: BoxDecoration(
-          color: Colors.white,
+        dragChildBoxDecoration: widget.dragChildBoxDecoration ?? BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              blurRadius: 5,
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 3,
               spreadRadius: 1,
             ),
           ],
