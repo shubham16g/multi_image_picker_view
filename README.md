@@ -1,5 +1,10 @@
+# Multi Image Picker View Flutter
 
 A complete widget which can easily pick multiple images from device and display them in UI. Also picked image can be re-ordered and removed easily.
+
+![preview](https://user-images.githubusercontent.com/55009858/178099543-d3b576d9-625c-426e-b627-9e48c2f65c17.gif)
+![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
+
 
 ## Features
 
@@ -12,8 +17,9 @@ A complete widget which can easily pick multiple images from device and display 
 - Fully Customizable UI
 
 ## Getting started
-
-`flutter pub add multi_image_picker_view`
+```
+flutter pub add multi_image_picker_view
+```
 
 ## Usage
 
