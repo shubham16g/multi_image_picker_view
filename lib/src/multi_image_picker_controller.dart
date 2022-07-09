@@ -42,14 +42,17 @@ class MultiImagePickerController with ChangeNotifier {
     }
   }
 
-  void reOrderImage(int oldIndex, int newIndex) {
+  void reOrderImage(int oldIndex, int newIndex, {bool notify = true}) {
     final oldItem = _images.removeAt(oldIndex);
     oldItem.size;
     _images.insert(newIndex, oldItem);
+    if (notify) {
+      notifyListeners();
+    }
   }
 
-  void deleteImage(ImageFile path) {
-    _images.remove(path);
+  void removeImage(ImageFile imageFile) {
+    _images.remove(imageFile);
     notifyListeners();
   }
 }

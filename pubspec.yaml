@@ -1,7 +1,9 @@
 name: multi_image_picker_view
-description: An image_picker based widget which helps to pick multiple images in a GridView which can also be reorderable.
+description: A complete widget which can easily pick multiple images from device and display them in UI. Also picked image can be re-ordered and removed easily.
 version: 0.0.1
 homepage: https://github.com/shubham-gupta-16/multi_image_picker_view
+repository: https://github.com/shubham-gupta-16/multi_image_picker_view
+issue_tracker: https://github.com/shubham-gupta-16/multi_image_picker_view/issues
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
@@ -19,8 +21,4 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:

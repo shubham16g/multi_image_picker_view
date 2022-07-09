@@ -48,8 +48,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       }
     }
 
-    void _deleteImage(ImageFile path) {
-      widget.controller.deleteImage(path);
+    void _deleteImage(ImageFile imageFile) {
+      widget.controller.removeImage(imageFile);
       if (widget.onChange != null) {
         widget.onChange!(widget.controller.images);
       }
@@ -131,7 +131,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
           for (final orderUpdateEntity in orderUpdateEntities) {
             widget.controller.reOrderImage(
-                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
+                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex, notify: false);
             if (widget.onChange != null) {
               widget.onChange!(widget.controller.images);
             }
