@@ -3,18 +3,16 @@
 A complete widget which can easily pick multiple images from device and display them in UI. Also picked image can be re-ordered and removed easily.
 
 ![preview](https://user-images.githubusercontent.com/55009858/178099543-d3b576d9-625c-426e-b627-9e48c2f65c17.gif)
-![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
-
 
 ## Features
 
-- Pick Multiple Images
+- Pick multiple images
 - Displayed in GridView
-- Reorder Picked Images just by Dragging
-- Remove Picked Image
+- Reorder picked images just by dragging
+- Remove picked image
 - Limit max images
-- Limit image extenstion
-- Fully Customizable UI
+- Limit image extenstions
+- Fully customizable UI
 
 ## Getting started
 ```
@@ -84,6 +82,11 @@ controller.allowedImageTypes; // return allowedImageTypes
 controller.removeImage(imageFile); // remove image from the images
 controller.reOrderImage(oldIndex, newIndex); // reorder the image
 ```
+
+## Custom Look
+
+![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
+
 
 ## Contributing
 
