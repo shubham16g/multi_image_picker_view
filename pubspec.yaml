@@ -1,7 +1,7 @@
 name: multi_image_picker_view
 description: An image_picker based widget which helps to pick multiple images in a GridView which can also be reorderable.
 version: 0.0.1
-homepage:
+homepage: https://github.com/shubham-gupta-16/multi_image_picker_view
 
 environment:
   sdk: ">=2.17.1 <3.0.0"
@@ -13,7 +13,6 @@ dependencies:
   cupertino_icons:
   flutter_reorderable_grid_view: ^3.1.1
   file_picker: ^4.6.1
-  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,3 @@
 # example
 
-A new Flutter project.
-
+Example Project for multi_image_picker_view (Flutter Package)

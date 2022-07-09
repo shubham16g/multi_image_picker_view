@@ -5,6 +5,7 @@ import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 void main() {
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'Mutli Image Picker View Example',
     theme: ThemeData(
       primarySwatch: Colors.blue,
@@ -38,8 +39,8 @@ class DemoPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Multi Image Picker View'),
         actions: [
-          ElevatedButton(
-            child: Text('Upload'),
+          IconButton(
+            icon: Icon(Icons.arrow_upward),
             onPressed: () {
               final images = controller.images;
               /// use these images
