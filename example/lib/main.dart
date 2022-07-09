@@ -74,9 +74,7 @@ class DemoPage extends StatelessWidget {
         controller: MultiImagePickerController(
             maxImages: 12,
             allowedImageTypes: const [
-              ImageType.jpeg,
-              ImageType.jpg,
-              ImageType.png
+              'svg',
             ]),
       ),
     );
@@ -99,7 +97,7 @@ class ImageCard extends StatelessWidget {
         Positioned.fill(
           child: !file.hasPath
               ? Image.memory(
-            file.bytes,
+            file.bytes!,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) {
               return const Center(child: Text('No Preview'));

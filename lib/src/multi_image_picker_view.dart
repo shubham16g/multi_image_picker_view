@@ -1,5 +1,3 @@
-library multi_image_picker_view;
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -41,6 +39,21 @@ class MultiImagePickerView extends StatefulWidget {
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   @override
   Widget build(BuildContext context) {
+    _pickImages() async {
+      final result = await widget.controller.pickImages();
+      if (!result) return;
+      if (widget.onChange != null) {
+        widget.onChange!(widget.controller.images);
+      }
+    }
+
+    void _deleteImage(ImageFile path) {
+      widget.controller.deleteImage(path);
+      if (widget.onChange != null) {
+        widget.onChange!(widget.controller.images);
+      }
+    }
+
     if (widget.controller.hasNoImages) {
       return widget.initialContainerBuilder != null
           ? widget.initialContainerBuilder!(context, _pickImages)
@@ -88,22 +101,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
     final scrollController = ScrollController();
     final gridViewKey = GlobalKey();
-
-    /*kIsWeb
-      ? Image.network(
-          e,
-          fit: BoxFit.cover,
-          key: Key(e),
-          errorBuilder: (context, error, stackTrace) {
-            return const Center(child: Text('No Preview'));
-          },
-        )
-      : Image.file(
-          File(e),
-          key: Key(e),
-          fit: BoxFit.cover,
-        )
-    */
 
     return Padding(
       padding: widget.padding ?? EdgeInsets.zero,
@@ -169,36 +166,17 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     );
   }
 
-  _pickImages() async {
-    final result = await widget.controller.pickImages();
-    if (!result) return;
-    if (widget.onChange != null) {
-      widget.onChange!(widget.controller.images);
-    }
-  }
-
-  void _deleteImage(ImageFile path) {
-    print('delete init');
-    widget.controller.deleteImage(path);
-    if (widget.onChange != null) {
-      widget.onChange!(widget.controller.images);
-    }
-  }
-
   @override
   void initState() {
     super.initState();
-    print('initState');
     widget.controller.addListener(updateUi);
   }
 
 
   @override
   void didUpdateWidget(MultiImagePickerView? oldWidget) {
-    print('didUpdateWidget');
     if (oldWidget == null) return;
     if (widget.controller != oldWidget.controller) {
-      print('trying update');
       _migrate(widget.controller, oldWidget.controller, updateUi);
     }
     super.didUpdateWidget(oldWidget);
@@ -216,7 +194,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   @override
   void dispose() {
-    print('dispose');
     widget.controller.removeListener(updateUi);
     super.dispose();
   }
@@ -239,7 +216,7 @@ class _ItemView extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
             child: !file.hasPath
                 ? Image.memory(
-                    file.bytes,
+                    file.bytes!,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return const Center(child: Text('No Preview'));
