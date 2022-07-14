@@ -8,3 +8,8 @@
 
 - Fixed Web Support
 - Improved Example
+
+## 0.0.3
+- cupertino_icons dependency removed
+- Improved docs
+- Improved Example
