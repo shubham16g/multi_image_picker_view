@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 
 import '../multi_image_picker_view.dart';
 
+/// Controller for the [MultiImagePickerView].
+/// This controller contains all them images that the user has selected.
 class MultiImagePickerController with ChangeNotifier {
   final List<String> allowedImageTypes;
   final int maxImages;
@@ -15,15 +17,22 @@ class MultiImagePickerController with ChangeNotifier {
   }
 
   final List<ImageFile> _images = <ImageFile>[];
+
+  /// Returns [Iterable] of [ImageFile] that user has selected.
   Iterable<ImageFile> get images => _images;
+
+  /// Returns true if user has selected no images.
   bool get hasNoImages => _images.isEmpty;
 
+  /// manually pick images. i.e. on click on external button.
+  /// this method open Image picking window.
+  /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.custom,
         allowedExtensions: allowedImageTypes);
-    if (result != null) {
+    if (result != null && result.files.isNotEmpty) {
       _addImages(result.files
           .where((e) =>
               e.extension != null &&
@@ -47,6 +56,7 @@ class MultiImagePickerController with ChangeNotifier {
     }
   }
 
+  /// Manually re-order image, i.e. move image from one position to another position.
   void reOrderImage(int oldIndex, int newIndex, {bool notify = true}) {
     final oldItem = _images.removeAt(oldIndex);
     oldItem.size;
@@ -56,6 +66,7 @@ class MultiImagePickerController with ChangeNotifier {
     }
   }
 
+  /// Manually remove image from list.
   void removeImage(ImageFile imageFile) {
     _images.remove(imageFile);
     notifyListeners();
@@ -69,3 +80,4 @@ class MultiImagePickerController with ChangeNotifier {
     print(_images);
   }
 }
+

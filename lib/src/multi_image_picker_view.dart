@@ -6,6 +6,7 @@ import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 
 import '../multi_image_picker_view.dart';
 
+/// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
   const MultiImagePickerView(
       {Key? key,
@@ -249,14 +250,14 @@ class _ItemView extends StatelessWidget {
                 margin: const EdgeInsets.all(4),
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withOpacity(0.4),
                   shape: BoxShape.circle,
                 ),
                 child: Image.asset(
                   'assets/close-48.png',
                   package: 'multi_image_picker_view',
-                  height: 20,
-                  width: 20,
+                  height: 18,
+                  width: 18,
                 )),
             onTap: () {
               onDelete(file);
