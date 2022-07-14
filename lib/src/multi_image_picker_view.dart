@@ -73,7 +73,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 width: double.infinity,
                 height: double.infinity,
                 child: TextButton(
-                  child: const Text('Add Images'),
+                  child: const Text('Add Images',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16)),
                   onPressed: () {
                     _pickImages();
                   },
@@ -124,7 +128,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         //   });
         // },
         scrollController: scrollController,
-        dragChildBoxDecoration: widget.onDragBoxDecoration ?? BoxDecoration(
+        dragChildBoxDecoration: widget.onDragBoxDecoration ??
+            BoxDecoration(
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
@@ -248,7 +253,8 @@ class _ItemView extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Image.asset(
-                  'assets/close-48.png', package: 'multi_image_picker_view',
+                  'assets/close-48.png',
+                  package: 'multi_image_picker_view',
                   height: 20,
                   width: 20,
                 )),

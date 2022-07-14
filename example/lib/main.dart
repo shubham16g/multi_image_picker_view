@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 void main() {
-
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Mutli Image Picker View Example',
@@ -22,7 +21,6 @@ class DemoPage extends StatefulWidget {
 }
 
 class _DemoPageState extends State<DemoPage> {
-
   final controller = MultiImagePickerController(
     maxImages: 10,
     allowedImageTypes: ['png', 'jpg', 'jpeg'],
@@ -31,7 +29,6 @@ class _DemoPageState extends State<DemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: [
           MultiImagePickerView(
@@ -42,7 +39,6 @@ class _DemoPageState extends State<DemoPage> {
           CustomExamples()
         ],
       ),
-
       appBar: AppBar(
         title: Text('Multi Image Picker View'),
         actions: [

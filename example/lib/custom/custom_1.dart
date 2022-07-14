@@ -11,7 +11,6 @@ class Custom1 extends StatefulWidget {
 }
 
 class _Custom1State extends State<Custom1> {
-
   final controller = MultiImagePickerController(
       maxImages: 12, allowedImageTypes: const ['jpg', 'jpeg', 'png']);
 
