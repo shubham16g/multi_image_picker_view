@@ -11,7 +11,7 @@ A complete widget which can easily pick multiple images from device and display 
 - Reorder picked images just by dragging
 - Remove picked image
 - Limit max images
-- Limit image extenstions
+- Limit image extensions
 - Fully customizable UI
 
 ## Getting started
@@ -38,7 +38,7 @@ final controller = MultiImagePickerController(
 MultiImagePickerView(
   controller: controller,
   padding: const EdgeInsets.all(10),
-)
+);
 ```
 OR
 ```
@@ -54,7 +54,7 @@ MultiImagePickerView(
     // return custom card or item widget which should call the pickerCallback when user clicks on it
   },
   gridDelegate: /* Your SliverGridDelegate */,
-  dragChildBoxDecoration: /* BoxDecoration when item is dragging */,
+  onDragBoxDecoration: /* BoxDecoration when item is dragging */,
   onChange: (images) {
     // callback to update images
   },
