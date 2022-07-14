@@ -10,7 +10,10 @@ class MultiImagePickerController with ChangeNotifier {
   MultiImagePickerController({
     this.allowedImageTypes = const ['png', 'jpeg', 'jpg'],
     this.maxImages = 10,
-  });
+  }){
+    print('init');
+  }
+
 
   final List<ImageFile> _images = <ImageFile>[];
   Iterable<ImageFile> get images => _images;
@@ -57,5 +60,14 @@ class MultiImagePickerController with ChangeNotifier {
   void removeImage(ImageFile imageFile) {
     _images.remove(imageFile);
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    print(_images);
+    print('dispose');
+    super.dispose();
+    print(_images);
+
   }
 }
