@@ -14,7 +14,9 @@ class MultiImagePickerView extends StatefulWidget {
       this.padding,
       this.initialContainerBuilder,
       this.gridDelegate,
-      this.itemBuilder, this.addMoreBuilder, this.dragChildBoxDecoration})
+      this.itemBuilder,
+      this.addMoreBuilder,
+      this.dragChildBoxDecoration})
       : super(key: key);
 
   final MultiImagePickerController controller;
@@ -24,7 +26,8 @@ class MultiImagePickerView extends StatefulWidget {
   final Widget Function(BuildContext context, ImageFile file,
       Function(ImageFile) deleteCallback)? itemBuilder;
 
-  final Widget Function(BuildContext context,Function() pickerCallback)? addMoreBuilder;
+  final Widget Function(BuildContext context, Function() pickerCallback)?
+      addMoreBuilder;
 
   final Function(Iterable<ImageFile>)? onChange;
   final EdgeInsetsGeometry? padding;
@@ -63,7 +66,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
                 color: Colors.blueGrey.withOpacity(0.05),
-
               ),
               height: 160,
               width: double.infinity,
@@ -77,28 +79,32 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                   },
                 ),
               ),
-      );
+            );
     }
-    final selector = widget.addMoreBuilder != null ? widget.addMoreBuilder!(context, _pickImages) : Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: Colors.blueGrey.withOpacity(0.07),
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: TextButton(
-          onPressed: () {
-            _pickImages();
-          },
-          child: const Text(
-            'Add More',
-            style: TextStyle(
-                color: Colors.blue, fontWeight: FontWeight.w500, fontSize: 16),
-          ),
-        ),
-      ),
-    );
+    final selector = widget.addMoreBuilder != null
+        ? widget.addMoreBuilder!(context, _pickImages)
+        : Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              color: Colors.blueGrey.withOpacity(0.07),
+            ),
+            child: SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+              child: TextButton(
+                onPressed: () {
+                  _pickImages();
+                },
+                child: const Text(
+                  'Add More',
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                ),
+              ),
+            ),
+          );
 
     final scrollController = ScrollController();
     final gridViewKey = GlobalKey();
@@ -119,19 +125,20 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         // },
         scrollController: scrollController,
         dragChildBoxDecoration: widget.dragChildBoxDecoration ?? BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 3,
-              spreadRadius: 1,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 3,
+                  spreadRadius: 1,
+                ),
+              ],
             ),
-          ],
-        ),
         lockedIndices: [widget.controller.images.length],
         onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
           for (final orderUpdateEntity in orderUpdateEntities) {
             widget.controller.reOrderImage(
-                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex, notify: false);
+                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex,
+                notify: false);
             if (widget.onChange != null) {
               widget.onChange!(widget.controller.images);
             }
@@ -143,11 +150,12 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             key: gridViewKey,
             controller: scrollController,
             shrinkWrap: true,
-            gridDelegate: widget.gridDelegate ?? const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 160,
-                childAspectRatio: 1,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10),
+            gridDelegate: widget.gridDelegate ??
+                const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 160,
+                    childAspectRatio: 1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
             children: children,
           );
         },
@@ -172,7 +180,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     widget.controller.addListener(updateUi);
   }
 
-
   @override
   void didUpdateWidget(MultiImagePickerView? oldWidget) {
     if (oldWidget == null) return;
@@ -185,7 +192,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   void _migrate(Listenable a, Listenable b, void Function() listener) {
     b.removeListener(listener);
     a.addListener(listener);
-
   }
 
   void updateUi() {
@@ -233,8 +239,7 @@ class _ItemView extends StatelessWidget {
           top: 0,
           child: InkWell(
             excludeFromSemantics: true,
-            onLongPress: () {
-            },
+            onLongPress: () {},
             child: Container(
                 margin: const EdgeInsets.all(4),
                 padding: const EdgeInsets.all(3),
@@ -242,8 +247,11 @@ class _ItemView extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.close, size: 20,)),
-            onTap: (){
+                child: const Icon(
+                  Icons.close,
+                  size: 20,
+                )),
+            onTap: () {
               onDelete(file);
             },
           ),

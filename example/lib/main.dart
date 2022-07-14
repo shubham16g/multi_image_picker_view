@@ -44,7 +44,7 @@ class DemoPage extends StatelessWidget {
             ),
           );
         },
-        itemBuilder: (context, file, deleteCallback){
+        itemBuilder: (context, file, deleteCallback) {
           return ImageCard(file: file, deleteCallback: deleteCallback);
         },
         addMoreBuilder: (context, pickerCallback) {
@@ -59,7 +59,11 @@ class DemoPage extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
-                  child: Icon(Icons.add, color: Colors.blue, size: 30,),
+                  child: Icon(
+                    Icons.add,
+                    color: Colors.blue,
+                    size: 30,
+                  ),
                 ),
                 onPressed: () {
                   pickerCallback();
@@ -71,16 +75,14 @@ class DemoPage extends StatelessWidget {
         onChange: (list) {
           // print('got the list');
         },
-        controller: MultiImagePickerController(
-            maxImages: 12,
-            allowedImageTypes: const [
-              'svg',
-            ]),
+        controller:
+            MultiImagePickerController(maxImages: 12, allowedImageTypes: const [
+          'svg',
+        ]),
       ),
     );
   }
 }
-
 
 class ImageCard extends StatelessWidget {
   const ImageCard({Key? key, required this.file, required this.deleteCallback})
@@ -97,24 +99,23 @@ class ImageCard extends StatelessWidget {
         Positioned.fill(
           child: !file.hasPath
               ? Image.memory(
-            file.bytes!,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) {
-              return const Center(child: Text('No Preview'));
-            },
-          )
+                  file.bytes!,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(child: Text('No Preview'));
+                  },
+                )
               : Image.file(
-            File(file.path!),
-            fit: BoxFit.cover,
-          ),
+                  File(file.path!),
+                  fit: BoxFit.cover,
+                ),
         ),
         Positioned(
           right: 0,
           top: 0,
           child: InkWell(
             excludeFromSemantics: true,
-            onLongPress: () {
-            },
+            onLongPress: () {},
             child: Container(
                 margin: const EdgeInsets.all(4),
                 padding: const EdgeInsets.all(3),
@@ -122,8 +123,11 @@ class ImageCard extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.close, size: 20,)),
-            onTap: (){
+                child: const Icon(
+                  Icons.close,
+                  size: 20,
+                )),
+            onTap: () {
               deleteCallback(file);
             },
           ),

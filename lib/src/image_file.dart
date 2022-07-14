@@ -9,6 +9,6 @@ class ImageFile {
   bool get hasPath => path != null;
   int get size => bytes?.length ?? 0;
 
-  ImageFile({required this.name, required this.extension, this.bytes, this.path});
+  ImageFile(
+      {required this.name, required this.extension, this.bytes, this.path});
 }
-

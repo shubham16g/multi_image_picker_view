@@ -8,11 +8,7 @@ class MultiImagePickerController with ChangeNotifier {
   final int maxImages;
 
   MultiImagePickerController({
-    this.allowedImageTypes = const [
-      'png',
-      'jpeg',
-      'jpg'
-    ],
+    this.allowedImageTypes = const ['png', 'jpeg', 'jpg'],
     this.maxImages = 10,
   });
 
@@ -24,10 +20,17 @@ class MultiImagePickerController with ChangeNotifier {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.custom,
-        allowedExtensions:allowedImageTypes);
+        allowedExtensions: allowedImageTypes);
     if (result != null) {
-      _addImages(result.files.where((e) => e.extension != null && allowedImageTypes.contains(e.extension?.toLowerCase()))
-          .map((e) => ImageFile(name: e.name, extension: e.extension!, bytes: e.bytes, path: !kIsWeb ? e.path: null)));
+      _addImages(result.files
+          .where((e) =>
+              e.extension != null &&
+              allowedImageTypes.contains(e.extension?.toLowerCase()))
+          .map((e) => ImageFile(
+              name: e.name,
+              extension: e.extension!,
+              bytes: e.bytes,
+              path: !kIsWeb ? e.path : null)));
       notifyListeners();
       return true;
     }
@@ -56,5 +59,3 @@ class MultiImagePickerController with ChangeNotifier {
     notifyListeners();
   }
 }
-
-

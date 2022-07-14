@@ -40,6 +40,7 @@ class DemoPage extends StatelessWidget {
             icon: Icon(Icons.arrow_upward),
             onPressed: () {
               final images = controller.images;
+
               /// use these images
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('${images.length} images selected'),
@@ -51,4 +52,3 @@ class DemoPage extends StatelessWidget {
     );
   }
 }
-
