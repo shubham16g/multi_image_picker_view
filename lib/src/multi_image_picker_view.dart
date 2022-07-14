@@ -247,9 +247,10 @@ class _ItemView extends StatelessWidget {
                   color: Colors.white.withOpacity(0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.close,
-                  size: 20,
+                child: Image.asset(
+                  'assets/close-48.png', package: 'multi_image_picker_view',
+                  height: 20,
+                  width: 20,
                 )),
             onTap: () {
               onDelete(file);

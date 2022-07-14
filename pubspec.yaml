@@ -12,7 +12,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.5
   flutter_reorderable_grid_view: ^3.1.1
   file_picker: ^4.6.1
 
@@ -22,3 +21,5 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
+  assets:
+    - packages/multi_image_picker_view/assets/close-48.png
