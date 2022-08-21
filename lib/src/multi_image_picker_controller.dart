@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
 import '../multi_image_picker_view.dart';
@@ -5,11 +6,11 @@ import '../multi_image_picker_view.dart';
 /// Controller for the [MultiImagePickerView].
 /// This controller contains all them images that the user has selected.
 class MultiImagePickerController with ChangeNotifier {
+  final List<String> allowedImageTypes;
   final int maxImages;
-  final Future<List<ImageFile>> Function() pickerBuilder;
 
   MultiImagePickerController({
-    required this.pickerBuilder,
+    this.allowedImageTypes = const ['png', 'jpeg', 'jpg'],
     this.maxImages = 10,
   }) {
     print('init');
@@ -27,19 +28,20 @@ class MultiImagePickerController with ChangeNotifier {
   /// this method open Image picking window.
   /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages() async {
-    final images = await pickerBuilder();
-    /*FilePickerResult? result = await FilePicker.platform.pickFiles(
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: true,
         type: FileType.custom,
-        allowedExtensions: ['png', 'jpg', 'jpeg']);*/
-    if (images.isNotEmpty) {
-      _addImages(images);
-      /*_addImages(result.files
+        allowedExtensions: allowedImageTypes);
+    if (result != null && result.files.isNotEmpty) {
+      _addImages(result.files
+          .where((e) =>
+              e.extension != null &&
+              allowedImageTypes.contains(e.extension?.toLowerCase()))
           .map((e) => ImageFile(
               name: e.name,
               extension: e.extension!,
               bytes: e.bytes,
-              path: !kIsWeb ? e.path : null)));*/
+              path: !kIsWeb ? e.path : null)));
       notifyListeners();
       return true;
     }

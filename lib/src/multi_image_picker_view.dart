@@ -8,21 +8,19 @@ import '../multi_image_picker_view.dart';
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
-  const MultiImagePickerView({
-    Key? key,
-    this.onChange,
-    required this.controller,
-    this.padding,
-    this.initialContainerBuilder,
-    this.gridDelegate,
-    this.itemBuilder,
-    this.addMoreBuilder,
-    this.onDragBoxDecoration,
-    this.draggable = true,
-  }) : super(key: key);
+  const MultiImagePickerView(
+      {Key? key,
+      this.onChange,
+      required this.controller,
+      this.padding,
+      this.initialContainerBuilder,
+      this.gridDelegate,
+      this.itemBuilder,
+      this.addMoreBuilder,
+      this.onDragBoxDecoration})
+      : super(key: key);
 
   final MultiImagePickerController controller;
-  final bool draggable;
   final BoxDecoration? onDragBoxDecoration;
   final Widget Function(BuildContext context, Function() pickerCallback)?
       initialContainerBuilder;
@@ -131,7 +129,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         //   });
         // },
         scrollController: scrollController,
-        enableDraggable: widget.draggable,
         dragChildBoxDecoration: widget.onDragBoxDecoration ??
             BoxDecoration(
               boxShadow: [
