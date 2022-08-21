@@ -12,7 +12,10 @@ class Custom1 extends StatefulWidget {
 
 class _Custom1State extends State<Custom1> {
   final controller = MultiImagePickerController(
-      maxImages: 12, allowedImageTypes: const ['jpg', 'jpeg', 'png']);
+      pickerBuilder: (){
+        return Future.delayed(Duration(seconds: 1));
+      },
+      maxImages: 12);
 
   @override
   Widget build(BuildContext context) {

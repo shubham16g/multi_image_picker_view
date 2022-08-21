@@ -22,8 +22,10 @@ class DemoPage extends StatefulWidget {
 
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
+    pickerBuilder: (){
+      return Future.delayed(Duration(seconds: 1));
+    },
     maxImages: 10,
-    allowedImageTypes: ['png', 'jpg', 'jpeg'],
   );
 
   @override
@@ -32,6 +34,7 @@ class _DemoPageState extends State<DemoPage> {
       body: Column(
         children: [
           MultiImagePickerView(
+            draggable: true,
             controller: controller,
             padding: const EdgeInsets.all(10),
           ),

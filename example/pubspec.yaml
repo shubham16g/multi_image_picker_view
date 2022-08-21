@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  file_picker: ^4.6.1
   multi_image_picker_view:
     path: ../
 
