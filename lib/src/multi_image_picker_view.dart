@@ -17,10 +17,12 @@ class MultiImagePickerView extends StatefulWidget {
       this.gridDelegate,
       this.itemBuilder,
       this.addMoreBuilder,
+      this.draggable = true,
       this.onDragBoxDecoration})
       : super(key: key);
 
   final MultiImagePickerController controller;
+  final bool draggable;
   final BoxDecoration? onDragBoxDecoration;
   final Widget Function(BuildContext context, Function() pickerCallback)?
       initialContainerBuilder;
@@ -129,6 +131,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         //   });
         // },
         scrollController: scrollController,
+        enableDraggable: widget.draggable,
         dragChildBoxDecoration: widget.onDragBoxDecoration ??
             BoxDecoration(
               boxShadow: [
