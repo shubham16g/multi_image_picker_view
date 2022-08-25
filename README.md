@@ -56,6 +56,7 @@ MultiImagePickerView(
     // return custom card or item widget which should call the pickerCallback when user clicks on it
   },
   gridDelegate: /* Your SliverGridDelegate */,
+  draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
   onDragBoxDecoration: /* BoxDecoration when item is dragging */,
   onChange: (images) {
     // callback to update images
