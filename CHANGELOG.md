@@ -1,5 +1,10 @@
+## 0.0.6
+- 🪲 Fixed some bugs
+- Fixed example publishing
+- Fixed 🌐 Web Support
+
 ## 0.0.5
-- 🌐 Fixed Web Support
+- Fixed 🌐 Web Support
 
 ## 0.0.4
 - 🪲 Fixed some bugs
