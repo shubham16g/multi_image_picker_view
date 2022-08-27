@@ -1,3 +1,6 @@
+## 0.0.5
+- 🌐 Fixed Web Support
+
 ## 0.0.4
 - 🪲 Fixed some bugs
 - Dependencies upgraded ⬆️

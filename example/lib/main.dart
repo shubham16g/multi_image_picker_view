@@ -10,7 +10,6 @@ void main() {
       primarySwatch: Colors.blue,
     ),
     home: const DemoPage(),
-
   ));
 }
 

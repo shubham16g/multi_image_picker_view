@@ -80,4 +80,3 @@ class MultiImagePickerController with ChangeNotifier {
     print(_images);
   }
 }
-

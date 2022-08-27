@@ -93,27 +93,27 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       child: widget.addMoreBuilder != null
           ? widget.addMoreBuilder!(context, _pickImages)
           : Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(4),
-          color: Colors.blueGrey.withOpacity(0.07),
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: TextButton(
-            onPressed: () {
-              _pickImages();
-            },
-            child: const Text(
-              'Add More',
-              style: TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.blueGrey.withOpacity(0.07),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: TextButton(
+                  onPressed: () {
+                    _pickImages();
+                  },
+                  child: const Text(
+                    'Add More',
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16),
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
 
     final scrollController = ScrollController();
