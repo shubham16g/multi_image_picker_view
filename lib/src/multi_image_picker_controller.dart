@@ -41,7 +41,7 @@ class MultiImagePickerController with ChangeNotifier {
           .where((e) =>
               e.extension != null &&
               allowedImageTypes.contains(e.extension?.toLowerCase()))
-          .map((e) => ImageFile(
+          .map((e) => ImageFile(UniqueKey().toString(),
               name: e.name,
               extension: e.extension!,
               bytes: e.bytes,

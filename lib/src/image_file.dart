@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 /// Store the image data and other information.
 class ImageFile {
+  final String key;
   final String name;
   final String extension;
   final Uint8List? bytes;
@@ -13,6 +14,6 @@ class ImageFile {
   /// returns size of bytes if image has bytes, else 0.
   int get size => bytes?.length ?? 0;
 
-  ImageFile(
+  ImageFile(this.key,
       {required this.name, required this.extension, this.bytes, this.path});
 }
