@@ -1,5 +1,6 @@
 ## 0.0.7
-- Added support for default images (pre selected images)
+- Added support for default images 🖼️ (pre selected images)
+- Solved white flash 🔦 problem occurs on add/remove image
 
 ## 0.0.6
 - 🪲 Fixed some bugs

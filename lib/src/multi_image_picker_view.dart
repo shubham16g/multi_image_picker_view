@@ -37,30 +37,39 @@ class MultiImagePickerView extends StatefulWidget {
 
   final SliverGridDelegate? gridDelegate;
 
-  // final images = <String>[];
-
   @override
   State<MultiImagePickerView> createState() => _MultiImagePickerViewState();
 }
 
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
+  late ScrollController scrollController;
+  final gridViewKey = GlobalKey();
+  final selectorKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController = ScrollController();
+    widget.controller.addListener(updateUi);
+  }
+
+  void _pickImages() async {
+    final result = await widget.controller.pickImages();
+    if (!result) return;
+    if (widget.onChange != null) {
+      widget.onChange!(widget.controller.images);
+    }
+  }
+
+  void _deleteImage(ImageFile imageFile) {
+    widget.controller.removeImage(imageFile);
+    if (widget.onChange != null) {
+      widget.onChange!(widget.controller.images);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    _pickImages() async {
-      final result = await widget.controller.pickImages();
-      if (!result) return;
-      if (widget.onChange != null) {
-        widget.onChange!(widget.controller.images);
-      }
-    }
-
-    void _deleteImage(ImageFile imageFile) {
-      widget.controller.removeImage(imageFile);
-      if (widget.onChange != null) {
-        widget.onChange!(widget.controller.images);
-      }
-    }
-
     if (widget.controller.hasNoImages) {
       return widget.initialContainerBuilder != null
           ? widget.initialContainerBuilder!(context, _pickImages)
@@ -89,7 +98,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             );
     }
     final selector = SizedBox(
-      key: UniqueKey(),
+      key: selectorKey,
       child: widget.addMoreBuilder != null
           ? widget.addMoreBuilder!(context, _pickImages)
           : Container(
@@ -115,9 +124,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               ),
             ),
     );
-
-    final scrollController = ScrollController();
-    final gridViewKey = GlobalKey();
 
     return Padding(
       padding: widget.padding ?? EdgeInsets.zero,
@@ -173,7 +179,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         },
         children: widget.controller.images
                 .map<Widget>((e) => SizedBox(
-                      key: UniqueKey(),
+                      key: Key(e.key),
                       child: widget.itemBuilder != null
                           ? widget.itemBuilder!(context, e, _deleteImage)
                           : _ItemView(file: e, onDelete: _deleteImage),
@@ -184,12 +190,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 : []),
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    widget.controller.addListener(updateUi);
   }
 
   @override
@@ -213,6 +213,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   @override
   void dispose() {
     widget.controller.removeListener(updateUi);
+    scrollController.dispose();
     super.dispose();
   }
 }
