@@ -9,13 +9,15 @@ class MultiImagePickerController with ChangeNotifier {
   final List<String> allowedImageTypes;
   final int maxImages;
 
-  MultiImagePickerController({this.allowedImageTypes = const ['png', 'jpeg', 'jpg'], this.maxImages = 10, Iterable<ImageFile>? images}) {
+  MultiImagePickerController(
+      {this.allowedImageTypes = const ['png', 'jpeg', 'jpg'],
+      this.maxImages = 10,
+      Iterable<ImageFile>? images}) {
     if (images != null) {
       _images = List.from(images);
     } else {
       _images = [];
     }
-    print('init');
   }
 
   late final List<ImageFile> _images;
@@ -30,11 +32,20 @@ class MultiImagePickerController with ChangeNotifier {
   /// this method open Image picking window.
   /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(allowMultiple: true, type: FileType.custom, allowedExtensions: allowedImageTypes);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.custom,
+        allowedExtensions: allowedImageTypes);
     if (result != null && result.files.isNotEmpty) {
       _addImages(result.files
-          .where((e) => e.extension != null && allowedImageTypes.contains(e.extension?.toLowerCase()))
-          .map((e) => ImageFile(name: e.name, extension: e.extension!, bytes: e.bytes, path: !kIsWeb ? e.path : null)));
+          .where((e) =>
+              e.extension != null &&
+              allowedImageTypes.contains(e.extension?.toLowerCase()))
+          .map((e) => ImageFile(
+              name: e.name,
+              extension: e.extension!,
+              bytes: e.bytes,
+              path: !kIsWeb ? e.path : null)));
       notifyListeners();
       return true;
     }
@@ -63,13 +74,5 @@ class MultiImagePickerController with ChangeNotifier {
   void removeImage(ImageFile imageFile) {
     _images.remove(imageFile);
     notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    print(_images);
-    print('dispose');
-    super.dispose();
-    print(_images);
   }
 }

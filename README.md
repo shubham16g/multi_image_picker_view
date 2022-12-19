@@ -32,6 +32,7 @@ OR
 final controller = MultiImagePickerController(
   maxImages: 15,
   allowedImageTypes: ['png', 'jpg', 'jpeg'],
+  images: <ImageFile>[] // array of pre/default selected images
 );
 ```
 
@@ -90,6 +91,11 @@ controller.reOrderImage(oldIndex, newIndex); // reorder the image
 
 ![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
 
+## Contributors
+
+<a href="https://github.com/shubham-gupta-16/multi_image_picker_view/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=shubham-gupta-16/multi_image_picker_view" />
+</a>
 
 ## Contributing
 

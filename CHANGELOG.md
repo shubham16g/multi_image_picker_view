@@ -1,3 +1,6 @@
+## 0.0.7
+- Added support for default images (pre selected images)
+
 ## 0.0.6
 - 🪲 Fixed some bugs
 - Fixed example publishing

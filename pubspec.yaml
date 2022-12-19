@@ -1,6 +1,6 @@
 name: multi_image_picker_view
 description: A complete widget which can easily pick multiple images from device and display them in UI. Also picked image can be re-ordered and removed easily.
-version: 0.0.6
+version: 0.0.7
 homepage: https://github.com/shubham-gupta-16/multi_image_picker_view
 repository: https://github.com/shubham-gupta-16/multi_image_picker_view
 issue_tracker: https://github.com/shubham-gupta-16/multi_image_picker_view/issues
