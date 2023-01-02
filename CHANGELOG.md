@@ -1,3 +1,6 @@
+## 0.0.8
+- Fixed issue: "Multiple widgets used the same GlobalKey"
+
 ## 0.0.7
 - Added support for default images 🖼️ (pre selected images)
 - Solved white flash 🔦 problem occurs on add/remove image

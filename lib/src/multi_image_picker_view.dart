@@ -44,7 +44,6 @@ class MultiImagePickerView extends StatefulWidget {
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   late ScrollController scrollController;
   final gridViewKey = GlobalKey();
-  final selectorKey = GlobalKey();
 
   @override
   void initState() {
@@ -98,7 +97,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             );
     }
     final selector = SizedBox(
-      key: selectorKey,
+      key: const Key("selector"),
       child: widget.addMoreBuilder != null
           ? widget.addMoreBuilder!(context, _pickImages)
           : Container(
