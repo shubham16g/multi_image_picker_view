@@ -17,6 +17,8 @@ class MultiImagePickerView extends StatefulWidget {
       this.gridDelegate,
       this.itemBuilder,
       this.addMoreBuilder,
+      this.addButtonTitle,
+      this.addMoreButtonTitle,
       this.draggable = true,
       this.onDragBoxDecoration})
       : super(key: key);
@@ -31,6 +33,9 @@ class MultiImagePickerView extends StatefulWidget {
 
   final Widget Function(BuildContext context, Function() pickerCallback)?
       addMoreBuilder;
+
+      final String? addButtonTitle;
+      final String? addMoreButtonTitle;
 
   final Function(Iterable<ImageFile>)? onChange;
   final EdgeInsetsGeometry? padding;
@@ -84,8 +89,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 width: double.infinity,
                 height: double.infinity,
                 child: TextButton(
-                  child: const Text('Add Images',
-                      style: TextStyle(
+                  child:  Text(widget.addButtonTitle == '' ? 'Add Images' : widget.addButtonTitle!,
+                      style:const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.w500,
                           fontSize: 16)),
@@ -112,9 +117,9 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                   onPressed: () {
                     _pickImages();
                   },
-                  child: const Text(
-                    'Add More',
-                    style: TextStyle(
+                  child:  Text( widget.addMoreButtonTitle == '' ? 'Add More' : widget.addMoreButtonTitle!,
+                    
+                    style: const TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w500,
                         fontSize: 16),
