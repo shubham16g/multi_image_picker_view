@@ -1,3 +1,7 @@
+## 0.0.9
+- addButtonTitle optional field added
+- addMoreButtonTitle optional field added
+
 ## 0.0.8
 - Fixed issue: "Multiple widgets used the same GlobalKey"
 
