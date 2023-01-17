@@ -75,4 +75,10 @@ class MultiImagePickerController with ChangeNotifier {
     _images.remove(imageFile);
     notifyListeners();
   }
+
+  /// Remove all selected images and show default UI
+  void clearImages() {
+    _images.clear();
+    notifyListeners();
+  }
 }

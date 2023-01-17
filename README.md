@@ -86,6 +86,7 @@ controller.hasNoImages; // return bool
 controller.maxImages; // return maxImages
 controller.allowedImageTypes; // return allowedImageTypes
 controller.removeImage(imageFile); // remove image from the images
+controller.clearImages(); // remove all images (clear selection)
 controller.reOrderImage(oldIndex, newIndex); // reorder the image
 ```
 
