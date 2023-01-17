@@ -17,18 +17,18 @@ A complete widget which can easily pick multiple images from device and display 
 - Fully customizable UI
 
 ## Getting started
-```
+```console
 flutter pub add multi_image_picker_view
 ```
 
 ## Usage
 
 ### Define the controller
-```
+```dart
 final controller = MultiImagePickerController();
 ```
 OR
-```
+```dart
 final controller = MultiImagePickerController(
   maxImages: 15,
   allowedImageTypes: ['png', 'jpg', 'jpeg'],
@@ -37,14 +37,14 @@ final controller = MultiImagePickerController(
 ```
 
 ### UI Implementation
-```
+```dart
 MultiImagePickerView(
   controller: controller,
   padding: const EdgeInsets.all(10),
 );
 ```
 OR
-```
+```dart
 MultiImagePickerView(
   controller: controller,
   initialContainerBuilder: (context, pickerCallback) {
@@ -56,6 +56,8 @@ MultiImagePickerView(
   addMoreBuilder: (context, pickerCallback) {
     // return custom card or item widget which should call the pickerCallback when user clicks on it
   },
+  addButtonTitle: /* Default title for AddButton */,
+  addMoreButtonTitle: /* Default title for AddMoreButton */,
   gridDelegate: /* Your SliverGridDelegate */,
   draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
   onDragBoxDecoration: /* BoxDecoration when item is dragging */,
@@ -67,7 +69,7 @@ MultiImagePickerView(
 
 ### Get Picked Images
 Picked Images can be get from controller.
-```
+```dart
 final images = controller.images; // return Iterable<ImageFile>
 for (final image in images) {
   if (image.hasPath)
@@ -77,8 +79,8 @@ for (final image in images) {
 }
 request.send();
 ```
-Also contoller can perform more actions.
-```
+Also controller can perform more actions.
+```dart
 controller.pickImages();
 controller.hasNoImages; // return bool
 controller.maxImages; // return maxImages

@@ -34,8 +34,8 @@ class MultiImagePickerView extends StatefulWidget {
   final Widget Function(BuildContext context, Function() pickerCallback)?
       addMoreBuilder;
 
-      final String? addButtonTitle;
-      final String? addMoreButtonTitle;
+  final String? addButtonTitle;
+  final String? addMoreButtonTitle;
 
   final Function(Iterable<ImageFile>)? onChange;
   final EdgeInsetsGeometry? padding;
@@ -89,8 +89,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 width: double.infinity,
                 height: double.infinity,
                 child: TextButton(
-                  child:  Text(widget.addButtonTitle == '' ? 'Add Images' : widget.addButtonTitle!,
-                      style:const TextStyle(
+                  child: Text(
+                      widget.addButtonTitle == null
+                          ? 'Add Images'
+                          : widget.addButtonTitle!,
+                      style: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.w500,
                           fontSize: 16)),
@@ -117,8 +120,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                   onPressed: () {
                     _pickImages();
                   },
-                  child:  Text( widget.addMoreButtonTitle == '' ? 'Add More' : widget.addMoreButtonTitle!,
-                    
+                  child: Text(
+                    widget.addMoreButtonTitle == null
+                        ? 'Add More'
+                        : widget.addMoreButtonTitle!,
                     style: const TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w500,
