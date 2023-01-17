@@ -1,3 +1,6 @@
+## 0.0.10
+- Remove all images (clear selection)
+
 ## 0.0.9
 - addButtonTitle optional field added
 - addMoreButtonTitle optional field added
