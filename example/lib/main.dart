@@ -37,9 +37,16 @@ class _DemoPageState extends State<DemoPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          MultiImagePickerView(
-            controller: controller,
-            padding: const EdgeInsets.all(10),
+          Expanded(
+            child: MultiImagePickerView(
+              controller: controller,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 260,
+                  childAspectRatio: 0.7,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10),
+              padding: const EdgeInsets.all(10),
+            ),
           ),
           const SizedBox(height: 32),
           const CustomExamples()

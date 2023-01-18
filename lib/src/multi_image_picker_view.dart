@@ -189,7 +189,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             return GridView(
               key: gridViewKey,
               controller: scrollController,
-              shrinkWrap: true,
               gridDelegate: widget.gridDelegate ??
                   const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 160,

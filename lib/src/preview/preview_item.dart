@@ -5,11 +5,10 @@ import 'io_preview.dart' if (dart.library.html) 'web_preview.dart';
 
 class PreviewItem extends StatelessWidget {
   const PreviewItem(
-      {Key? key,
+      {super.key,
       required this.file,
       required this.onDelete,
-      required this.isMouse})
-      : super(key: key);
+      required this.isMouse});
 
   final ImageFile file;
   final bool isMouse;
