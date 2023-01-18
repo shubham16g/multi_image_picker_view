@@ -86,11 +86,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 color: Colors.blueGrey.withOpacity(0.05),
               ),
               height: 160,
+              clipBehavior: Clip.hardEdge,
               width: double.infinity,
-              child: SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: TextButton(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(4),
+                child: Center(
                   child: Text(
                       widget.addButtonTitle == null
                           ? 'Add Images'
@@ -99,10 +99,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                           color: Colors.blue,
                           fontWeight: FontWeight.w500,
                           fontSize: 16)),
-                  onPressed: () {
-                    _pickImages();
-                  },
                 ),
+                onTap: () {
+                  _pickImages();
+                },
               ),
             );
     }
@@ -115,13 +115,12 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 borderRadius: BorderRadius.circular(4),
                 color: Colors.blueGrey.withOpacity(0.07),
               ),
-              child: SizedBox(
-                width: double.infinity,
-                height: double.infinity,
-                child: TextButton(
-                  onPressed: () {
-                    _pickImages();
-                  },
+              child: InkWell(
+                borderRadius: BorderRadius.circular(4),
+                onTap: () {
+                  _pickImages();
+                },
+                child: Center(
                   child: Text(
                     widget.addMoreButtonTitle == null
                         ? 'Add More'
@@ -137,11 +136,13 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     );
 
     return MouseRegion(
-      onEnter: isMouse ? null : (e){
-        setState(() {
-          isMouse = true;
-        });
-      },
+      onEnter: isMouse
+          ? null
+          : (e) {
+              setState(() {
+                isMouse = true;
+              });
+            },
       child: Padding(
         padding: widget.padding ?? EdgeInsets.zero,
         child: ReorderableBuilder(
@@ -180,7 +181,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               }
             }
           },
-          onDragStarted: (){
+          onDragStarted: () {
             debugPrint('drag started');
           },
           longPressDelay: const Duration(milliseconds: 100),
@@ -203,7 +204,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                         key: Key(e.key),
                         child: widget.itemBuilder != null
                             ? widget.itemBuilder!(context, e, _deleteImage)
-                            : PreviewItem(file: e, onDelete: _deleteImage, isMouse: isMouse,),
+                            : PreviewItem(
+                                file: e,
+                                onDelete: _deleteImage,
+                                isMouse: isMouse,
+                              ),
                       ))
                   .toList() +
               (widget.controller.maxImages > widget.controller.images.length

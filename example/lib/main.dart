@@ -5,10 +5,15 @@ import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    title: 'Mutli Image Picker View Example',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-    ),
+    title: 'Multi Image Picker View Example',
+    darkTheme: ThemeData(
+        useMaterial3: true,
+        appBarTheme: AppBarTheme(color: Colors.blue.shade100),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+              elevation: MaterialStateProperty.all(0),
+              backgroundColor: MaterialStateProperty.all(Colors.blue.shade50)),
+        )),
     home: const DemoPage(),
   ));
 }
@@ -30,24 +35,26 @@ class _DemoPageState extends State<DemoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MultiImagePickerView(
             controller: controller,
             padding: const EdgeInsets.all(10),
           ),
           const SizedBox(height: 32),
-          CustomExamples()
+          const CustomExamples()
         ],
       ),
       appBar: AppBar(
-        title: Text('Multi Image Picker View'),
+        title: const Text('Multi Image Picker View'),
         actions: [
           IconButton(
-            icon: Icon(Icons.arrow_upward),
+            icon: const Icon(Icons.arrow_upward),
             onPressed: () {
               final images = controller.images;
               // use these images
-              print(images);
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(images.toString())));
             },
           ),
         ],

@@ -7,21 +7,25 @@ class CustomExamples extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Custom Examples:',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        ),
-        SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Custom1()));
-          },
-          child: Text('Custom 1'),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Custom Examples:',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          ),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Custom1()));
+            },
+            child: const Text('Custom 1'),
+          ),
+        ],
+      ),
     );
   }
 }
