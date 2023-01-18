@@ -137,11 +137,13 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     );
 
     return MouseRegion(
-      onEnter: isMouse ? null : (e){
-        setState(() {
-          isMouse = true;
-        });
-      },
+      onEnter: isMouse
+          ? null
+          : (e) {
+              setState(() {
+                isMouse = true;
+              });
+            },
       child: Padding(
         padding: widget.padding ?? EdgeInsets.zero,
         child: ReorderableBuilder(
@@ -170,7 +172,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               ),
           lockedIndices: [widget.controller.images.length],
           onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-            debugPrint('onReorder');
             for (final orderUpdateEntity in orderUpdateEntities) {
               widget.controller.reOrderImage(
                   orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex,
@@ -179,9 +180,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 widget.onChange!(widget.controller.images);
               }
             }
-          },
-          onDragStarted: (){
-            debugPrint('drag started');
           },
           longPressDelay: const Duration(milliseconds: 100),
           builder: (children) {
@@ -203,7 +201,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                         key: Key(e.key),
                         child: widget.itemBuilder != null
                             ? widget.itemBuilder!(context, e, _deleteImage)
-                            : PreviewItem(file: e, onDelete: _deleteImage, isMouse: isMouse,),
+                            : PreviewItem(
+                                file: e,
+                                onDelete: _deleteImage,
+                                isMouse: isMouse,
+                              ),
                       ))
                   .toList() +
               (widget.controller.maxImages > widget.controller.images.length

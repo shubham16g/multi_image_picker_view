@@ -1,3 +1,7 @@
+## 0.0.12
+- Github pages demo project added
+- maxImages 1 support
+
 ## 0.0.11
 - Fixed remove image from laptop touchpad
 - Improved web support

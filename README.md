@@ -1,8 +1,12 @@
 # Multi Image Picker View Flutter
 
-[![](https://img.shields.io/pub/v/multi_image_picker_view.svg?color=success&label=pub.dev&logo=dart&logoColor=0099ff)](https://pub.dev/packages/multi_image_picker_view)
+[![](https://img.shields.io/pub/v/multi_image_picker_view.svg?color=blue&label=pub.dev&logo=dart&logoColor=0099ff)](https://pub.dev/packages/multi_image_picker_view)
+[![](https://img.shields.io/github/issues/shubham-gupta-16/multi_image_picker_view?color=red&label=Issues)](https://github.com/shubham-gupta-16/multi_image_picker_view/issues)
+[![](https://img.shields.io/github/license/shubham-gupta-16/multi_image_picker_view?label=License)]()
 
 A complete widget which can easily pick multiple images from device and display them in UI. Also picked image can be re-ordered and removed easily.
+
+**🚀 LIVE DEMO OF EXAMPLE PROJECT:** https://shubham-gupta-16.github.io/multi_image_picker_view/
 
 ![preview](https://user-images.githubusercontent.com/55009858/178099543-d3b576d9-625c-426e-b627-9e48c2f65c17.gif)
 
@@ -94,8 +98,13 @@ controller.reOrderImage(oldIndex, newIndex); // reorder the image
 
 ![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
 
-## Contributors
+## My other flutter packages
+- <a href="https://pub.dev/packages/view_model_x">view_model_x</a> - An Android similar state management package (StateFlow and SharedFlow with ViewModel) which helps to implement MVVM pattern easily.
 
+## Support
+<p><a href="https://www.buymeacoffee.com/shubhamgupta16"> <img align="center" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="shubhamgupta16" /></a></p>
+
+## Contributors
 <a href="https://github.com/shubham-gupta-16/multi_image_picker_view/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=shubham-gupta-16/multi_image_picker_view" />
 </a>

@@ -47,7 +47,7 @@ class _DemoPageState extends State<DemoPage> {
             onPressed: () {
               final images = controller.images;
               // use these images
-              print(images);
+              debugPrint(images.toString());
             },
           ),
         ],
