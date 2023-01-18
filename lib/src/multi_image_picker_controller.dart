@@ -33,7 +33,7 @@ class MultiImagePickerController with ChangeNotifier {
   /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
+        allowMultiple: this.maxImages > 1 ? true : false,
         type: FileType.custom,
         allowedExtensions: allowedImageTypes);
     if (result != null && result.files.isNotEmpty) {
