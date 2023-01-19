@@ -25,11 +25,14 @@ class MultiImagePickerView extends StatefulWidget {
       this.closeButtonIcon,
       this.closeButtonBoxDecoration,
       this.closeButtonAlignment = Alignment.topRight,
+      this.closeButtonMargin = const EdgeInsets.all(4),
+      this.closeButtonPadding = const EdgeInsets.all(3),
       this.showCloseButton = true,
       this.showAddMoreButton = true,
       this.showInitialContainer = true,
       this.padding,
-      this.initialContainerCenterWidget,
+      this.defaultImageBorderRadius = 4,
+      this.defaultInitialContainerCenterWidget,
       this.initialContainerBuilder,
       this.addMoreButtonBuilder,
       this.onChange});
@@ -46,11 +49,14 @@ class MultiImagePickerView extends StatefulWidget {
   final Widget? closeButtonIcon;
   final BoxDecoration? closeButtonBoxDecoration;
   final Alignment closeButtonAlignment;
+  final EdgeInsetsGeometry closeButtonMargin;
+  final EdgeInsetsGeometry closeButtonPadding;
   final bool showCloseButton;
   final bool showAddMoreButton;
   final bool showInitialContainer;
   final EdgeInsetsGeometry? padding;
-  final Widget? initialContainerCenterWidget;
+  final int defaultImageBorderRadius;
+  final Widget? defaultInitialContainerCenterWidget;
   final Widget Function(BuildContext context, VoidCallback pickerCallback)?
       initialContainerBuilder;
   final Widget Function(BuildContext context, VoidCallback pickerCallback)?
@@ -73,7 +79,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-    widget.controller.addListener(updateUi);
+    widget.controller.addListener(_updateUi);
 
     _selector = widget.showAddMoreButton
         ? SizedBox(
@@ -119,7 +125,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(4),
                   child: Center(
-                    child: widget.initialContainerCenterWidget ??
+                    child: widget.defaultInitialContainerCenterWidget ??
                         const Text('ADD IMAGES',
                             style: TextStyle(
                                 color: Colors.blue,
@@ -152,7 +158,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   @override
   Widget build(BuildContext context) {
     if (widget.controller.hasNoImages) {
-      return _initialContainer ?? const SizedBox();
+      if (_initialContainer == null) return const SizedBox();
+      if (!widget.shrinkWrap){
+        return Column(children: [_initialContainer!]);
+      }
+      return _initialContainer!;
     }
 
     return MouseRegion(
@@ -222,6 +232,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                         child: PreviewItem(
                           file: e,
                           fit: widget.imageBoxFit,
+                          closeButtonMargin: widget.closeButtonMargin,
+                          closeButtonPadding: widget.closeButtonPadding,
                           closeButtonIcon: widget.closeButtonIcon,
                           boxDecoration: widget.imageBoxDecoration,
                           closeButtonBoxDecoration:
@@ -246,7 +258,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   void didUpdateWidget(MultiImagePickerView? oldWidget) {
     if (oldWidget == null) return;
     if (widget.controller != oldWidget.controller) {
-      _migrate(widget.controller, oldWidget.controller, updateUi);
+      _migrate(widget.controller, oldWidget.controller, _updateUi);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -256,13 +268,13 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     a.addListener(listener);
   }
 
-  void updateUi() {
+  void _updateUi() {
     setState(() {});
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(updateUi);
+    widget.controller.removeListener(_updateUi);
     _scrollController.dispose();
     super.dispose();
   }
