@@ -1,3 +1,6 @@
+## 0.0.13
+- Fixed remove item animation bug
+
 ## 0.0.12
 - Github pages demo project added
 - maxImages 1 support

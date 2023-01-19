@@ -174,8 +174,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
           onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
             for (final orderUpdateEntity in orderUpdateEntities) {
               widget.controller.reOrderImage(
-                  orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex,
-                  notify: false);
+                  orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
               if (widget.onChange != null) {
                 widget.onChange!(widget.controller.images);
               }
