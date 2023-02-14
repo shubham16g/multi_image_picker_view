@@ -39,8 +39,8 @@ class MultiImagePickerController with ChangeNotifier {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: maxImages > 1 ? true : false,
         type: FileType.custom,
-        withData: withData,
-        withReadStream: withReadStream,
+        withData: kIsWeb ? true : withData,
+        withReadStream: kIsWeb ? false : withReadStream,
         allowedExtensions: allowedImageTypes);
     if (result != null && result.files.isNotEmpty) {
       _addImages(result.files
