@@ -7,7 +7,8 @@ void main() {
     debugShowCheckedModeBanner: false,
     title: 'Mutli Image Picker View Example',
     theme: ThemeData(
-      primarySwatch: Colors.blue,
+      colorSchemeSeed: Colors.blue,
+      useMaterial3: true
     ),
     home: const DemoPage(),
   ));
