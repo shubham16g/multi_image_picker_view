@@ -103,6 +103,26 @@ controller.clearImages() // remove all images (clear selection)
 controller.reOrderImage(oldIndex, newIndex) // reorder the image
 ```
 
+### ImageFile class
+The ImageFile class holds the selected image. It contains `name`, `extension`, `bytes?`, `readStream?`, and `path?`.
+`path` is always null for web. And by default `bytes` is null for IO (Android and IOS). To get the `bytes` on IO devices, set `withData` to true in `MultiImagePickerController`.
+However, have in mind that enabling this on IO (iOS & Android) may result in out of memory issues if you allow multiple picks or pick huge files. Use `withReadStream` instead.
+
+The `readStream` is always null for web. And by default `readStream` is null for IO (Android and IOS). To get the `readStream` on IO devices, set `withReadStream` to true in `MultiImagePickerController`
+
+> **Note:** For Web Platform, **ImageFile** contains `bytes` and it can't be null.
+
+### ImageFileView widget
+This widget helps to display image which is stored in `ImageFile`. This is a replacement for `Image.network` or `Image.memory` widget. With this widget, it can be easy to show image just by passing the `ImageFile` object.
+
+```dart
+ImageFileView(
+  file: imageFileObject,
+  fit: BoxFit.cover
+)
+
+```
+
 ## Custom Look
 
 ![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
