@@ -8,6 +8,7 @@ void main() {
     title: 'Multi Image Picker View Example',
     theme: ThemeData(
         useMaterial3: true,
+        colorSchemeSeed: Colors.blue,
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               elevation: MaterialStateProperty.all(0),
@@ -34,18 +35,21 @@ class _DemoPageState extends State<DemoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          MultiImagePickerView(
-            onChange: (list) {
-              debugPrint(list.toString());
-            },
-            controller: controller,
-            padding: const EdgeInsets.all(10),
-          ),
-          const SizedBox(height: 32),
-          const CustomExamples()
-        ],
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          children: [
+            MultiImagePickerView(
+              onChange: (list) {
+                debugPrint(list.toString());
+              },
+              controller: controller,
+              padding: const EdgeInsets.all(10),
+            ),
+            const SizedBox(height: 32),
+            const CustomExamples()
+          ],
+        ),
       ),
       appBar: AppBar(
         title: const Text('Multi Image Picker View'),
