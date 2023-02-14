@@ -8,10 +8,14 @@ import '../multi_image_picker_view.dart';
 class MultiImagePickerController with ChangeNotifier {
   final List<String> allowedImageTypes;
   final int maxImages;
+  final bool withData;
+  final bool withReadStream;
 
   MultiImagePickerController(
       {this.allowedImageTypes = const ['png', 'jpeg', 'jpg'],
       this.maxImages = 10,
+      this.withData = false,
+      this.withReadStream = false,
       Iterable<ImageFile>? images}) {
     if (images != null) {
       _images = List.from(images);
@@ -33,8 +37,10 @@ class MultiImagePickerController with ChangeNotifier {
   /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
+        allowMultiple: maxImages > 1 ? true : false,
         type: FileType.custom,
+        withData: withData,
+        withReadStream: withReadStream,
         allowedExtensions: allowedImageTypes);
     if (result != null && result.files.isNotEmpty) {
       _addImages(result.files
@@ -45,6 +51,7 @@ class MultiImagePickerController with ChangeNotifier {
               name: e.name,
               extension: e.extension!,
               bytes: e.bytes,
+              readStream: e.readStream,
               path: !kIsWeb ? e.path : null)));
       notifyListeners();
       return true;
