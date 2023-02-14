@@ -16,7 +16,11 @@ class ImageFile {
   int get size => bytes?.length ?? 0;
 
   ImageFile(this.key,
-      {required this.name, required this.extension, this.bytes, this.readStream, this.path});
+      {required this.name,
+      required this.extension,
+      this.bytes,
+      this.readStream,
+      this.path});
 
   @override
   String toString() {
@@ -29,5 +33,4 @@ class ImageFile {
       'path': $path
     }''';
   }
-
 }
