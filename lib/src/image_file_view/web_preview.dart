@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../image_file.dart';
 
-class ImagePreview extends StatelessWidget {
+class ImageFileView extends StatelessWidget {
   final ImageFile file;
 
-  const ImagePreview({Key? key, required this.file}) : super(key: key);
+  const ImageFileView({Key? key, required this.file}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

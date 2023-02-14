@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 
-import 'preview/preview_item.dart';
+import 'list_image_item.dart';
 
 import '../multi_image_picker_view.dart';
 
@@ -136,80 +136,82 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             ),
     );
 
-    return MouseRegion(
-      onEnter: isMouse
-          ? null
-          : (e) {
-              setState(() {
-                isMouse = true;
-              });
-            },
-      child: Padding(
-        padding: widget.padding ?? EdgeInsets.zero,
-        child: ReorderableBuilder(
-          key: Key(gridViewKey.toString()),
-          // onDragStarted: () {
-          //   setState(() {
-          //     dragging = true;
-          //   });
-          // },
-          // onDragEnd: () {
-          //   setState(() {
-          //     dragging = false;
-          //   });
-          // },
-          scrollController: scrollController,
-          enableDraggable: widget.draggable,
-          dragChildBoxDecoration: widget.onDragBoxDecoration ??
-              BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 3,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-          lockedIndices: [widget.controller.images.length],
-          onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-            for (final orderUpdateEntity in orderUpdateEntities) {
-              widget.controller.reOrderImage(
-                  orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
-              if (widget.onChange != null) {
-                widget.onChange!(widget.controller.images);
+    return Scrollable(
+      viewportBuilder: (context, position) => MouseRegion(
+        onEnter: isMouse
+            ? null
+            : (e) {
+                setState(() {
+                  isMouse = true;
+                });
+              },
+        child: Padding(
+          padding: widget.padding ?? EdgeInsets.zero,
+          child: ReorderableBuilder(
+            key: Key(gridViewKey.toString()),
+            // onDragStarted: () {
+            //   setState(() {
+            //     dragging = true;
+            //   });
+            // },
+            // onDragEnd: () {
+            //   setState(() {
+            //     dragging = false;
+            //   });
+            // },
+            scrollController: scrollController,
+            enableDraggable: widget.draggable,
+            dragChildBoxDecoration: widget.onDragBoxDecoration ??
+                BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+            lockedIndices: [widget.controller.images.length],
+            onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
+              for (final orderUpdateEntity in orderUpdateEntities) {
+                widget.controller.reOrderImage(
+                    orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
+                if (widget.onChange != null) {
+                  widget.onChange!(widget.controller.images);
+                }
               }
-            }
-          },
-          longPressDelay: const Duration(milliseconds: 100),
-          builder: (children) {
-            return GridView(
-              key: gridViewKey,
-              controller: scrollController,
-              shrinkWrap: true,
-              gridDelegate: widget.gridDelegate ??
-                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 160,
-                      childAspectRatio: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
-              children: children,
-            );
-          },
-          children: widget.controller.images
-                  .map<Widget>((e) => SizedBox(
-                        key: Key(e.key),
-                        child: widget.itemBuilder != null
-                            ? widget.itemBuilder!(context, e, _deleteImage)
-                            : PreviewItem(
-                                file: e,
-                                onDelete: _deleteImage,
-                                isMouse: isMouse,
-                              ),
-                      ))
-                  .toList() +
-              (widget.controller.maxImages > widget.controller.images.length
-                  ? [selector]
-                  : []),
+            },
+            longPressDelay: const Duration(milliseconds: 100),
+            builder: (children) {
+              return GridView(
+                key: gridViewKey,
+                controller: scrollController,
+                shrinkWrap: true,
+                gridDelegate: widget.gridDelegate ??
+                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 160,
+                        childAspectRatio: 1,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                children: children,
+              );
+            },
+            children: widget.controller.images
+                    .map<Widget>((e) => SizedBox(
+                          key: Key(e.key),
+                          child: widget.itemBuilder != null
+                              ? widget.itemBuilder!(context, e, _deleteImage)
+                              : ListImageItem(
+                                  file: e,
+                                  onDelete: _deleteImage,
+                                  isMouse: isMouse,
+                                ),
+                        ))
+                    .toList() +
+                (widget.controller.maxImages > widget.controller.images.length
+                    ? [selector]
+                    : []),
+          ),
         ),
       ),
     );

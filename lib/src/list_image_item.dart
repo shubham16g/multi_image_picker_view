@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import './image_file_view/image_file_view.dart';
+import 'image_file.dart';
 
-import '../image_file.dart';
-import 'io_preview.dart' if (dart.library.html) 'web_preview.dart';
-
-class PreviewItem extends StatelessWidget {
-  const PreviewItem(
+class ListImageItem extends StatelessWidget {
+  const ListImageItem(
       {Key? key,
       required this.file,
       required this.onDelete,
@@ -21,7 +20,7 @@ class PreviewItem extends StatelessWidget {
       clipBehavior: Clip.antiAliasWithSaveLayer,
       children: [
         Positioned.fill(
-          child: ImagePreview(
+          child: ImageFileView(
             file: file,
           ),
         ),
