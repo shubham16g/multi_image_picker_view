@@ -36,9 +36,16 @@ OR
 final controller = MultiImagePickerController(
   maxImages: 15,
   allowedImageTypes: ['png', 'jpg', 'jpeg'],
+  withData: true,
+  withReadStream: true,
   images: <ImageFile>[] // array of pre/default selected images
 );
 ```
+
+> **Note:** by setting `withData` to `true`, the `ImageFile` will contains `bytes`. It is always `true` for web. However, have in mind that enabling this on IO (iOS & Android) may result in out of memory issues if you allow multiple picks or pick huge files. Use withReadStream instead.
+
+...
+> **Note:** by setting `withReadStream` to `true`, the `ImageFile` will contains `readStream` of type `Stream<List<int>>`. It is always `false` for web.
 
 ### UI Implementation
 ```dart
@@ -51,6 +58,9 @@ OR
 ```dart
 MultiImagePickerView(
   controller: controller,
+  draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
+  showAddMoreButton: /* true or false, default is true */,
+  showInitialContainer: /* true or false, default is true */,
   initialContainerBuilder: (context, pickerCallback) {
     // return custom initial widget which should call the pickerCallback when user clicks on it
   },
@@ -63,7 +73,6 @@ MultiImagePickerView(
   addButtonTitle: /* Default title for AddButton */,
   addMoreButtonTitle: /* Default title for AddMoreButton */,
   gridDelegate: /* Your SliverGridDelegate */,
-  draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
   onDragBoxDecoration: /* BoxDecoration when item is dragging */,
   onChange: (images) {
     // callback to update images
@@ -85,13 +94,13 @@ request.send();
 ```
 Also controller can perform more actions.
 ```dart
-controller.pickImages();
-controller.hasNoImages; // return bool
-controller.maxImages; // return maxImages
-controller.allowedImageTypes; // return allowedImageTypes
-controller.removeImage(imageFile); // remove image from the images
-controller.clearImages(); // remove all images (clear selection)
-controller.reOrderImage(oldIndex, newIndex); // reorder the image
+controller.pickImages()
+controller.hasNoImages // return bool
+controller.maxImages // return maxImages
+controller.allowedImageTypes // return allowedImageTypes
+controller.removeImage(imageFile) // remove image from the images
+controller.clearImages() // remove all images (clear selection)
+controller.reOrderImage(oldIndex, newIndex) // reorder the image
 ```
 
 ## Custom Look
