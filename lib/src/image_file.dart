@@ -17,4 +17,16 @@ class ImageFile {
 
   ImageFile(this.key,
       {required this.name, required this.extension, this.bytes, this.readStream, this.path});
+
+  @override
+  String toString() {
+    return '''{
+      'key': $key,
+      'name': $name,
+      'extension': $extension,
+      'bytes': ${bytes?.length},
+      'readStream': ${readStream != null ? 'Stream<List<int>>' : 'null'},
+      'path': $path
+    }''';
+  }
 }

@@ -165,90 +165,92 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       return _initialContainer!;
     }
 
-    return MouseRegion(
-      onEnter: _isMouse
-          ? null
-          : (e) {
-              setState(() {
-                _isMouse = true;
-              });
-            },
-      child: Padding(
-        padding: widget.padding ?? EdgeInsets.zero,
-        child: ReorderableBuilder(
-          key: Key(_gridViewKey.toString()),
-          // onDragStarted: () {
-          //   setState(() {
-          //     dragging = true;
-          //   });
-          // },
-          // onDragEnd: () {
-          //   setState(() {
-          //     dragging = false;
-          //   });
-          // },
-          scrollController: _scrollController,
-          enableDraggable: widget.draggable,
-          dragChildBoxDecoration: widget.imageBoxDecorationOnDrag ??
-              BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 3,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-          lockedIndices: (widget.showAddMoreButton &&
-                  widget.controller.images.length < widget.controller.maxImages)
-              ? [widget.controller.images.length]
-              : [],
-          onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-            for (final orderUpdateEntity in orderUpdateEntities) {
-              widget.controller.reOrderImage(
-                  orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
-              if (widget.onChange != null) {
-                widget.onChange!(widget.controller.images);
+    return Scrollable(
+      viewportBuilder: (context, position) => MouseRegion(
+        onEnter: _isMouse
+            ? null
+            : (e) {
+                setState(() {
+                  _isMouse = true;
+                });
+              },
+        child: Padding(
+          padding: widget.padding ?? EdgeInsets.zero,
+          child: ReorderableBuilder(
+            key: Key(_gridViewKey.toString()),
+            // onDragStarted: () {
+            //   setState(() {
+            //     dragging = true;
+            //   });
+            // },
+            // onDragEnd: () {
+            //   setState(() {
+            //     dragging = false;
+            //   });
+            // },
+            scrollController: _scrollController,
+            enableDraggable: widget.draggable,
+            dragChildBoxDecoration: widget.imageBoxDecorationOnDrag ??
+                BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+            lockedIndices: (widget.showAddMoreButton &&
+                    widget.controller.images.length < widget.controller.maxImages)
+                ? [widget.controller.images.length]
+                : [],
+            onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
+              for (final orderUpdateEntity in orderUpdateEntities) {
+                widget.controller.reOrderImage(
+                    orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
+                if (widget.onChange != null) {
+                  widget.onChange!(widget.controller.images);
+                }
               }
-            }
-          },
-          longPressDelay: const Duration(milliseconds: 100),
-          builder: (children) {
-            return GridView(
-              key: _gridViewKey,
-              shrinkWrap: widget.shrinkWrap,
-              controller: _scrollController,
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: widget.imageMaxWidthExtent,
-                  childAspectRatio: widget.imageAspectRatio,
-                  crossAxisSpacing: widget.crossAxisSpacing,
-                  mainAxisSpacing: widget.mainAxisSpacing),
-              children: children,
-            );
-          },
-          children: widget.controller.images
-                  .map<Widget>((e) => SizedBox(
-                        key: Key(e.key),
-                        child: PreviewItem(
-                          file: e,
-                          fit: widget.imageBoxFit,
-                          closeButtonMargin: widget.closeButtonMargin,
-                          closeButtonPadding: widget.closeButtonPadding,
-                          closeButtonIcon: widget.closeButtonIcon,
-                          boxDecoration: widget.imageBoxDecoration,
-                          closeButtonBoxDecoration:
-                              widget.closeButtonBoxDecoration,
-                          closeButtonAlignment: widget.closeButtonAlignment,
-                          showCloseButton: widget.showCloseButton,
-                          onDelete: _deleteImage,
-                          isMouse: _isMouse,
-                        ),
-                      ))
-                  .toList() +
-              (widget.controller.maxImages > widget.controller.images.length &&
-                      _selector != null
-                  ? [_selector!]
-                  : []),
+            },
+            longPressDelay: const Duration(milliseconds: 100),
+            builder: (children) {
+              return GridView(
+                key: _gridViewKey,
+                shrinkWrap: widget.shrinkWrap,
+                controller: _scrollController,
+                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: widget.imageMaxWidthExtent,
+                    childAspectRatio: widget.imageAspectRatio,
+                    crossAxisSpacing: widget.crossAxisSpacing,
+                    mainAxisSpacing: widget.mainAxisSpacing),
+                children: children,
+              );
+            },
+            children: widget.controller.images
+                    .map<Widget>((e) => SizedBox(
+                          key: Key(e.key),
+                          child: PreviewItem(
+                            file: e,
+                            fit: widget.imageBoxFit,
+                            closeButtonMargin: widget.closeButtonMargin,
+                            closeButtonPadding: widget.closeButtonPadding,
+                            closeButtonIcon: widget.closeButtonIcon,
+                            boxDecoration: widget.imageBoxDecoration,
+                            closeButtonBoxDecoration:
+                                widget.closeButtonBoxDecoration,
+                            closeButtonAlignment: widget.closeButtonAlignment,
+                            showCloseButton: widget.showCloseButton,
+                            onDelete: _deleteImage,
+                            isMouse: _isMouse,
+                          ),
+                        ))
+                    .toList() +
+                (widget.controller.maxImages > widget.controller.images.length &&
+                        _selector != null
+                    ? [_selector!]
+                    : []),
+          ),
         ),
       ),
     );
