@@ -53,58 +53,62 @@ class MultiImagePickerView extends StatefulWidget {
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   late ScrollController scrollController;
 
-  Widget? _selector(BuildContext context) => widget.showAddMoreButton ? SizedBox(
-    key: const Key("selector"),
-    child: widget.addMoreBuilder != null
-        ? widget.addMoreBuilder!(context, _pickImages)
-        : Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
-        color: Colors.blueGrey.withOpacity(0.07),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(4),
-        onTap: () {
-          _pickImages();
-        },
-        child: const Center(
-          child: Text(
-            'Add More',
-            style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.w500,
-                fontSize: 16),
-          ),
-        ),
-      ),
-    ),
-  ): null;
+  Widget? _selector(BuildContext context) => widget.showAddMoreButton
+      ? SizedBox(
+          key: const Key("selector"),
+          child: widget.addMoreBuilder != null
+              ? widget.addMoreBuilder!(context, _pickImages)
+              : Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    color: Colors.blueGrey.withOpacity(0.07),
+                  ),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(4),
+                    onTap: () {
+                      _pickImages();
+                    },
+                    child: const Center(
+                      child: Text(
+                        'Add More',
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16),
+                      ),
+                    ),
+                  ),
+                ),
+        )
+      : null;
 
-  Widget _initialContainer(BuildContext context) => widget.showInitialContainer ? widget.initialContainerBuilder != null
-      ? widget.initialContainerBuilder!(context, _pickImages)
-      : Container(
-    margin: widget.padding,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(4),
-      color: Colors.blueGrey.withOpacity(0.05),
-    ),
-    height: 160,
-    clipBehavior: Clip.hardEdge,
-    width: double.infinity,
-    child: InkWell(
-      borderRadius: BorderRadius.circular(4),
-      child: const Center(
-        child: Text('ADD IMAGES',
-            style: TextStyle(
-                color: Colors.blue,
-                fontWeight: FontWeight.w500,
-                fontSize: 16)),
-      ),
-      onTap: () {
-        _pickImages();
-      },
-    ),
-  ) : const SizedBox();
+  Widget _initialContainer(BuildContext context) => widget.showInitialContainer
+      ? widget.initialContainerBuilder != null
+          ? widget.initialContainerBuilder!(context, _pickImages)
+          : Container(
+              margin: widget.padding,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: Colors.blueGrey.withOpacity(0.05),
+              ),
+              height: 160,
+              clipBehavior: Clip.hardEdge,
+              width: double.infinity,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(4),
+                child: const Center(
+                  child: Text('ADD IMAGES',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16)),
+                ),
+                onTap: () {
+                  _pickImages();
+                },
+              ),
+            )
+      : const SizedBox();
 
   final gridViewKey = GlobalKey();
   bool isMouse = false;
@@ -200,8 +204,9 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                                 ),
                         ))
                     .toList() +
-                (widget.controller.maxImages > widget.controller.images.length &&
-                    selector != null
+                (widget.controller.maxImages >
+                            widget.controller.images.length &&
+                        selector != null
                     ? [selector]
                     : []),
           ),
