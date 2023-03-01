@@ -1,3 +1,6 @@
+## 0.0.15
+- PR #21 (MrNancy) addImage method added in `MultiImagePickerController`
+
 ## 0.0.14
 - Fixed Issue #16 'Scrollable.of() ... not contains a Scrollable widget'
 - Fixed Issue #17 'Add property so images can be saved with data'
