@@ -68,10 +68,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                     onTap: () {
                       _pickImages();
                     },
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        'Add More',
-                        style: TextStyle(
+                        widget.addMoreButtonTitle ?? 'Add More',
+                        style: const TextStyle(
                             color: Colors.blue,
                             fontWeight: FontWeight.w500,
                             fontSize: 16),
@@ -96,9 +96,9 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               width: double.infinity,
               child: InkWell(
                 borderRadius: BorderRadius.circular(4),
-                child: const Center(
-                  child: Text('ADD IMAGES',
-                      style: TextStyle(
+                child: Center(
+                  child: Text( widget.addButtonTitle ?? 'ADD IMAGES',
+                      style: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.w500,
                           fontSize: 16)),
