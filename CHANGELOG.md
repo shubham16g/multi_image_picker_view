@@ -1,3 +1,6 @@
+## 0.0.16
+- PR #26 (nadialvy) fix addButtonTitle and addMoreButtonTitle not working
+
 ## 0.0.15
 - PR #21 (MrNancy) addImage method added in `MultiImagePickerController`
 
