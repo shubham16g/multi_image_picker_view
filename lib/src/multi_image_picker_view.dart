@@ -97,7 +97,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(4),
                 child: Center(
-                  child: Text( widget.addButtonTitle ?? 'ADD IMAGES',
+                  child: Text(widget.addButtonTitle ?? 'ADD IMAGES',
                       style: const TextStyle(
                           color: Colors.blue,
                           fontWeight: FontWeight.w500,
