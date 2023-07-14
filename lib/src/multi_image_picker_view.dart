@@ -71,8 +71,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                     child: Center(
                       child: Text(
                         widget.addMoreButtonTitle ?? 'Add More',
-                        style: const TextStyle(
-                            color: Colors.blue,
+                        style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                             fontWeight: FontWeight.w500,
                             fontSize: 16),
                       ),
@@ -98,8 +98,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 borderRadius: BorderRadius.circular(4),
                 child: Center(
                   child: Text(widget.addButtonTitle ?? 'ADD IMAGES',
-                      style: const TextStyle(
-                          color: Colors.blue,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w500,
                           fontSize: 16)),
                 ),
