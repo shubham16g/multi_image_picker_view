@@ -52,14 +52,15 @@ class _Custom1State extends State<Custom1> {
             child: Center(
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue.withOpacity(0.2),
+                  backgroundColor:
+                      Theme.of(context).primaryColor.withOpacity(0.2),
                   shape: CircleBorder(),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(10),
                   child: Icon(
                     Icons.add,
-                    color: Colors.blue,
+                    color: Theme.of(context).primaryColor,
                     size: 30,
                   ),
                 ),
