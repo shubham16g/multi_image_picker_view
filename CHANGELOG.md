@@ -1,3 +1,6 @@
+## 0.0.17
+- PR #27 (burhankhanzada) Replace hard coded blue color to theme primary color.
+
 ## 0.0.16
 - PR #26 (nadialvy) fix addButtonTitle and addMoreButtonTitle not working
 
