@@ -43,6 +43,9 @@ class _DemoPageState extends State<DemoPage> {
             child: MultiImagePickerView(
               controller: controller,
               padding: const EdgeInsets.all(10),
+              draggable: true,
+              defaultImageBorderRadius: BorderRadius.circular(10),
+              defaultInitialContainerCenterWidget: const Text('Add'),
             ),
           ),
         ],

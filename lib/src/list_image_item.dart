@@ -4,12 +4,20 @@ import 'image_file.dart';
 import 'image_file_view/image_file_view.dart';
 
 class PreviewItem extends StatelessWidget {
-  const PreviewItem({super.key,
-    required this.file,
-    required this.onDelete,
-    required this.isMouse,
-    required this.fit,
-    this.boxDecoration, this.closeButtonBoxDecoration, this.closeButtonIcon, required this.showCloseButton, required this.closeButtonAlignment, required this.closeButtonMargin, required this.closeButtonPadding});
+  const PreviewItem(
+      {super.key,
+      required this.file,
+      required this.onDelete,
+      required this.isMouse,
+      required this.fit,
+      this.boxDecoration,
+      this.closeButtonBoxDecoration,
+      this.closeButtonIcon,
+      required this.showCloseButton,
+      required this.closeButtonAlignment,
+      required this.closeButtonMargin,
+      required this.closeButtonPadding,
+      required this.defaultImageBorderRadius});
 
   final ImageFile file;
   final BoxFit fit;
@@ -20,6 +28,7 @@ class PreviewItem extends StatelessWidget {
   final EdgeInsetsGeometry closeButtonPadding;
   final Widget? closeButtonIcon;
   final bool showCloseButton;
+  final BorderRadius defaultImageBorderRadius;
   final Alignment closeButtonAlignment;
   final Function(ImageFile path) onDelete;
 
@@ -33,7 +42,7 @@ class PreviewItem extends StatelessWidget {
             clipBehavior: Clip.antiAlias,
             decoration: boxDecoration ??
                 BoxDecoration(
-                  borderRadius: BorderRadius.circular(4),
+                  borderRadius: defaultImageBorderRadius,
                 ),
             child: ImageFileView(
               fit: fit,
@@ -41,36 +50,39 @@ class PreviewItem extends StatelessWidget {
             ),
           ),
         ),
-        if (showCloseButton) Positioned.fill(
-          child: Align(
-            alignment: closeButtonAlignment,
-            child: InkWell(
-              onTap: isMouse
-                  ? null
-                  : () {
-                onDelete(file);
-              },
-              onTapDown: isMouse
-                  ? (d) {
-                onDelete(file);
-              }
-                  : null,
-              child: Container(
-                  margin: closeButtonMargin,
-                  padding: closeButtonPadding,
-                  decoration: closeButtonBoxDecoration ?? BoxDecoration(
-                    color: Colors.white.withOpacity(0.4),
-                    shape: BoxShape.circle,
-                  ),
-                  child: closeButtonIcon ?? Image.asset(
-                    'assets/close-48.png',
-                    package: 'multi_image_picker_view',
-                    height: 18,
-                    width: 18,
-                  )),
+        if (showCloseButton)
+          Positioned.fill(
+            child: Align(
+              alignment: closeButtonAlignment,
+              child: InkWell(
+                onTap: isMouse
+                    ? null
+                    : () {
+                        onDelete(file);
+                      },
+                onTapDown: isMouse
+                    ? (d) {
+                        onDelete(file);
+                      }
+                    : null,
+                child: Container(
+                    margin: closeButtonMargin,
+                    padding: closeButtonPadding,
+                    decoration: closeButtonBoxDecoration ??
+                        BoxDecoration(
+                          color: Colors.white.withOpacity(0.4),
+                          shape: BoxShape.circle,
+                        ),
+                    child: closeButtonIcon ??
+                        Image.asset(
+                          'assets/close-48.png',
+                          package: 'multi_image_picker_view',
+                          height: 18,
+                          width: 18,
+                        )),
+              ),
             ),
           ),
-        ),
       ],
     );
   }
