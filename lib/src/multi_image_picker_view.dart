@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
+import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
 
 import 'list_image_item.dart';
 
 import '../multi_image_picker_view.dart';
+
+class MultiImagePickerInitialWidget {
+  final int type;
+  final Widget? widget;
+  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
+      builder;
+
+  const MultiImagePickerInitialWidget._(this.type, this.widget, this.builder);
+
+  const MultiImagePickerInitialWidget.defaultWidget() : this._(0, null, null);
+
+  const MultiImagePickerInitialWidget.centerWidget({required Widget child})
+      : this._(1, child, null);
+  const MultiImagePickerInitialWidget.customWidget(
+      {required Widget Function(
+              BuildContext context, VoidCallback pickerCallback)
+          builder})
+      : this._(2, null, builder);
+  }
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
@@ -15,10 +36,12 @@ class MultiImagePickerView extends StatefulWidget {
       required this.controller,
       this.draggable = true,
       this.shrinkWrap = false,
-      this.crossAxisSpacing = 10,
-      this.mainAxisSpacing = 10,
-      this.imageMaxWidthExtent = 160,
-      this.imageAspectRatio = 1,
+      this.gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 160,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
       this.imageBoxFit = BoxFit.cover,
       this.imageBoxDecoration,
       this.imageBoxDecorationOnDrag,
@@ -29,21 +52,16 @@ class MultiImagePickerView extends StatefulWidget {
       this.closeButtonPadding = const EdgeInsets.all(3),
       this.showCloseButton = true,
       this.showAddMoreButton = true,
-      this.showInitialContainer = true,
       this.padding,
       this.defaultImageBorderRadius =
-          const BorderRadius.all(Radius.circular(4)),
-      this.defaultInitialContainerCenterWidget,
-      this.initialContainerBuilder,
+          const BorderRadius.all(Radius.circular(10)),
+      this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
       this.addMoreButtonBuilder,
       this.onChange});
 
   final bool draggable;
   final bool shrinkWrap;
-  final double crossAxisSpacing;
-  final double mainAxisSpacing;
-  final double imageMaxWidthExtent;
-  final double imageAspectRatio;
+  final SliverGridDelegate gridDelegate;
   final BoxFit imageBoxFit;
   final BoxDecoration? imageBoxDecoration;
   final BoxDecoration? imageBoxDecorationOnDrag;
@@ -54,12 +72,13 @@ class MultiImagePickerView extends StatefulWidget {
   final EdgeInsetsGeometry closeButtonPadding;
   final bool showCloseButton;
   final bool showAddMoreButton;
-  final bool showInitialContainer;
   final EdgeInsetsGeometry? padding;
   final BorderRadius defaultImageBorderRadius;
-  final Widget? defaultInitialContainerCenterWidget;
-  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-      initialContainerBuilder;
+  final MultiImagePickerInitialWidget initialWidget;
+
+  // final Widget? defaultInitialContainerCenterWidget;
+  // final Widget Function(BuildContext context, VoidCallback pickerCallback)?
+  //     initialContainerBuilder;
   final Widget Function(BuildContext context, VoidCallback pickerCallback)?
       addMoreButtonBuilder;
   final void Function(Iterable<ImageFile>)? onChange;
@@ -70,65 +89,6 @@ class MultiImagePickerView extends StatefulWidget {
 
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   late final ScrollController _scrollController;
-
-  Widget? _selector(BuildContext context) => widget.showAddMoreButton
-      ? SizedBox(
-          key: const Key("selector"),
-          child: widget.addMoreButtonBuilder != null
-              ? widget.addMoreButtonBuilder!(context, _pickImages)
-              : Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: Colors.blueGrey.withOpacity(0.07),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(4),
-                    onTap: () {
-                      _pickImages();
-                    },
-                    child: const Center(
-                      child: Text(
-                        'Add More',
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-        )
-      : null;
-
-  Widget? _initialContainer(BuildContext context) => widget.showInitialContainer
-      ? widget.initialContainerBuilder != null
-          ? widget.initialContainerBuilder!(context, _pickImages)
-          : Container(
-              margin: widget.padding,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Colors.blueGrey.withOpacity(0.05),
-              ),
-              height: 160,
-              clipBehavior: Clip.hardEdge,
-              width: double.infinity,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(4),
-                child: Center(
-                  child: widget.defaultInitialContainerCenterWidget ??
-                      const Text('ADD IMAGES',
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16)),
-                ),
-                onTap: () {
-                  _pickImages();
-                },
-              ),
-            )
-      : null;
-
   final _gridViewKey = GlobalKey();
   bool _isMouse = false;
 
@@ -151,6 +111,26 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     widget.controller.removeImage(imageFile);
     if (widget.onChange != null) {
       widget.onChange!(widget.controller.images);
+    }
+  }
+
+  Widget? _selector(BuildContext context) => widget.showAddMoreButton
+      ? SizedBox(
+          key: const Key("selector"),
+          child: widget.addMoreButtonBuilder != null
+              ? widget.addMoreButtonBuilder!(context, _pickImages)
+              : DefaultAddMoreWidget(onPressed: _pickImages),
+        )
+      : null;
+
+  Widget? _initialContainer(BuildContext context) {
+    switch (widget.initialWidget.type) {
+      case -1:
+        return null;
+      case 2:
+        return widget.initialWidget.builder!(context, _pickImages);
+      default:
+        return DefaultInitialWidget(margin: widget.padding, onPressed: _pickImages, centerWidget: widget.initialWidget.widget);
     }
   }
 
@@ -179,16 +159,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
           padding: widget.padding ?? EdgeInsets.zero,
           child: ReorderableBuilder(
             key: Key(_gridViewKey.toString()),
-            // onDragStarted: () {
-            //   setState(() {
-            //     dragging = true;
-            //   });
-            // },
-            // onDragEnd: () {
-            //   setState(() {
-            //     dragging = false;
-            //   });
-            // },
             scrollController: _scrollController,
             enableDraggable: widget.draggable,
             dragChildBoxDecoration: widget.imageBoxDecorationOnDrag ??
@@ -221,11 +191,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 key: _gridViewKey,
                 shrinkWrap: widget.shrinkWrap,
                 controller: _scrollController,
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    maxCrossAxisExtent: widget.imageMaxWidthExtent,
-                    childAspectRatio: widget.imageAspectRatio,
-                    crossAxisSpacing: widget.crossAxisSpacing,
-                    mainAxisSpacing: widget.mainAxisSpacing),
+                gridDelegate: widget.gridDelegate,
                 children: children,
               );
             },

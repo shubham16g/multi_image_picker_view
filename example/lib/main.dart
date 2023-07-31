@@ -45,7 +45,7 @@ class _DemoPageState extends State<DemoPage> {
               padding: const EdgeInsets.all(10),
               draggable: true,
               defaultImageBorderRadius: BorderRadius.circular(10),
-              defaultInitialContainerCenterWidget: const Text('Add'),
+              initialWidget: const MultiImagePickerInitialWidget.centerWidget(child: Text('Add')),
             ),
           ),
         ],

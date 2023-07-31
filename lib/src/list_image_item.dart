@@ -73,13 +73,7 @@ class PreviewItem extends StatelessWidget {
                           color: Colors.white.withOpacity(0.4),
                           shape: BoxShape.circle,
                         ),
-                    child: closeButtonIcon ??
-                        Image.asset(
-                          'assets/close-48.png',
-                          package: 'multi_image_picker_view',
-                          height: 18,
-                          width: 18,
-                        )),
+                    child: closeButtonIcon ?? const Icon(Icons.close, size: 18)),
               ),
             ),
           ),

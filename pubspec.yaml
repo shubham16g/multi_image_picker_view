@@ -22,5 +22,3 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter:
-  assets:
-    - packages/multi_image_picker_view/assets/close-48.png

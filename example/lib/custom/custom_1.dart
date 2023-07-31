@@ -21,10 +21,12 @@ class _Custom1State extends State<Custom1> {
       body: MultiImagePickerView(
         controller: controller,
         padding: const EdgeInsets.all(0),
-        imageMaxWidthExtent: 170,
-        imageAspectRatio: 1,
-        crossAxisSpacing: 0,
-        mainAxisSpacing: 0,
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 170,
+          childAspectRatio: 1,
+          crossAxisSpacing: 0,
+          mainAxisSpacing: 0,
+        ),
         // todo default border radius
         closeButtonBoxDecoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
@@ -34,20 +36,22 @@ class _Custom1State extends State<Custom1> {
           Icons.close,
           size: 20,
         ),
-        initialContainerBuilder: (context, pickerCallback) {
-          return SizedBox(
-            height: 170,
-            width: double.infinity,
-            child: Center(
-              child: ElevatedButton(
-                child: const Text('Add Images'),
-                onPressed: () {
-                  pickerCallback();
-                },
+        initialWidget: MultiImagePickerInitialWidget.customWidget(
+          builder: (context, pickerCallback) {
+            return SizedBox(
+              height: 170,
+              width: double.infinity,
+              child: Center(
+                child: ElevatedButton(
+                  child: const Text('Add Images'),
+                  onPressed: () {
+                    pickerCallback();
+                  },
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
         addMoreButtonBuilder: (context, pickerCallback) {
           return SizedBox(
             height: 170,
