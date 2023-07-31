@@ -9,6 +9,9 @@ void main() {
     darkTheme: ThemeData(
         useMaterial3: true,
         appBarTheme: AppBarTheme(color: Colors.blue.shade100),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               elevation: MaterialStateProperty.all(0),
