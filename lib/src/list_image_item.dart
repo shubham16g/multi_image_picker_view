@@ -26,7 +26,7 @@ class PreviewItem extends StatelessWidget {
   // final EdgeInsetsGeometry closeButtonPadding;
   // final Widget? closeButtonIcon;
   // final bool showCloseButton;
-  final BorderRadius defaultImageBorderRadius;
+  final BorderRadius? defaultImageBorderRadius;
   // final Alignment closeButtonAlignment;
   // final Function(ImageFile path) onDelete;
   final Widget? closeButtonWidget;

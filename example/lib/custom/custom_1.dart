@@ -28,7 +28,7 @@ class _Custom1State extends State<Custom1> {
           mainAxisSpacing: 0,
         ),
         // todo default border radius
-        closeButton: MultiImagePickerCloseButton.icon(
+        closeButton: MultiImagePickerCloseButton.customIcon(
             icon: const Icon(
               Icons.close,
               size: 20,
