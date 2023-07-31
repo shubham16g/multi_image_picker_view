@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_close_button_widget.dart';
 import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
 
 import 'list_image_item.dart';
@@ -26,6 +27,9 @@ class MultiImagePickerInitialWidget {
               BuildContext context, VoidCallback pickerCallback)
           builder})
       : this._(2, null, builder);
+
+  MultiImagePickerInitialWidget get none =>
+      const MultiImagePickerInitialWidget._(-1, null, null);
 }
 
 class MultiImagePickerAddMoreButton {
@@ -46,8 +50,57 @@ class MultiImagePickerAddMoreButton {
               BuildContext context, VoidCallback pickerCallback)
           builder})
       : this._(2, null, builder);
+
+  MultiImagePickerAddMoreButton get none =>
+      const MultiImagePickerAddMoreButton._(-1, null, null);
 }
 
+class MultiImagePickerCloseButton {
+  final BoxDecoration? boxDecoration;
+  final Alignment alignment;
+  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry? padding;
+
+  final int type;
+  final Widget? widget;
+  final Widget Function(BuildContext context, VoidCallback closeCallback)?
+      builder;
+
+  const MultiImagePickerCloseButton._(this.type, this.widget, this.builder,
+      this.alignment, this.margin, this.boxDecoration, this.padding);
+
+  const MultiImagePickerCloseButton.defaultButton(
+      {Alignment? alignment, EdgeInsetsGeometry? margin})
+      : this._(0, null, null, alignment ?? Alignment.topRight,
+            margin ?? const EdgeInsets.all(4), null, const EdgeInsets.all(3));
+
+  const MultiImagePickerCloseButton.icon(
+      {required Widget icon,
+      Alignment? alignment,
+      EdgeInsetsGeometry? margin,
+      BoxDecoration? boxDecoration,
+      EdgeInsetsGeometry? padding})
+      : this._(
+            1,
+            icon,
+            null,
+            alignment ?? Alignment.topRight,
+            margin ?? const EdgeInsets.all(4),
+            boxDecoration,
+            padding ?? const EdgeInsets.all(3));
+
+  const MultiImagePickerCloseButton.customButton(
+      {required Widget Function(
+              BuildContext context, VoidCallback closeCallback)
+          builder,
+      Alignment? alignment,
+      EdgeInsetsGeometry? margin})
+      : this._(2, null, builder, alignment ?? Alignment.topRight,
+            margin ?? const EdgeInsets.all(4), null, null);
+
+  MultiImagePickerCloseButton get none => const MultiImagePickerCloseButton._(
+      -1, null, null, Alignment.topRight, EdgeInsets.zero, null, null);
+}
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
@@ -67,17 +120,12 @@ class MultiImagePickerView extends StatefulWidget {
       this.imageBoxFit = BoxFit.cover,
       this.imageBoxDecoration,
       this.imageBoxDecorationOnDrag,
-      this.closeButtonIcon,
-      this.closeButtonBoxDecoration,
-      this.closeButtonAlignment = Alignment.topRight,
-      this.closeButtonMargin = const EdgeInsets.all(4),
-      this.closeButtonPadding = const EdgeInsets.all(3),
-      this.showCloseButton = true,
       this.padding,
       this.defaultImageBorderRadius =
           const BorderRadius.all(Radius.circular(10)),
       this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
       this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
+      this.closeButton = const MultiImagePickerCloseButton.defaultButton(),
       this.onChange});
 
   final bool draggable;
@@ -86,21 +134,13 @@ class MultiImagePickerView extends StatefulWidget {
   final BoxFit imageBoxFit;
   final BoxDecoration? imageBoxDecoration;
   final BoxDecoration? imageBoxDecorationOnDrag;
-  final Widget? closeButtonIcon;
-  final BoxDecoration? closeButtonBoxDecoration;
-  final Alignment closeButtonAlignment;
-  final EdgeInsetsGeometry closeButtonMargin;
-  final EdgeInsetsGeometry closeButtonPadding;
-  final bool showCloseButton;
 
-  // final bool showAddMoreButton;
   final EdgeInsetsGeometry? padding;
   final BorderRadius defaultImageBorderRadius;
   final MultiImagePickerInitialWidget initialWidget;
   final MultiImagePickerAddMoreButton addMoreButton;
+  final MultiImagePickerCloseButton closeButton;
 
-  // final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-  //     addMoreButtonBuilder;
   final void Function(Iterable<ImageFile>)? onChange;
 
   @override
@@ -136,7 +176,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   bool get _showAddMoreButton =>
       widget.addMoreButton.type != -1 &&
-          widget.controller.images.length < widget.controller.maxImages;
+      widget.controller.images.length < widget.controller.maxImages;
 
   Widget? _selector(BuildContext context) {
     switch (widget.addMoreButton.type) {
@@ -161,6 +201,25 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             margin: widget.padding,
             onPressed: _pickImages,
             centerWidget: widget.initialWidget.widget);
+    }
+  }
+
+  Widget? _closeButton(BuildContext context, VoidCallback onPressed) {
+    switch (widget.closeButton.type) {
+      case -1:
+        return null;
+      case 2:
+        return widget.closeButton.builder!(context, _pickImages);
+      default:
+        return DefaultCloseButtonWidget(
+          onPressed: onPressed,
+          boxDecoration: widget.closeButton.boxDecoration,
+          icon: widget.closeButton.widget,
+          isMouse: _isMouse,
+          margin: widget.closeButton.margin,
+          padding: widget.closeButton.padding!,
+          alignment: widget.closeButton.alignment,
+        );
     }
   }
 
@@ -228,18 +287,19 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                           child: PreviewItem(
                             file: e,
                             fit: widget.imageBoxFit,
-                            closeButtonMargin: widget.closeButtonMargin,
+                            /*closeButtonMargin: widget.closeButtonMargin,
                             closeButtonPadding: widget.closeButtonPadding,
                             closeButtonIcon: widget.closeButtonIcon,
-                            boxDecoration: widget.imageBoxDecoration,
                             closeButtonBoxDecoration:
                                 widget.closeButtonBoxDecoration,
                             closeButtonAlignment: widget.closeButtonAlignment,
                             showCloseButton: widget.showCloseButton,
+                            boxDecoration: widget.imageBoxDecoration,
+                            onDelete: _deleteImage,*/
+                            closeButtonWidget:
+                                _closeButton(context, () => _deleteImage(e)),
                             defaultImageBorderRadius:
                                 widget.defaultImageBorderRadius,
-                            onDelete: _deleteImage,
-                            isMouse: _isMouse,
                           ),
                         ))
                     .toList() +

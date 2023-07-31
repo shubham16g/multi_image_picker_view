@@ -28,14 +28,15 @@ class _Custom1State extends State<Custom1> {
           mainAxisSpacing: 0,
         ),
         // todo default border radius
-        closeButtonBoxDecoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
-          shape: BoxShape.circle,
-        ),
-        closeButtonIcon: const Icon(
-          Icons.close,
-          size: 20,
-        ),
+        closeButton: MultiImagePickerCloseButton.icon(
+            icon: const Icon(
+              Icons.close,
+              size: 20,
+            ),
+            boxDecoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              shape: BoxShape.circle,
+            )),
         initialWidget: MultiImagePickerInitialWidget.customWidget(
           builder: (context, pickerCallback) {
             return SizedBox(
