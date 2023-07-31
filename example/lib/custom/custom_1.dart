@@ -52,7 +52,8 @@ class _Custom1State extends State<Custom1> {
             );
           },
         ),
-        addMoreButtonBuilder: (context, pickerCallback) {
+        addMoreButton: MultiImagePickerAddMoreButton.customButton(
+            builder: (context, pickerCallback) {
           return SizedBox(
             height: 170,
             width: double.infinity,
@@ -74,7 +75,7 @@ class _Custom1State extends State<Custom1> {
               ),
             ),
           );
-        },
+        }),
         onChange: (list) {
           // print('got the list');
         },

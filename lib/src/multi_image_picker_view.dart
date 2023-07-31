@@ -20,12 +20,34 @@ class MultiImagePickerInitialWidget {
 
   const MultiImagePickerInitialWidget.centerWidget({required Widget child})
       : this._(1, child, null);
+
   const MultiImagePickerInitialWidget.customWidget(
       {required Widget Function(
               BuildContext context, VoidCallback pickerCallback)
           builder})
       : this._(2, null, builder);
-  }
+}
+
+class MultiImagePickerAddMoreButton {
+  final int type;
+  final Widget? widget;
+  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
+      builder;
+
+  const MultiImagePickerAddMoreButton._(this.type, this.widget, this.builder);
+
+  const MultiImagePickerAddMoreButton.defaultButton() : this._(0, null, null);
+
+  const MultiImagePickerAddMoreButton.icon({required Widget icon})
+      : this._(1, icon, null);
+
+  const MultiImagePickerAddMoreButton.customButton(
+      {required Widget Function(
+              BuildContext context, VoidCallback pickerCallback)
+          builder})
+      : this._(2, null, builder);
+}
+
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
@@ -51,12 +73,11 @@ class MultiImagePickerView extends StatefulWidget {
       this.closeButtonMargin = const EdgeInsets.all(4),
       this.closeButtonPadding = const EdgeInsets.all(3),
       this.showCloseButton = true,
-      this.showAddMoreButton = true,
       this.padding,
       this.defaultImageBorderRadius =
           const BorderRadius.all(Radius.circular(10)),
       this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
-      this.addMoreButtonBuilder,
+      this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
       this.onChange});
 
   final bool draggable;
@@ -71,16 +92,15 @@ class MultiImagePickerView extends StatefulWidget {
   final EdgeInsetsGeometry closeButtonMargin;
   final EdgeInsetsGeometry closeButtonPadding;
   final bool showCloseButton;
-  final bool showAddMoreButton;
+
+  // final bool showAddMoreButton;
   final EdgeInsetsGeometry? padding;
   final BorderRadius defaultImageBorderRadius;
   final MultiImagePickerInitialWidget initialWidget;
+  final MultiImagePickerAddMoreButton addMoreButton;
 
-  // final Widget? defaultInitialContainerCenterWidget;
   // final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-  //     initialContainerBuilder;
-  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-      addMoreButtonBuilder;
+  //     addMoreButtonBuilder;
   final void Function(Iterable<ImageFile>)? onChange;
 
   @override
@@ -114,14 +134,21 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     }
   }
 
-  Widget? _selector(BuildContext context) => widget.showAddMoreButton
-      ? SizedBox(
-          key: const Key("selector"),
-          child: widget.addMoreButtonBuilder != null
-              ? widget.addMoreButtonBuilder!(context, _pickImages)
-              : DefaultAddMoreWidget(onPressed: _pickImages),
-        )
-      : null;
+  bool get _showAddMoreButton =>
+      widget.addMoreButton.type != -1 &&
+          widget.controller.images.length < widget.controller.maxImages;
+
+  Widget? _selector(BuildContext context) {
+    switch (widget.addMoreButton.type) {
+      case -1:
+        return null;
+      case 2:
+        return widget.addMoreButton.builder!(context, _pickImages);
+      default:
+        return DefaultAddMoreWidget(
+            onPressed: _pickImages, icon: widget.addMoreButton.widget);
+    }
+  }
 
   Widget? _initialContainer(BuildContext context) {
     switch (widget.initialWidget.type) {
@@ -130,7 +157,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       case 2:
         return widget.initialWidget.builder!(context, _pickImages);
       default:
-        return DefaultInitialWidget(margin: widget.padding, onPressed: _pickImages, centerWidget: widget.initialWidget.widget);
+        return DefaultInitialWidget(
+            margin: widget.padding,
+            onPressed: _pickImages,
+            centerWidget: widget.initialWidget.widget);
     }
   }
 
@@ -171,11 +201,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                     ),
                   ],
                 ),
-            lockedIndices: (widget.showAddMoreButton &&
-                    widget.controller.images.length <
-                        widget.controller.maxImages)
-                ? [widget.controller.images.length]
-                : [],
+            lockedIndices:
+                _showAddMoreButton ? [widget.controller.images.length] : [],
             onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
               for (final orderUpdateEntity in orderUpdateEntities) {
                 widget.controller.reOrderImage(
