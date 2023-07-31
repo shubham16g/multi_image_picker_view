@@ -42,7 +42,7 @@ class MultiImagePickerAddMoreButton {
 
   const MultiImagePickerAddMoreButton.defaultButton() : this._(0, null, null);
 
-  const MultiImagePickerAddMoreButton.icon({required Widget icon})
+  const MultiImagePickerAddMoreButton.customIcon({required Widget icon})
       : this._(1, icon, null);
 
   const MultiImagePickerAddMoreButton.customButton(
