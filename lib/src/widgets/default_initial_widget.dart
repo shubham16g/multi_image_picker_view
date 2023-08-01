@@ -4,7 +4,12 @@ class DefaultInitialWidget extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Widget? centerWidget;
   final VoidCallback onPressed;
-  const DefaultInitialWidget({super.key, required this.margin, this.centerWidget, required this.onPressed});
+
+  const DefaultInitialWidget(
+      {super.key,
+      required this.margin,
+      this.centerWidget,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +27,19 @@ class DefaultInitialWidget extends StatelessWidget {
         onTap: onPressed,
         child: Center(
           child: centerWidget ??
-              Text('ADD IMAGES',
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16)),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.add_photo_alternate_outlined,
+                      size: 30, color: Theme.of(context).primaryColor),
+                  const SizedBox(height: 4),
+                  Text('ADD IMAGES',
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14))
+                ],
+              ),
         ),
       ),
     );
