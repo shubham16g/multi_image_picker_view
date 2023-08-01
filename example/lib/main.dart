@@ -30,7 +30,7 @@ class DemoPage extends StatefulWidget {
 
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
-    maxImages: 10,
+    maxImages: 100,
     allowedImageTypes: ['png', 'jpg', 'jpeg'],
   );
 
@@ -60,10 +60,11 @@ class _DemoPageState extends State<DemoPage> {
           IconButton(
             icon: const Icon(Icons.arrow_upward),
             onPressed: () {
-              final images = controller.images;
+              controller.pickImages();
+              // final images = controller.images;
               // use these images
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(images.toString())));
+              // ScaffoldMessenger.of(context)
+              //     .showSnackBar(SnackBar(content: Text(images.toString())));
             },
           ),
         ],

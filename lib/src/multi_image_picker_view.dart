@@ -5,130 +5,11 @@ import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart
 import 'package:multi_image_picker_view/src/widgets/default_close_button_widget.dart';
 import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
 
+import 'image_file.dart';
 import 'list_image_item.dart';
+import 'multi_image_picker_components.dart';
+import 'multi_image_picker_controller.dart';
 
-import '../multi_image_picker_view.dart';
-
-class MultiImagePickerInitialWidget {
-  final int type;
-  final Widget? widget;
-  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-      builder;
-
-  const MultiImagePickerInitialWidget._(this.type, this.widget, this.builder);
-
-  const MultiImagePickerInitialWidget.defaultWidget() : this._(0, null, null);
-
-  const MultiImagePickerInitialWidget.centerWidget({required Widget child})
-      : this._(1, child, null);
-
-  const MultiImagePickerInitialWidget.customWidget(
-      {required Widget Function(
-              BuildContext context, VoidCallback pickerCallback)
-          builder})
-      : this._(2, null, builder);
-
-  static MultiImagePickerInitialWidget get none =>
-      const MultiImagePickerInitialWidget._(-1, null, null);
-}
-
-class MultiImagePickerAddMoreButton {
-  final int type;
-  final Widget? widget;
-  final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-      builder;
-
-  const MultiImagePickerAddMoreButton._(this.type, this.widget, this.builder);
-
-  const MultiImagePickerAddMoreButton.defaultButton() : this._(0, null, null);
-
-  const MultiImagePickerAddMoreButton.customIcon({required Widget icon})
-      : this._(1, icon, null);
-
-  const MultiImagePickerAddMoreButton.customButton(
-      {required Widget Function(
-              BuildContext context, VoidCallback pickerCallback)
-          builder})
-      : this._(2, null, builder);
-
-  static MultiImagePickerAddMoreButton get none =>
-      const MultiImagePickerAddMoreButton._(-1, null, null);
-}
-
-class MultiImagePickerCloseButton {
-  final BoxDecoration? boxDecoration;
-  final Alignment alignment;
-  final EdgeInsetsGeometry margin;
-  final EdgeInsetsGeometry? padding;
-
-  final int type;
-  final Widget? widget;
-  final Widget Function(BuildContext context, VoidCallback closeCallback)?
-      builder;
-
-  const MultiImagePickerCloseButton._(this.type, this.widget, this.builder,
-      this.alignment, this.margin, this.boxDecoration, this.padding);
-
-  const MultiImagePickerCloseButton.defaultButton(
-      {Alignment? alignment, EdgeInsetsGeometry? margin})
-      : this._(0, null, null, alignment ?? Alignment.topRight,
-            margin ?? const EdgeInsets.all(4), null, const EdgeInsets.all(3));
-
-  const MultiImagePickerCloseButton.customIcon(
-      {required Widget icon,
-      Alignment? alignment,
-      EdgeInsetsGeometry? margin,
-      BoxDecoration? boxDecoration,
-      EdgeInsetsGeometry? padding})
-      : this._(
-            1,
-            icon,
-            null,
-            alignment ?? Alignment.topRight,
-            margin ?? const EdgeInsets.all(4),
-            boxDecoration,
-            padding ?? const EdgeInsets.all(3));
-
-  const MultiImagePickerCloseButton.customButton(
-      {required Widget Function(
-              BuildContext context, VoidCallback closeCallback)
-          builder,
-      Alignment? alignment,
-      EdgeInsetsGeometry? margin})
-      : this._(2, null, builder, alignment ?? Alignment.topRight,
-            margin ?? const EdgeInsets.all(4), null, null);
-
-  static MultiImagePickerCloseButton get none => const MultiImagePickerCloseButton._(
-      -1, null, null, Alignment.topRight, EdgeInsets.zero, null, null);
-}
-
-class MultiImagePickerImageWidget {
-  final int type;
-  final BoxDecoration? boxDecoration;
-  final BoxDecoration? boxDecorationOnDrag;
-  final BoxFit? fit;
-  final BorderRadius? borderRadius;
-  final Widget Function(BuildContext context, ImageFile imageFile)? builder;
-
-  const MultiImagePickerImageWidget._(this.type, this.fit, this.boxDecoration,
-      this.boxDecorationOnDrag, this.borderRadius, this.builder);
-
-  const MultiImagePickerImageWidget.defaultImage(
-      {BorderRadius borderRadius = const BorderRadius.all(Radius.circular(10)),
-      BoxFit fit = BoxFit.cover})
-      : this._(0, fit, null, null, null, null);
-
-  const MultiImagePickerImageWidget.decoratedImage(
-      {BoxDecoration? boxDecoration,
-      BoxDecoration? boxDecorationOnDrag,
-      BoxFit fit = BoxFit.cover})
-      : this._(1, fit, boxDecoration, boxDecorationOnDrag, null, null);
-
-  const MultiImagePickerImageWidget.customImage(
-      {required Widget Function(BuildContext context, ImageFile imageFile)
-          builder})
-      : this._(2, null, null, null, null, builder);
-}
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
@@ -150,10 +31,11 @@ class MultiImagePickerView extends StatefulWidget {
       this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
       this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
       this.closeButton = const MultiImagePickerCloseButton.defaultButton(),
-      this.onChange});
+      this.onChange, this.longPressDelayMilliseconds = 200});
 
   final bool draggable;
   final bool shrinkWrap;
+  final int longPressDelayMilliseconds;
   final EdgeInsetsGeometry? padding;
   final SliverGridDelegate gridDelegate;
   final MultiImagePickerImageWidget imageWidget;
@@ -205,8 +87,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       case 2:
         return widget.addMoreButton.builder!(context, _pickImages);
       default:
-        return DefaultAddMoreWidget(key: ValueKey('addMoreButton'),
-            onPressed: _pickImages, icon: widget.addMoreButton.widget);
+        return DefaultAddMoreWidget(
+            key: const ValueKey('mipAddMoreButton'),
+            onPressed: _pickImages,
+            icon: widget.addMoreButton.widget);
     }
   }
 
@@ -271,63 +155,54 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       return initialContainer;
     }
 
-    return Scrollable(
-      viewportBuilder: (context, position) => MouseRegion(
-        onEnter: _isMouse
-            ? null
-            : (e) {
-                setState(() {
-                  _isMouse = true;
-                });
-              },
-        child: Padding(
-          padding: widget.padding ?? EdgeInsets.zero,
-          child: ReorderableBuilder(
-            key: Key(_gridViewKey.toString()),
-            scrollController: _scrollController,
-            enableDraggable: widget.draggable,
-            dragChildBoxDecoration: widget.imageWidget.boxDecorationOnDrag ??
-                BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 3,
-                      spreadRadius: 1,
-                    ),
-                  ],
+    return MouseRegion(
+      onEnter: _isMouse || widget.longPressDelayMilliseconds >= 200
+          ? null
+          : (e) {
+        setState(() {
+          _isMouse = true;
+        });
+      },
+      child: ReorderableBuilder(
+        scrollController: _scrollController,
+        enableDraggable: widget.draggable,
+        dragChildBoxDecoration: widget.imageWidget.boxDecorationOnDrag ??
+            BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 3,
+                  spreadRadius: 1,
                 ),
-            lockedIndices:
-                _showAddMoreButton ? [widget.controller.images.length] : [],
-            onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-              for (final orderUpdateEntity in orderUpdateEntities) {
-                widget.controller.reOrderImage(
-                    orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
-                if (widget.onChange != null) {
-                  widget.onChange!(widget.controller.images);
-                }
-              }
-            },
-            longPressDelay: const Duration(milliseconds: 100),
-            builder: (children) {
-              return GridView(
-                key: _gridViewKey,
-                shrinkWrap: widget.shrinkWrap,
-                controller: _scrollController,
-                gridDelegate: widget.gridDelegate,
-                children: children,
-              );
-            },
-            children: widget.controller.images
-                    .map<Widget>((e) => SizedBox(
-                          key: Key(e.key),
-                          child: _buildImageWidget(context, e),
-                        ))
-                    .toList() +
-                (_showAddMoreButton
-                    ? [selector!]
-                    : []),
-          ),
-        ),
+              ],
+            ),
+        onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
+          for (final orderUpdateEntity in orderUpdateEntities) {
+            widget.controller.reOrderImage(
+                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
+            if (widget.onChange != null) {
+              widget.onChange!(widget.controller.images);
+            }
+          }
+        },
+
+        longPressDelay: Duration(milliseconds: widget.longPressDelayMilliseconds),
+        builder: (children) {
+          return GridView(
+            key: _gridViewKey,
+            shrinkWrap: widget.shrinkWrap,
+            controller: _scrollController,
+            padding: widget.padding ?? EdgeInsets.zero,
+            gridDelegate: widget.gridDelegate,
+            children: children + [if (_showAddMoreButton) selector!],
+          );
+        },
+        children: widget.controller.images
+                .map<Widget>((e) => SizedBox(
+                      key: Key(e.key),
+                      child: _buildImageWidget(context, e),
+                    ))
+                .toList(),
       ),
     );
   }

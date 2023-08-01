@@ -39,7 +39,7 @@ class MultiImagePickerController with ChangeNotifier {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         allowMultiple: maxImages > 1 ? true : false,
         type: FileType.custom,
-        withData: withData,
+        withData: kIsWeb ? true : withData,
         withReadStream: withReadStream,
         allowedExtensions: allowedImageTypes);
     if (result != null && result.files.isNotEmpty) {
@@ -70,7 +70,6 @@ class MultiImagePickerController with ChangeNotifier {
   /// Manually re-order image, i.e. move image from one position to another position.
   void reOrderImage(int oldIndex, int newIndex) {
     final oldItem = _images.removeAt(oldIndex);
-    oldItem.size;
     _images.insert(newIndex, oldItem);
     notifyListeners();
   }

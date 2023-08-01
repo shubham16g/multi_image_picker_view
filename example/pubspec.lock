@@ -106,10 +106,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_reorderable_grid_view
-      sha256: d32931c43c48ab45c58eb8a76ac03ce0f5228684d7aa777ff4d70e61fff5dbd9
+      sha256: ac92a49a8411adfda40f75eff44d0958ee879b0f9d6776bb6154c74aa166aaf1
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.3"
+    version: "4.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -183,6 +183,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.3"
+  reorderable_grid_view:
+    dependency: transitive
+    description:
+      name: reorderable_grid_view
+      sha256: "7ac7058e5388276cbc37aa169547cc93522a2f1c669fac6903a143f2082e3ffc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.6"
   sky_engine:
     dependency: transitive
     description: flutter
