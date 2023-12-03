@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
 import '../multi_image_picker_view.dart';
@@ -6,16 +5,13 @@ import '../multi_image_picker_view.dart';
 /// Controller for the [MultiImagePickerView].
 /// This controller contains all them images that the user has selected.
 class MultiImagePickerController with ChangeNotifier {
-  final List<String> allowedImageTypes;
+
   final int maxImages;
-  final bool withData;
-  final bool withReadStream;
+  final Future<List<ImageFile>> Function(bool allowMultiple) picker;
 
   MultiImagePickerController(
-      {this.allowedImageTypes = const ['png', 'jpeg', 'jpg'],
-      this.maxImages = 10,
-      this.withData = false,
-      this.withReadStream = false,
+      {this.maxImages = 10,
+      required this.picker,
       Iterable<ImageFile>? images}) {
     if (images != null) {
       _images = List.from(images);
@@ -36,27 +32,14 @@ class MultiImagePickerController with ChangeNotifier {
   /// this method open Image picking window.
   /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: maxImages > 1 ? true : false,
-        type: FileType.custom,
-        withData: kIsWeb ? true : withData,
-        withReadStream: withReadStream,
-        allowedExtensions: allowedImageTypes);
-    if (result != null && result.files.isNotEmpty) {
-      _addImages(result.files
-          .where((e) =>
-              e.extension != null &&
-              allowedImageTypes.contains(e.extension?.toLowerCase()))
-          .map((e) => ImageFile(UniqueKey().toString(),
-              name: e.name,
-              extension: e.extension!,
-              bytes: e.bytes,
-              readStream: e.readStream,
-              path: !kIsWeb ? e.path : null)));
+    final pickedImages = await picker(maxImages > 1 ? true : false);
+    if (pickedImages.isNotEmpty) {
+      _addImages(pickedImages);
       notifyListeners();
       return true;
     }
     return false;
+
   }
 
   void _addImages(Iterable<ImageFile> images) {

@@ -30,9 +30,9 @@ class DemoPage extends StatefulWidget {
 
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
-    maxImages: 100,
-    allowedImageTypes: ['png', 'jpg', 'jpeg'],
-  );
+      maxImages: 100,
+      picker: (allowMultiple) =>
+          filePickerExtension(allowMultiple: allowMultiple));
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +47,15 @@ class _DemoPageState extends State<DemoPage> {
               controller: controller,
               padding: const EdgeInsets.all(10),
               draggable: true,
-              addMoreButton: const MultiImagePickerAddMoreButton.customIcon(icon: Icon(Icons.add_photo_alternate_outlined)),
-              closeButton: const MultiImagePickerCloseButton.customIcon(icon: Icon(Icons.warning_amber, size: 16,)),
-              initialWidget: const MultiImagePickerInitialWidget.defaultWidget(),
+              addMoreButton: const MultiImagePickerAddMoreButton.customIcon(
+                  icon: Icon(Icons.add_photo_alternate_outlined)),
+              closeButton: const MultiImagePickerCloseButton.customIcon(
+                  icon: Icon(
+                Icons.warning_amber,
+                size: 16,
+              )),
+              initialWidget:
+                  const MultiImagePickerInitialWidget.defaultWidget(),
             ),
           ),
         ],

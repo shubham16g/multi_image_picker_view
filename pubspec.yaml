@@ -14,8 +14,8 @@ dependencies:
     sdk: flutter
 
   flutter_reorderable_grid_view: ^4.0.0
-  reorderable_grid_view: ^2.2.6
-  file_picker: ^5.0.1
+  file_picker: ^6.1.1
+  image_picker: ^1.0.4
 
 dev_dependencies:
   flutter_test:

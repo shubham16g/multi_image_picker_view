@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import '../image_file.dart';
 
@@ -12,9 +11,12 @@ class ImageFileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
-      child: Image.file(
-        File(file.path!),
+      child: Image.network(
+        file.path!,
         fit: fit,
+        errorBuilder: (context, error, stackTrace) {
+          return const Center(child: Text('No Preview'));
+        },
       ),
     );
   }

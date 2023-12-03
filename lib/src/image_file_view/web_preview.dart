@@ -12,13 +12,21 @@ class ImageFileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(4),
-      child: Image.memory(
-        file.bytes!,
-        fit: fit,
-        errorBuilder: (context, error, stackTrace) {
-          return const Center(child: Text('No Preview'));
-        },
-      ),
+      child: file.path == null
+          ? Image.memory(
+              file.bytes!,
+              fit: fit,
+              errorBuilder: (context, error, stackTrace) {
+                return const Center(child: Text('No Preview'));
+              },
+            )
+          : Image.network(
+              file.path!,
+              fit: fit,
+              errorBuilder: (context, error, stackTrace) {
+                return const Center(child: Text('No Preview'));
+              },
+            ),
     );
   }
 }
