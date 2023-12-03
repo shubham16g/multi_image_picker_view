@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
-class DefaultCloseButtonWidget extends StatelessWidget {
-  final bool isMouse;
+class DefaultCloseButtonWidget extends StatefulWidget {
   final VoidCallback onPressed;
   final BoxDecoration? boxDecoration;
   final Widget? icon;
@@ -11,7 +11,6 @@ class DefaultCloseButtonWidget extends StatelessWidget {
 
   const DefaultCloseButtonWidget(
       {super.key,
-      required this.isMouse,
       required this.onPressed,
       this.boxDecoration,
       this.icon,
@@ -20,26 +19,35 @@ class DefaultCloseButtonWidget extends StatelessWidget {
       required this.alignment});
 
   @override
+  State<DefaultCloseButtonWidget> createState() => _DefaultCloseButtonWidgetState();
+}
+
+class _DefaultCloseButtonWidgetState extends State<DefaultCloseButtonWidget> {
+
+
+  @override
   Widget build(BuildContext context) {
+    final isMouse = MultiImagePickerView.of(context).controller.isMouse;
+    print("isMouse: $isMouse");
     return Align(
-      alignment: alignment,
+      alignment: widget.alignment,
       child: Padding(
-        padding: margin,
+        padding: widget.margin,
         child: InkWell(
-          onTap: isMouse ? null : onPressed,
-          onTapDown: isMouse
-              ? (d) {
-                  onPressed();
-                }
-              : null,
+          onTap: isMouse ? null : () {
+            widget.onPressed();
+          },
+          onTapDown: isMouse ? (d) {
+            widget.onPressed();
+          }: null,
           child: Container(
-              padding: padding,
-              decoration: boxDecoration ??
+              padding: widget.padding,
+              decoration: widget.boxDecoration ??
                   BoxDecoration(
                     color: Colors.white.withOpacity(0.4),
                     shape: BoxShape.circle,
                   ),
-              child: icon ?? const Icon(Icons.close, size: 18)),
+              child: widget.icon ?? const Icon(Icons.close, size: 18)),
         ),
       ),
     );

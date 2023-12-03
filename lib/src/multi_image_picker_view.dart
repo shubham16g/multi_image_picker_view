@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
+import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
 
 import 'image_file.dart';
 import 'widgets/multi_image_picker_add_more_button.dart';
@@ -30,7 +31,8 @@ class MultiImagePickerView extends StatefulWidget {
       this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
       this.closeButton = const MultiImagePickerCloseButton.defaultButton(),
       this.onChange,
-      this.longPressDelayMilliseconds = 200});
+      this.longPressDelayMilliseconds = 300,
+      this.builder});
 
   final bool draggable;
   final bool shrinkWrap;
@@ -41,8 +43,12 @@ class MultiImagePickerView extends StatefulWidget {
   final MultiImagePickerInitialWidget initialWidget;
   final MultiImagePickerAddMoreButton addMoreButton;
   final MultiImagePickerCloseButton closeButton;
+  final Widget Function(BuildContext context, ImageFile imageFile)? builder;
 
   final void Function(Iterable<ImageFile>)? onChange;
+
+  static MultiImagePickerControllerWrapper of(BuildContext context) =>
+      MultiImagePickerControllerWrapper.of(context);
 
   @override
   State<MultiImagePickerView> createState() => _MultiImagePickerViewState();
@@ -51,7 +57,6 @@ class MultiImagePickerView extends StatefulWidget {
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   late final ScrollController _scrollController;
   final _gridViewKey = GlobalKey();
-  bool _isMouse = false;
 
   @override
   void initState() {
@@ -69,6 +74,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   }
 
   void _deleteImage(ImageFile imageFile) {
+    print('delete item');
     widget.controller.removeImage(imageFile);
     if (widget.onChange != null) {
       widget.onChange!(widget.controller.images);
@@ -81,18 +87,22 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   Widget _buildImageWidget(
       BuildContext context, Widget? closeButtonWidget, ImageFile imageFile) {
-    return Stack(
-      key: Key(imageFile.key),
-      clipBehavior: Clip.antiAlias,
-      children: [
-        Positioned.fill(
-          child: widget.imageWidget.getWidget(context, imageFile),
-        ),
-        if (closeButtonWidget != null)
+    return MultiImagePickerControllerWrapper(
+        controller: widget.controller,
+      child: Stack(
+        key: Key(imageFile.key),
+        clipBehavior: Clip.antiAlias,
+        children: [
           Positioned.fill(
-            child: closeButtonWidget,
+            child: widget.builder?.call(context, imageFile) ??
+                widget.imageWidget.getWidget(context, imageFile),
           ),
-      ],
+          if (closeButtonWidget != null)
+            Positioned.fill(
+              child: closeButtonWidget,
+            ),
+        ],
+      ),
     );
   }
 
@@ -112,11 +122,12 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     }
 
     return MouseRegion(
-      onEnter: _isMouse || widget.longPressDelayMilliseconds >= 200
+      onEnter: widget.controller.isMouse || widget.longPressDelayMilliseconds >= 300
           ? null
           : (e) {
+        print("upadte---");
               setState(() {
-                _isMouse = true;
+                widget.controller.isMouse = true;
               });
             },
       child: ReorderableBuilder(
@@ -124,10 +135,11 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
         enableDraggable: widget.draggable,
         dragChildBoxDecoration: widget.imageWidget.boxDecorationOnDrag ??
             BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 3,
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 4,
                   spreadRadius: 1,
                 ),
               ],
@@ -158,8 +170,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                   key: Key(e.key),
                   child: _buildImageWidget(
                       context,
-                      widget.closeButton
-                          .getWidget(context, _isMouse, () => _deleteImage(e)),
+                      widget.closeButton.getWidget(
+                          context,  () => _deleteImage(e)),
                       e),
                 ))
             .toList(),

@@ -24,7 +24,6 @@ Future<List<ImageFile>> filePickerExtension({
             name: e.name,
             extension: e.extension!,
             bytes: e.bytes,
-            readStream: e.readStream,
             path: !kIsWeb ? e.path : null))
         .toList();
   }

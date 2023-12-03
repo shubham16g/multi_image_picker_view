@@ -10,14 +10,19 @@ Future<List<ImageFile>> imagePickerExtension({
   bool requestFullMetaData = true,
 }) async {
   ImagePicker picker = ImagePicker();
-  final xFiles = await picker.pickMultiImage(maxWidth: maxWidth,
+  final xFiles = await picker.pickMultiImage(
+      maxWidth: maxWidth,
       maxHeight: maxHeight,
       requestFullMetadata: requestFullMetaData);
   if (xFiles.isNotEmpty) {
-    return xFiles.map<ImageFile>((e) =>
-        ImageFile(UniqueKey().toString(), name: e.name,
-          extension: e.mimeType ?? '',
-          path: e.path, )).toList();
+    return xFiles
+        .map<ImageFile>((e) => ImageFile(
+              UniqueKey().toString(),
+              name: e.name,
+              extension: e.name.contains(".") ? e.name.split(".").last : "",
+              path: e.path,
+            ))
+        .toList();
   }
   return [];
 }

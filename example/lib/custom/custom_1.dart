@@ -23,6 +23,9 @@ class _Custom1State extends State<Custom1> {
       body: MultiImagePickerView(
         controller: controller,
         padding: const EdgeInsets.all(0),
+        onChange: (list) {
+          debugPrint(list.toString());
+        },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 170,
           childAspectRatio: 1,
@@ -79,9 +82,6 @@ class _Custom1State extends State<Custom1> {
             ),
           );
         }),
-        onChange: (list) {
-          // print('got the list');
-        },
       ),
     );
   }

@@ -46,16 +46,20 @@ class _DemoPageState extends State<DemoPage> {
             child: MultiImagePickerView(
               controller: controller,
               padding: const EdgeInsets.all(10),
-              draggable: true,
-              addMoreButton: const MultiImagePickerAddMoreButton.customIcon(
-                  icon: Icon(Icons.add_photo_alternate_outlined)),
-              closeButton: const MultiImagePickerCloseButton.customIcon(
-                  icon: Icon(
-                Icons.warning_amber,
-                size: 16,
-              )),
-              initialWidget:
-                  const MultiImagePickerInitialWidget.defaultWidget(),
+              builder: (context, imageFile) {
+                return Container(
+                  decoration: BoxDecoration(
+                      /*border: Border.all(
+                          color: imageFile == controller.images.first
+                              ? Colors.red
+                              : Colors.blue,
+                          width: 3)*/),
+                  child: ImageFileView(file: imageFile),
+                );
+              },
+              onChange: (list) {
+                debugPrint(list.toString());
+              },
             ),
           ),
         ],
@@ -67,10 +71,6 @@ class _DemoPageState extends State<DemoPage> {
             icon: const Icon(Icons.arrow_upward),
             onPressed: () {
               controller.pickImages();
-              // final images = controller.images;
-              // use these images
-              // ScaffoldMessenger.of(context)
-              //     .showSnackBar(SnackBar(content: Text(images.toString())));
             },
           ),
         ],

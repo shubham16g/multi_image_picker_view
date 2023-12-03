@@ -5,7 +5,6 @@ import '../multi_image_picker_view.dart';
 /// Controller for the [MultiImagePickerView].
 /// This controller contains all them images that the user has selected.
 class MultiImagePickerController with ChangeNotifier {
-
   final int maxImages;
   final Future<List<ImageFile>> Function(bool allowMultiple) picker;
 
@@ -39,7 +38,6 @@ class MultiImagePickerController with ChangeNotifier {
       return true;
     }
     return false;
-
   }
 
   void _addImages(Iterable<ImageFile> images) {
@@ -68,4 +66,6 @@ class MultiImagePickerController with ChangeNotifier {
     _images.clear();
     notifyListeners();
   }
+
+  bool isMouse = false;
 }

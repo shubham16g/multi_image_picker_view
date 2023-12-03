@@ -49,7 +49,7 @@ class MultiImagePickerCloseButton {
       const MultiImagePickerCloseButton._(
           -1, null, null, Alignment.topRight, EdgeInsets.zero, null, null);
 
-  Widget? getWidget(BuildContext context, bool isMouse, VoidCallback closeCallback) {
+  Widget? getWidget(BuildContext context, VoidCallback closeCallback) {
     switch (type) {
       case -1:
         return null;
@@ -60,7 +60,7 @@ class MultiImagePickerCloseButton {
           onPressed: closeCallback,
           boxDecoration: boxDecoration,
           icon: widget,
-          isMouse: isMouse,
+          // isMouse: isMouse,
           margin: margin,
           padding: padding!,
           alignment: alignment,
