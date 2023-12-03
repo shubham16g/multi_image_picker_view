@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
-import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
-import 'package:multi_image_picker_view/src/widgets/default_close_button_widget.dart';
-import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
 
 import 'image_file.dart';
-import 'list_image_item.dart';
-import 'multi_image_picker_components.dart';
+import 'widgets/multi_image_picker_add_more_button.dart';
+import 'widgets/multi_image_picker_close_button.dart';
+import 'widgets/multi_image_picker_image_widget.dart';
+import 'widgets/multi_image_picker_initial_widget.dart';
 import 'multi_image_picker_controller.dart';
-
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
@@ -31,7 +29,8 @@ class MultiImagePickerView extends StatefulWidget {
       this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
       this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
       this.closeButton = const MultiImagePickerCloseButton.defaultButton(),
-      this.onChange, this.longPressDelayMilliseconds = 200});
+      this.onChange,
+      this.longPressDelayMilliseconds = 200});
 
   final bool draggable;
   final bool shrinkWrap;
@@ -80,89 +79,46 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       widget.addMoreButton.type != -1 &&
       widget.controller.images.length < widget.controller.maxImages;
 
-  Widget? _selector(BuildContext context) {
-    switch (widget.addMoreButton.type) {
-      case -1:
-        return null;
-      case 2:
-        return widget.addMoreButton.builder!(context, _pickImages);
-      default:
-        return DefaultAddMoreWidget(
-            key: const ValueKey('mipAddMoreButton'),
-            onPressed: _pickImages,
-            icon: widget.addMoreButton.widget);
-    }
-  }
-
-  Widget? _initialContainer(BuildContext context) {
-    switch (widget.initialWidget.type) {
-      case -1:
-        return null;
-      case 2:
-        return widget.initialWidget.builder!(context, _pickImages);
-      default:
-        return DefaultInitialWidget(
-            margin: widget.padding,
-            onPressed: _pickImages,
-            centerWidget: widget.initialWidget.widget);
-    }
-  }
-
-  Widget? _closeButton(BuildContext context, VoidCallback onPressed) {
-    switch (widget.closeButton.type) {
-      case -1:
-        return null;
-      case 2:
-        return widget.closeButton.builder!(context, _pickImages);
-      default:
-        return DefaultCloseButtonWidget(
-          onPressed: onPressed,
-          boxDecoration: widget.closeButton.boxDecoration,
-          icon: widget.closeButton.widget,
-          isMouse: _isMouse,
-          margin: widget.closeButton.margin,
-          padding: widget.closeButton.padding!,
-          alignment: widget.closeButton.alignment,
-        );
-    }
-  }
-
-  Widget _buildImageWidget(BuildContext context, ImageFile imageFile) {
-    switch (widget.imageWidget.type) {
-      case 2:
-        return widget.imageWidget.builder!(context, imageFile);
-      default:
-        return PreviewItem(
-          file: imageFile,
-          fit: widget.imageWidget.fit!,
-          boxDecoration: widget.imageWidget.boxDecoration,
-          closeButtonWidget:
-              _closeButton(context, () => _deleteImage(imageFile)),
-          defaultImageBorderRadius: widget.imageWidget.borderRadius,
-        );
-    }
+  Widget _buildImageWidget(
+      BuildContext context, Widget? closeButtonWidget, ImageFile imageFile) {
+    return Stack(
+      key: Key(imageFile.key),
+      clipBehavior: Clip.antiAlias,
+      children: [
+        Positioned.fill(
+          child: widget.imageWidget.getWidget(context, imageFile),
+        ),
+        if (closeButtonWidget != null)
+          Positioned.fill(
+            child: closeButtonWidget,
+          ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final initialContainer = _initialContainer(context);
-    final selector = _selector(context);
+    final initialWidget =
+        widget.initialWidget.getWidget(context, widget.padding, _pickImages);
+    final addMoreButton = SizedBox(
+        key: Key("${_gridViewKey}_add_btn"),
+        child: widget.addMoreButton.getWidget(context, _pickImages));
     if (widget.controller.hasNoImages) {
-      if (initialContainer == null) return const SizedBox();
+      if (initialWidget == null) return const SizedBox();
       if (!widget.shrinkWrap) {
-        return Column(children: [initialContainer]);
+        return Column(children: [initialWidget]);
       }
-      return initialContainer;
+      return initialWidget;
     }
 
     return MouseRegion(
       onEnter: _isMouse || widget.longPressDelayMilliseconds >= 200
           ? null
           : (e) {
-        setState(() {
-          _isMouse = true;
-        });
-      },
+              setState(() {
+                _isMouse = true;
+              });
+            },
       child: ReorderableBuilder(
         scrollController: _scrollController,
         enableDraggable: widget.draggable,
@@ -185,8 +141,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             }
           }
         },
-
-        longPressDelay: Duration(milliseconds: widget.longPressDelayMilliseconds),
+        longPressDelay:
+            Duration(milliseconds: widget.longPressDelayMilliseconds),
         builder: (children) {
           return GridView(
             key: _gridViewKey,
@@ -194,15 +150,19 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             controller: _scrollController,
             padding: widget.padding ?? EdgeInsets.zero,
             gridDelegate: widget.gridDelegate,
-            children: children + [if (_showAddMoreButton) selector!],
+            children: children + [if (_showAddMoreButton) addMoreButton],
           );
         },
         children: widget.controller.images
-                .map<Widget>((e) => SizedBox(
-                      key: Key(e.key),
-                      child: _buildImageWidget(context, e),
-                    ))
-                .toList(),
+            .map<Widget>((e) => SizedBox(
+                  key: Key(e.key),
+                  child: _buildImageWidget(
+                      context,
+                      widget.closeButton
+                          .getWidget(context, _isMouse, () => _deleteImage(e)),
+                      e),
+                ))
+            .toList(),
       ),
     );
   }
