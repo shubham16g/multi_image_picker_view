@@ -5,13 +5,14 @@ import '../image_file.dart';
 class ImageFileView extends StatelessWidget {
   final ImageFile file;
   final BoxFit fit;
+  final BorderRadius? borderRadius;
 
-  const ImageFileView({super.key, required this.file, this.fit = BoxFit.cover});
+  const ImageFileView({super.key, required this.file, this.fit = BoxFit.cover, this.borderRadius});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
+      borderRadius: borderRadius ?? BorderRadius.zero,
       child: file.path == null
           ? Image.memory(
               file.bytes!,

@@ -32,16 +32,34 @@ class _Custom1State extends State<Custom1> {
           crossAxisSpacing: 0,
           mainAxisSpacing: 0,
         ),
-        // todo default border radius
-        closeButton: MultiImagePickerCloseButton.customIcon(
-            icon: const Icon(
-              Icons.close,
-              size: 20,
-            ),
-            boxDecoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
-            )),
+        builder: (context, imageFile) {
+          return Stack(
+            children: [
+              Positioned.fill(child: ImageFileView(file: imageFile)),
+              Positioned(
+                  top: 4,
+                  right: 4,
+                  child: DraggableItemAction(
+                    borderRadius: BorderRadius.circular(2),
+                    onPressed: () => controller.removeImage(imageFile),
+                    child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.4),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.delete_forever_rounded,
+                          size: 18,
+                          color: Theme.of(context).colorScheme.background,
+                        )),
+                  )),
+            ],
+          );
+        },
         initialWidget: MultiImagePickerInitialWidget.customWidget(
           builder: (context, pickerCallback) {
             return SizedBox(

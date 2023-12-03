@@ -28,7 +28,6 @@ class _DefaultCloseButtonWidgetState extends State<DefaultCloseButtonWidget> {
   @override
   Widget build(BuildContext context) {
     final isMouse = MultiImagePickerView.of(context).controller.isMouse;
-    print("isMouse: $isMouse");
     return Align(
       alignment: widget.alignment,
       child: Padding(

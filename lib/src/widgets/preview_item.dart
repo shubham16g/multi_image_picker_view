@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'image_file.dart';
-import 'image_file_view/image_file_view.dart';
+import '../image_file.dart';
+import '../image_file_view/image_file_view.dart';
 
 class PreviewItem extends StatelessWidget {
   const PreviewItem({

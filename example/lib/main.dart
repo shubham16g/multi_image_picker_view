@@ -46,17 +46,6 @@ class _DemoPageState extends State<DemoPage> {
             child: MultiImagePickerView(
               controller: controller,
               padding: const EdgeInsets.all(10),
-              builder: (context, imageFile) {
-                return Container(
-                  decoration: BoxDecoration(
-                      /*border: Border.all(
-                          color: imageFile == controller.images.first
-                              ? Colors.red
-                              : Colors.blue,
-                          width: 3)*/),
-                  child: ImageFileView(file: imageFile),
-                );
-              },
               onChange: (list) {
                 debugPrint(list.toString());
               },

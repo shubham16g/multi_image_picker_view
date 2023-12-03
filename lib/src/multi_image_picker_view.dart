@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
+import 'package:multi_image_picker_view/src/widgets/preview_item.dart';
 import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
+import 'package:multi_image_picker_view/src/widgets/default_close_button_widget.dart';
 
 import 'image_file.dart';
 import 'widgets/multi_image_picker_add_more_button.dart';
-import 'widgets/multi_image_picker_close_button.dart';
-import 'widgets/multi_image_picker_image_widget.dart';
 import 'widgets/multi_image_picker_initial_widget.dart';
 import 'multi_image_picker_controller.dart';
 
@@ -26,23 +26,21 @@ class MultiImagePickerView extends StatefulWidget {
         childAspectRatio: 1,
       ),
       this.padding,
-      this.imageWidget = const MultiImagePickerImageWidget.defaultImage(),
       this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
       this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
-      this.closeButton = const MultiImagePickerCloseButton.defaultButton(),
       this.onChange,
       this.longPressDelayMilliseconds = 300,
-      this.builder});
+      this.builder,
+      this.onDragBoxDecoration});
 
   final bool draggable;
   final bool shrinkWrap;
   final int longPressDelayMilliseconds;
   final EdgeInsetsGeometry? padding;
   final SliverGridDelegate gridDelegate;
-  final MultiImagePickerImageWidget imageWidget;
   final MultiImagePickerInitialWidget initialWidget;
   final MultiImagePickerAddMoreButton addMoreButton;
-  final MultiImagePickerCloseButton closeButton;
+  final BoxDecoration? onDragBoxDecoration;
   final Widget Function(BuildContext context, ImageFile imageFile)? builder;
 
   final void Function(Iterable<ImageFile>)? onChange;
@@ -74,7 +72,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   }
 
   void _deleteImage(ImageFile imageFile) {
-    print('delete item');
     widget.controller.removeImage(imageFile);
     if (widget.onChange != null) {
       widget.onChange!(widget.controller.images);
@@ -85,24 +82,25 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
       widget.addMoreButton.type != -1 &&
       widget.controller.images.length < widget.controller.maxImages;
 
-  Widget _buildImageWidget(
-      BuildContext context, Widget? closeButtonWidget, ImageFile imageFile) {
-    return MultiImagePickerControllerWrapper(
-        controller: widget.controller,
-      child: Stack(
-        key: Key(imageFile.key),
-        clipBehavior: Clip.antiAlias,
-        children: [
-          Positioned.fill(
-            child: widget.builder?.call(context, imageFile) ??
-                widget.imageWidget.getWidget(context, imageFile),
+  Widget _buildImageWidget(BuildContext context, ImageFile imageFile) {
+    return Stack(
+      clipBehavior: Clip.antiAlias,
+      children: [
+        Positioned.fill(
+          child: PreviewItem(
+            file: imageFile,
+            fit: BoxFit.cover,
+            defaultImageBorderRadius: BorderRadius.circular(10),
           ),
-          if (closeButtonWidget != null)
-            Positioned.fill(
-              child: closeButtonWidget,
-            ),
-        ],
-      ),
+        ),
+        Positioned.fill(
+          child: DefaultCloseButtonWidget(
+              alignment: Alignment.topRight,
+              margin: const EdgeInsets.all(4),
+              padding: const EdgeInsets.all(3),
+              onPressed: () => _deleteImage(imageFile)),
+        ),
+      ],
     );
   }
 
@@ -122,18 +120,18 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     }
 
     return MouseRegion(
-      onEnter: widget.controller.isMouse || widget.longPressDelayMilliseconds >= 300
-          ? null
-          : (e) {
-        print("upadte---");
-              setState(() {
-                widget.controller.isMouse = true;
-              });
-            },
+      onEnter:
+          widget.controller.isMouse || widget.longPressDelayMilliseconds >= 300
+              ? null
+              : (e) {
+                  setState(() {
+                    widget.controller.isMouse = true;
+                  });
+                },
       child: ReorderableBuilder(
         scrollController: _scrollController,
         enableDraggable: widget.draggable,
-        dragChildBoxDecoration: widget.imageWidget.boxDecorationOnDrag ??
+        dragChildBoxDecoration: widget.onDragBoxDecoration ??
             BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
@@ -166,13 +164,13 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
           );
         },
         children: widget.controller.images
-            .map<Widget>((e) => SizedBox(
-                  key: Key(e.key),
-                  child: _buildImageWidget(
-                      context,
-                      widget.closeButton.getWidget(
-                          context,  () => _deleteImage(e)),
-                      e),
+            .map<Widget>((imageFile) => SizedBox(
+                  key: Key(imageFile.key),
+                  child: MultiImagePickerControllerWrapper(
+                    controller: widget.controller,
+                    child: widget.builder?.call(context, imageFile) ??
+                        _buildImageWidget(context, imageFile),
+                  ),
                 ))
             .toList(),
       ),
