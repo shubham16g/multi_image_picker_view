@@ -60,46 +60,39 @@ class _Custom1State extends State<Custom1> {
             ],
           );
         },
-        initialWidget: MultiImagePickerInitialWidget.customWidget(
-          builder: (context, pickerCallback) {
-            return SizedBox(
-              height: 170,
-              width: double.infinity,
-              child: Center(
-                child: ElevatedButton(
-                  child: const Text('Add Images'),
-                  onPressed: () {
-                    pickerCallback();
-                  },
-                ),
-              ),
-            );
-          },
+        initialWidget: SizedBox(
+          height: 170,
+          width: double.infinity,
+          child: Center(
+            child: ElevatedButton(
+              child: const Text('Add Images'),
+              onPressed: () {
+                controller.pickImages();
+              },
+            ),
+          ),
         ),
-        addMoreButton: MultiImagePickerAddMoreButton.customButton(
-            builder: (context, pickerCallback) {
-          return SizedBox(
-            height: 170,
-            width: double.infinity,
-            child: Center(
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.blue.withOpacity(0.2),
-                  shape: const CircleBorder(),
-                ),
-                onPressed: pickerCallback,
-                child: const Padding(
-                  padding: EdgeInsets.all(10),
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.blue,
-                    size: 30,
-                  ),
+        addMoreButton: SizedBox(
+          height: 170,
+          width: double.infinity,
+          child: Center(
+            child: TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blue.withOpacity(0.2),
+                shape: const CircleBorder(),
+              ),
+              onPressed: controller.pickImages,
+              child: const Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.blue,
+                  size: 30,
                 ),
               ),
             ),
-          );
-        }),
+          ),
+        ),
       ),
     );
   }

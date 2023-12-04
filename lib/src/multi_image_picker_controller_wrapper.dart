@@ -5,10 +5,12 @@ class MultiImagePickerControllerWrapper extends InheritedWidget {
   const MultiImagePickerControllerWrapper({
     super.key,
     required this.controller,
+    required this.padding,
     required Widget child,
   }) : super(child: child);
 
   final MultiImagePickerController controller;
+  final EdgeInsetsGeometry? padding;
 
   static MultiImagePickerControllerWrapper of(BuildContext context) {
     final MultiImagePickerControllerWrapper? result =
@@ -21,6 +23,6 @@ class MultiImagePickerControllerWrapper extends InheritedWidget {
 
   @override
   bool updateShouldNotify(MultiImagePickerControllerWrapper oldWidget) {
-    return oldWidget.controller != controller;
+    return oldWidget.controller != controller || oldWidget.padding != padding;
   }
 }

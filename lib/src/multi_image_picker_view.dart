@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
+import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
 import 'package:multi_image_picker_view/src/widgets/preview_item.dart';
 import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
 import 'package:multi_image_picker_view/src/widgets/default_close_button_widget.dart';
 
 import 'image_file.dart';
-import 'widgets/multi_image_picker_add_more_button.dart';
-import 'widgets/multi_image_picker_initial_widget.dart';
 import 'multi_image_picker_controller.dart';
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
@@ -26,8 +26,8 @@ class MultiImagePickerView extends StatefulWidget {
         childAspectRatio: 1,
       ),
       this.padding,
-      this.initialWidget = const MultiImagePickerInitialWidget.defaultWidget(),
-      this.addMoreButton = const MultiImagePickerAddMoreButton.defaultButton(),
+      this.initialWidget = const DefaultInitialWidget(),
+      this.addMoreButton = const DefaultAddMoreWidget(),
       this.onChange,
       this.longPressDelayMilliseconds = 300,
       this.builder,
@@ -38,8 +38,8 @@ class MultiImagePickerView extends StatefulWidget {
   final int longPressDelayMilliseconds;
   final EdgeInsetsGeometry? padding;
   final SliverGridDelegate gridDelegate;
-  final MultiImagePickerInitialWidget initialWidget;
-  final MultiImagePickerAddMoreButton addMoreButton;
+  final Widget? initialWidget;
+  final Widget? addMoreButton;
   final BoxDecoration? onDragBoxDecoration;
   final Widget Function(BuildContext context, ImageFile imageFile)? builder;
 
@@ -63,23 +63,8 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     widget.controller.addListener(_updateUi);
   }
 
-  void _pickImages() async {
-    final result = await widget.controller.pickImages();
-    if (!result) return;
-    if (widget.onChange != null) {
-      widget.onChange!(widget.controller.images);
-    }
-  }
-
-  void _deleteImage(ImageFile imageFile) {
-    widget.controller.removeImage(imageFile);
-    if (widget.onChange != null) {
-      widget.onChange!(widget.controller.images);
-    }
-  }
-
   bool get _showAddMoreButton =>
-      widget.addMoreButton.type != -1 &&
+      widget.addMoreButton != null &&
       widget.controller.images.length < widget.controller.maxImages;
 
   Widget _buildImageWidget(BuildContext context, ImageFile imageFile) {
@@ -98,7 +83,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               alignment: Alignment.topRight,
               margin: const EdgeInsets.all(4),
               padding: const EdgeInsets.all(3),
-              onPressed: () => _deleteImage(imageFile)),
+              onPressed: () => widget.controller.removeImage(imageFile)),
         ),
       ],
     );
@@ -106,11 +91,16 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
 
   @override
   Widget build(BuildContext context) {
-    final initialWidget =
-        widget.initialWidget.getWidget(context, widget.padding, _pickImages);
+    return MultiImagePickerControllerWrapper(
+        padding: widget.padding,
+        controller: widget.controller,
+        child: _build(context));
+  }
+
+  Widget _build(BuildContext context) {
+    final initialWidget = widget.initialWidget;
     final addMoreButton = SizedBox(
-        key: Key("${_gridViewKey}_add_btn"),
-        child: widget.addMoreButton.getWidget(context, _pickImages));
+        key: Key("${_gridViewKey}_add_btn"), child: widget.addMoreButton);
     if (widget.controller.hasNoImages) {
       if (initialWidget == null) return const SizedBox();
       if (!widget.shrinkWrap) {
@@ -168,6 +158,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                   key: Key(imageFile.key),
                   child: MultiImagePickerControllerWrapper(
                     controller: widget.controller,
+                    padding: widget.padding,
                     child: widget.builder?.call(context, imageFile) ??
                         _buildImageWidget(context, imageFile),
                   ),

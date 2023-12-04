@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
+import '../multi_image_picker_controller_wrapper.dart';
+
 class DefaultAddMoreWidget extends StatelessWidget {
-  final VoidCallback onPressed;
   final Widget? icon;
 
-  const DefaultAddMoreWidget({super.key, required this.onPressed, this.icon});
+  const DefaultAddMoreWidget({super.key, this.icon});
 
   @override
   Widget build(BuildContext context) {
+    final pickerView = MultiImagePickerControllerWrapper.of(context);
     return SizedBox(
-      height: 170,
+      height: double.infinity,
       width: double.infinity,
       child: Center(
         child: TextButton(
@@ -17,7 +19,7 @@ class DefaultAddMoreWidget extends StatelessWidget {
             backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
             shape: const CircleBorder(),
           ),
-          onPressed: onPressed,
+          onPressed: pickerView.controller.pickImages,
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: IconTheme(

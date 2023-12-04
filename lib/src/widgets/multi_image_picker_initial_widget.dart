@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
 
 import 'default_initial_widget.dart';
 
@@ -6,7 +7,7 @@ class MultiImagePickerInitialWidget {
   final int type;
   final Widget? widget;
   final Widget Function(BuildContext context, VoidCallback pickerCallback)?
-  builder;
+      builder;
 
   const MultiImagePickerInitialWidget._(this.type, this.widget, this.builder);
 
@@ -17,26 +18,26 @@ class MultiImagePickerInitialWidget {
 
   const MultiImagePickerInitialWidget.customWidget(
       {required Widget Function(
-          BuildContext context, VoidCallback pickerCallback)
-      builder})
+              BuildContext context, VoidCallback pickerCallback)
+          builder})
       : this._(2, null, builder);
 
   static MultiImagePickerInitialWidget get none =>
       const MultiImagePickerInitialWidget._(-1, null, null);
 
-  Widget? getWidget(BuildContext context, EdgeInsetsGeometry? padding, VoidCallback pickImages) {
+  Widget? getWidget(BuildContext context, EdgeInsetsGeometry? padding) {
     switch (type) {
       case -1:
         return null;
       case 2:
-        return builder!(context, pickImages);
+        return builder!(
+            context,
+            MultiImagePickerControllerWrapper.of(context)
+                .controller
+                .pickImages);
       default:
         return DefaultInitialWidget(
-            margin: padding,
-            onPressed: pickImages,
             centerWidget: widget);
     }
   }
 }
-
-

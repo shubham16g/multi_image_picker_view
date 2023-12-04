@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../multi_image_picker_controller_wrapper.dart';
+
 class DefaultInitialWidget extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Widget? centerWidget;
-  final VoidCallback onPressed;
 
-  const DefaultInitialWidget(
-      {super.key,
-      required this.margin,
-      this.centerWidget,
-      required this.onPressed});
+  const DefaultInitialWidget({super.key, this.centerWidget, this.margin});
 
   @override
   Widget build(BuildContext context) {
+    final pickerView = MultiImagePickerControllerWrapper.of(context);
     return Container(
-      margin: margin,
+      margin: margin ?? pickerView.padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         color: Colors.blueGrey.withOpacity(0.05),
@@ -24,7 +22,8 @@ class DefaultInitialWidget extends StatelessWidget {
       width: double.infinity,
       child: InkWell(
         borderRadius: BorderRadius.circular(4),
-        onTap: onPressed,
+        onTap:
+            pickerView.controller.pickImages,
         child: Center(
           child: centerWidget ??
               Column(
