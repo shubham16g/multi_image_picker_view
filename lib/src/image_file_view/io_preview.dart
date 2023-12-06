@@ -23,9 +23,10 @@ class ImageFileView extends StatelessWidget {
       child: Image.file(
         File(imageFile.path!),
         fit: fit,
-        errorBuilder: errorBuilder ?? (context, error, stackTrace) {
-          return ErrorPreview(imageFile: imageFile);
-        },
+        errorBuilder: errorBuilder ??
+            (context, error, stackTrace) {
+              return ErrorPreview(imageFile: imageFile);
+            },
       ),
     );
   }

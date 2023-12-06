@@ -22,8 +22,7 @@ class DefaultInitialWidget extends StatelessWidget {
       width: double.infinity,
       child: InkWell(
         borderRadius: BorderRadius.circular(4),
-        onTap:
-            pickerView.controller.pickImages,
+        onTap: pickerView.controller.pickImages,
         child: Center(
           child: centerWidget ??
               Column(

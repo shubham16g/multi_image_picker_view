@@ -24,16 +24,18 @@ class ImageFileView extends StatelessWidget {
           ? Image.memory(
               imageFile.bytes!,
               fit: fit,
-              errorBuilder: errorBuilder ?? (context, error, stackTrace) {
-                return ErrorPreview(imageFile: imageFile);
-              },
+              errorBuilder: errorBuilder ??
+                  (context, error, stackTrace) {
+                    return ErrorPreview(imageFile: imageFile);
+                  },
             )
           : Image.network(
               imageFile.path!,
               fit: fit,
-              errorBuilder: errorBuilder ?? (context, error, stackTrace) {
-                return ErrorPreview(imageFile: imageFile);
-              },
+              errorBuilder: errorBuilder ??
+                  (context, error, stackTrace) {
+                    return ErrorPreview(imageFile: imageFile);
+                  },
             ),
     );
   }
