@@ -30,7 +30,7 @@ class DemoPage extends StatefulWidget {
 
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
-      maxImages: 100,
+      maxImages: 10,
       picker: (allowMultiple) =>
           filePickerExtension(allowMultiple: allowMultiple));
 
