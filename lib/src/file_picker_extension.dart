@@ -7,20 +7,20 @@ Future<List<ImageFile>> filePickerExtension({
   required bool allowMultiple,
   bool withData = false,
   bool withReadStream = false,
-  List<String> allowedExtensions = const ['png', 'jpeg', 'jpg'],
+  List<String> allowedExtensions = /*const ['png', 'jpeg', 'jpg']*/ const [],
 }) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: allowMultiple,
-      type: FileType.custom,
+      // type: FileType.custom,
       withData: kIsWeb ? true : withData,
-      withReadStream: withReadStream,
-      allowedExtensions: allowedExtensions);
+      withReadStream: withReadStream);
   if (result != null && result.files.isNotEmpty) {
+    print("files got: ${result.count}");
     return result.files
-        .where((e) =>
+        /*.where((e) =>
             e.extension != null &&
             allowedExtensions.contains(e.extension?.toLowerCase()))
-        .map((e) => ImageFile(UniqueKey().toString(),
+        */.map((e) => ImageFile(UniqueKey().toString(),
             name: e.name,
             extension: e.extension!,
             bytes: e.bytes,

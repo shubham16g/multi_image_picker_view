@@ -3,9 +3,8 @@ import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart'
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
 import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
-import 'package:multi_image_picker_view/src/widgets/preview_item.dart';
+import 'package:multi_image_picker_view/src/widgets/default_draggable_item_widget.dart';
 import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
-import 'package:multi_image_picker_view/src/widgets/default_close_button_widget.dart';
 
 import 'image_file.dart';
 import 'multi_image_picker_controller.dart';
@@ -66,28 +65,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   bool get _showAddMoreButton =>
       widget.addMoreButton != null &&
       widget.controller.images.length < widget.controller.maxImages;
-
-  Widget _buildImageWidget(BuildContext context, ImageFile imageFile) {
-    return Stack(
-      clipBehavior: Clip.antiAlias,
-      children: [
-        Positioned.fill(
-          child: PreviewItem(
-            file: imageFile,
-            fit: BoxFit.cover,
-            defaultImageBorderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        Positioned.fill(
-          child: DefaultCloseButtonWidget(
-              alignment: Alignment.topRight,
-              margin: const EdgeInsets.all(4),
-              padding: const EdgeInsets.all(3),
-              onPressed: () => widget.controller.removeImage(imageFile)),
-        ),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +137,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                     controller: widget.controller,
                     padding: widget.padding,
                     child: widget.builder?.call(context, imageFile) ??
-                        _buildImageWidget(context, imageFile),
+                        DefaultDraggableItemWidget(
+                          imageFile: imageFile,
+                          fit: BoxFit.cover,
+                        ),
                   ),
                 ))
             .toList(),

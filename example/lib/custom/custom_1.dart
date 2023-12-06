@@ -35,7 +35,7 @@ class _Custom1State extends State<Custom1> {
         builder: (context, imageFile) {
           return Stack(
             children: [
-              Positioned.fill(child: ImageFileView(file: imageFile)),
+              Positioned.fill(child: ImageFileView(imageFile: imageFile)),
               Positioned(
                   top: 4,
                   right: 4,

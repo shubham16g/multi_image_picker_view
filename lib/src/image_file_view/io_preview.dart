@@ -1,27 +1,30 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:multi_image_picker_view/src/image_file_view/error_preview.dart';
 import '../image_file.dart';
 
 class ImageFileView extends StatelessWidget {
-  final ImageFile file;
+  final ImageFile imageFile;
   final BoxFit fit;
   final BorderRadius? borderRadius;
+  final ImageErrorWidgetBuilder? errorBuilder;
 
   const ImageFileView(
       {super.key,
-      required this.file,
+      required this.imageFile,
       this.fit = BoxFit.cover,
-      this.borderRadius});
+      this.borderRadius,
+      this.errorBuilder});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: borderRadius ?? BorderRadius.zero,
       child: Image.file(
-        File(file.path!),
+        File(imageFile.path!),
         fit: fit,
-        errorBuilder: (context, error, stackTrace) {
-          return const Center(child: Text('No Preview'));
+        errorBuilder: errorBuilder ?? (context, error, stackTrace) {
+          return ErrorPreview(imageFile: imageFile);
         },
       ),
     );
