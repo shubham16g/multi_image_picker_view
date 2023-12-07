@@ -27,7 +27,6 @@ class MultiImagePickerView extends StatefulWidget {
       this.padding,
       this.initialWidget = const DefaultInitialWidget(),
       this.addMoreButton = const DefaultAddMoreWidget(),
-      this.onChange,
       this.longPressDelayMilliseconds = 300,
       this.builder,
       this.onDragBoxDecoration});
@@ -41,8 +40,6 @@ class MultiImagePickerView extends StatefulWidget {
   final Widget? addMoreButton;
   final BoxDecoration? onDragBoxDecoration;
   final Widget Function(BuildContext context, ImageFile imageFile)? builder;
-
-  final void Function(Iterable<ImageFile>)? onChange;
 
   static MultiImagePickerControllerWrapper of(BuildContext context) =>
       MultiImagePickerControllerWrapper.of(context);
@@ -113,9 +110,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
           for (final orderUpdateEntity in orderUpdateEntities) {
             widget.controller.reOrderImage(
                 orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
-            if (widget.onChange != null) {
-              widget.onChange!(widget.controller.images);
-            }
           }
         },
         longPressDelay:

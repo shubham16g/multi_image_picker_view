@@ -8,5 +8,4 @@ export './src/widgets/default_initial_widget.dart';
 export './src/widgets/default_draggable_item_widget.dart';
 export './src/image_file.dart';
 export './src/image_file_view/image_file_view.dart';
-export './src/file_picker_extension.dart';
-export './src/image_picker_extension.dart';
+export './src/picker_extension.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 class Custom1 extends StatefulWidget {
@@ -12,7 +13,7 @@ class _Custom1State extends State<Custom1> {
   final controller = MultiImagePickerController(
       maxImages: 12,
       picker: (allowMultiple) =>
-          imagePickerExtension(allowMultiple: allowMultiple));
+          imagePickerExtension(imagePicker: ImagePicker(), allowMultiple: allowMultiple));
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +24,6 @@ class _Custom1State extends State<Custom1> {
       body: MultiImagePickerView(
         controller: controller,
         padding: const EdgeInsets.all(0),
-        onChange: (list) {
-          debugPrint(list.toString());
-        },
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 170,
           childAspectRatio: 1,

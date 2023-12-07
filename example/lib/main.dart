@@ -1,5 +1,6 @@
 import 'package:example/custom_examples.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 void main() {
@@ -32,7 +33,7 @@ class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
       maxImages: 10,
       picker: (allowMultiple) =>
-          filePickerExtension(allowMultiple: allowMultiple));
+          imagePickerExtension(imagePicker: ImagePicker(), allowMultiple: allowMultiple));
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +47,6 @@ class _DemoPageState extends State<DemoPage> {
             child: MultiImagePickerView(
               controller: controller,
               padding: const EdgeInsets.all(10),
-              onChange: (list) {
-                debugPrint(list.toString());
-              },
             ),
           ),
         ],
@@ -57,9 +55,16 @@ class _DemoPageState extends State<DemoPage> {
         title: const Text('Multi Image Picker View'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.arrow_upward),
+            icon: const Icon(Icons.add),
             onPressed: () {
               controller.pickImages();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.upload),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(controller.images.toString())));
             },
           ),
         ],
