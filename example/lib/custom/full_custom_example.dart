@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
-class Custom1 extends StatefulWidget {
-  const Custom1({Key? key}) : super(key: key);
+class FullCustomExample extends StatefulWidget {
+  const FullCustomExample({Key? key}) : super(key: key);
 
   @override
-  State<Custom1> createState() => _Custom1State();
+  State<FullCustomExample> createState() => _FullCustomExampleState();
 }
 
-class _Custom1State extends State<Custom1> {
+class _FullCustomExampleState extends State<FullCustomExample> {
   final controller = MultiImagePickerController(
-      maxImages: 12,
-      picker: (allowMultiple) =>
-          imagePickerExtension(imagePicker: ImagePicker(), allowMultiple: allowMultiple));
+    maxImages: 12,
+    picker: (bool allowMultiple) => imagePickerExtension(
+        imagePicker: ImagePicker(), allowMultiple: allowMultiple),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +24,24 @@ class _Custom1State extends State<Custom1> {
       ),
       body: MultiImagePickerView(
         controller: controller,
+        draggable: true,
+        longPressDelayMilliseconds: 250,
+        onDragBoxDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).colorScheme.shadow.withOpacity(0.5),
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        shrinkWrap: false,
         padding: const EdgeInsets.all(0),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 170,
-          childAspectRatio: 1,
-          crossAxisSpacing: 0,
-          mainAxisSpacing: 0,
+          childAspectRatio: 0.8,
+          crossAxisSpacing: 2,
+          mainAxisSpacing: 2,
         ),
         builder: (context, imageFile) {
           return Stack(

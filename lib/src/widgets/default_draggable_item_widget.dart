@@ -9,7 +9,7 @@ class DefaultDraggableItemWidget extends StatelessWidget {
   const DefaultDraggableItemWidget({
     super.key,
     required this.imageFile,
-    required this.fit,
+    this.fit = BoxFit.cover,
     this.boxDecoration = const BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
     ),

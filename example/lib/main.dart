@@ -41,7 +41,7 @@ class _DemoPageState extends State<DemoPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomExamples(),
+          const CustomExamplesWidget(),
           const SizedBox(height: 32),
           Expanded(
             child: MultiImagePickerView(
