@@ -1,4 +1,5 @@
 import 'package:example/custom/default_custom_example.dart';
+import 'package:example/custom/files_custom_example.dart';
 import 'package:example/custom/full_custom_example.dart';
 import 'package:example/custom/selectable_custom_example.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ enum CustomExamples {
   fullCustom,
   defaultCustom,
   selectableCustom,
+  filesCustom
   ;
 
   String get name {
@@ -16,7 +18,9 @@ enum CustomExamples {
       case CustomExamples.defaultCustom:
         return "Default Custom";
       case CustomExamples.selectableCustom:
-        return "Selectable Custom";
+        return "Selectable Images";
+      case CustomExamples.filesCustom:
+        return "File Picker";
     }
   }
 
@@ -28,6 +32,8 @@ enum CustomExamples {
         return const DefaultCustomExample();
       case CustomExamples.selectableCustom:
         return const SelectableCustomExample();
+      case CustomExamples.filesCustom:
+        return const FilesCustomExample();
     }
   }
 }
