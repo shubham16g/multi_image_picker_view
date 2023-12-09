@@ -13,9 +13,10 @@ class DefaultCustomExample extends StatefulWidget {
 class _DefaultCustomExampleState extends State<DefaultCustomExample> {
   final controller = MultiImagePickerController(
     maxImages: 12,
-    picker: (bool allowMultiple) =>
-        imagePickerExtension(
-            imagePicker: ImagePicker(), allowMultiple: allowMultiple),
+    picker: (bool allowMultiple) {
+      return imagePickerExtension(
+          imagePicker: ImagePicker(), allowMultiple: allowMultiple);
+    },
   );
 
   @override
@@ -31,31 +32,14 @@ class _DefaultCustomExampleState extends State<DefaultCustomExample> {
           return DefaultDraggableItemWidget(
             imageFile: imageFile,
             boxDecoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                BoxDecoration(borderRadius: BorderRadius.circular(20)),
             closeButtonAlignment: Alignment.topLeft,
-            fit: BoxFit.cover,
-            closeButtonIcon:
-            const Icon(Icons.delete_rounded, color: Colors.red),
             closeButtonBoxDecoration: null,
             showCloseButton: true,
             closeButtonMargin: const EdgeInsets.all(3),
             closeButtonPadding: const EdgeInsets.all(3),
           );
         },
-        initialWidget: DefaultInitialWidget(
-          centerWidget: Icon(Icons.image_search_outlined,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .secondary),
-        ),
-        addMoreButton: DefaultAddMoreWidget(
-          icon: Icon(Icons.image_search_outlined,
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .secondary),
-        ),
       ),
     );
   }

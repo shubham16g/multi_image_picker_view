@@ -1,3 +1,4 @@
+import 'package:example/custom_examples.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
@@ -12,15 +13,17 @@ class FullCustomExample extends StatefulWidget {
 class _FullCustomExampleState extends State<FullCustomExample> {
   final controller = MultiImagePickerController(
     maxImages: 12,
-    picker: (bool allowMultiple) => imagePickerExtension(
-        imagePicker: ImagePicker(), allowMultiple: allowMultiple),
+    picker: (bool allowMultiple) async {
+      return await imagePickerExtension(
+          imagePicker: ImagePicker(), allowMultiple: allowMultiple);
+    },
   );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Custom 1'),
+        title: Text(CustomExamples.fullCustom.name),
       ),
       body: MultiImagePickerView(
         controller: controller,

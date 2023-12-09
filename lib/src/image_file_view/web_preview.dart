@@ -7,6 +7,7 @@ class ImageFileView extends StatelessWidget {
   final ImageFile imageFile;
   final BoxFit fit;
   final BorderRadius? borderRadius;
+  final Color? backgroundColor;
   final ImageErrorWidgetBuilder? errorBuilder;
 
   const ImageFileView(
@@ -14,12 +15,17 @@ class ImageFileView extends StatelessWidget {
       required this.imageFile,
       this.fit = BoxFit.cover,
       this.borderRadius,
-      this.errorBuilder});
+      this.errorBuilder,
+      this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: borderRadius ?? BorderRadius.zero,
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: backgroundColor ?? Theme.of(context).colorScheme.background,
+        borderRadius: borderRadius ?? BorderRadius.zero,
+      ),
       child: imageFile.path == null
           ? Image.memory(
               imageFile.bytes!,
