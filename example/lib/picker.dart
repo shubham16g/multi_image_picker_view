@@ -7,12 +7,11 @@ Future<List<ImageFile>> pickImagesUsingImagePicker(bool allowMultiple) async {
   final picker = ImagePicker();
   final List<XFile> xFiles;
   if (allowMultiple) {
-    xFiles = await picker.pickMultiImage(
-      maxWidth: 1080,
-      maxHeight: 1080);
+    xFiles = await picker.pickMultiImage(maxWidth: 1080, maxHeight: 1080);
   } else {
     xFiles = [];
-    final xFile = await picker.pickImage(source: ImageSource.gallery, maxHeight: 1080, maxWidth: 1080);
+    final xFile = await picker.pickImage(
+        source: ImageSource.gallery, maxHeight: 1080, maxWidth: 1080);
     if (xFile != null) {
       xFiles.add(xFile);
     }
@@ -20,11 +19,11 @@ Future<List<ImageFile>> pickImagesUsingImagePicker(bool allowMultiple) async {
   if (xFiles.isNotEmpty) {
     return xFiles
         .map<ImageFile>((e) => ImageFile(
-      UniqueKey().toString(),
-      name: e.name,
-      extension: e.name.contains(".") ? e.name.split(".").last : "",
-      path: e.path,
-    ))
+              UniqueKey().toString(),
+              name: e.name,
+              extension: e.name.contains(".") ? e.name.split(".").last : "",
+              path: e.path,
+            ))
         .toList();
   }
   return [];
@@ -64,11 +63,11 @@ Future<List<ImageFile>> pickFilesUsingFilePicker(bool allowMultiple) async {
     return result.files
         .map(
           (e) => ImageFile(UniqueKey().toString(),
-          name: e.name,
-          extension: e.extension!,
-          bytes: e.bytes,
-          path: !kIsWeb ? e.path : null),
-    )
+              name: e.name,
+              extension: e.extension!,
+              bytes: e.bytes,
+              path: !kIsWeb ? e.path : null),
+        )
         .toList();
   }
   return [];

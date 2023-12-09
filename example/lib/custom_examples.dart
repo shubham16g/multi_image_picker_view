@@ -8,8 +8,7 @@ enum CustomExamples {
   fullCustom,
   defaultCustom,
   selectableCustom,
-  filesCustom
-  ;
+  filesCustom;
 
   String get name {
     switch (this) {

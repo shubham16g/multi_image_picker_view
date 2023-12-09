@@ -56,8 +56,9 @@ class _FilesCustomExampleState extends State<FilesCustomExample> {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color:
-                              Theme.of(context).colorScheme.onSecondaryContainer,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer,
                         ),
                       )
                     ],

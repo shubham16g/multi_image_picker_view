@@ -41,15 +41,15 @@ Future<List<ImageFile>> filePickerExtension({
   if (result != null && result.files.isNotEmpty) {
     print("files got: ${result.count}");
     return result.files
-    /*.where((e) =>
+        /*.where((e) =>
             e.extension != null &&
             allowedExtensions.contains(e.extension?.toLowerCase()))
         */
         .map((e) => ImageFile(UniqueKey().toString(),
-        name: e.name,
-        extension: e.extension!,
-        bytes: e.bytes,
-        path: !kIsWeb ? e.path : null))
+            name: e.name,
+            extension: e.extension!,
+            bytes: e.bytes,
+            path: !kIsWeb ? e.path : null))
         .toList();
   }
   return [];

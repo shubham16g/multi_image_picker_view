@@ -32,8 +32,8 @@ class DemoPage extends StatefulWidget {
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
       maxImages: 10,
-      picker: (allowMultiple) =>
-          imagePickerExtension(imagePicker: ImagePicker(), allowMultiple: allowMultiple));
+      picker: (allowMultiple) => imagePickerExtension(
+          imagePicker: ImagePicker(), allowMultiple: allowMultiple));
 
   @override
   Widget build(BuildContext context) {
