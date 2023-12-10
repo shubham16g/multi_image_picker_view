@@ -17,7 +17,6 @@ A complete widget which can easily pick multiple images from device and display 
 - Reorder picked images just by dragging
 - Remove picked image
 - Limit max images
-- Limit image extensions
 - Fully customizable UI
 
 ## Getting started
@@ -29,14 +28,23 @@ flutter pub add multi_image_picker_view
 
 ### Define the controller
 ```dart
-final controller = MultiImagePickerController();
+final controller = MultiImagePickerController(
+    picker: (bool allowMultiple) async {
+      // use image_picker or file_picker to pick images `pickImages`
+      final pickedImages = await pickImages(allowMultiple);
+      // convert the picked image list to `ImageFile` list and return it.
+      return pickedImages.map((e) => convertToImageFile(e)).toList();
+    }
+);
 ```
 OR
 ```dart
 final controller = MultiImagePickerController(
-  maxImages: 15,
-  allowedImageTypes: ['png', 'jpg', 'jpeg'],
-  images: <ImageFile>[] // array of pre/default selected images
+    maxImages: 15,
+    images: <ImageFile>[], // array of pre/default selected images
+    picker: (bool allowMultiple) async {
+      return await pickConvertedImages(allowMultiple);
+    },
 );
 ```
 
@@ -51,23 +59,37 @@ OR
 ```dart
 MultiImagePickerView(
   controller: controller,
-  initialContainerBuilder: (context, pickerCallback) {
-    // return custom initial widget which should call the pickerCallback when user clicks on it
+  bulder: (BuldContext context, ImageFile imageFile) {
+    // here returning DefaultDraggableItemWidget. You can also return your custom widget as well.
+    return DefaultDraggableItemWidget(
+      imageFile: imageFile,
+      boxDecoration:
+        BoxDecoration(borderRadius: BorderRadius.circular(20)),
+      closeButtonAlignment: Alignment.topLeft,
+      fit: BoxFit.cover,
+      closeButtonIcon:
+        const Icon(Icons.delete_rounded, color: Colors.red),
+      closeButtonBoxDecoration: null,
+      showCloseButton: true,
+      closeButtonMargin: const EdgeInsets.all(3),
+      closeButtonPadding: const EdgeInsets.all(3),
+    );
   },
-  itemBuilder: (context, image, removeCallback) {
-    // return custom card for image and remove button which also calls removeCallback on click
-  },
-  addMoreBuilder: (context, pickerCallback) {
-    // return custom card or item widget which should call the pickerCallback when user clicks on it
-  },
-  addButtonTitle: /* Default title for AddButton */,
-  addMoreButtonTitle: /* Default title for AddMoreButton */,
+  initialWidget: DefaultInitialWidget(
+    centerWidget: Icon(Icons.image_search_outlined,
+    color: Theme.of(context).colorScheme.secondary),
+  ), // Use any Widget or DefaultInitialWidget. Use null to hide initial widget
+  addMoreButton: DefaultAddMoreWidget(
+    icon: Icon(Icons.image_search_outlined,
+    color: Theme.of(context).colorScheme.secondary),
+  ), // Use any Widget or DefaultAddMoreWidget. Use null to hide add more button.
   gridDelegate: /* Your SliverGridDelegate */,
-  draggable: /* true or false, images can be reorderd by dragging by user or not, default true */,
+  draggable: /* true or false, images can be reordered by dragging by user or not, default true */,
+  shrinkWrap: /* true or false, to control GridView's shrinkWrap */
+  longPressDelayMilliseconds: /* time to press and hold to start dragging item */
   onDragBoxDecoration: /* BoxDecoration when item is dragging */,
-  onChange: (images) {
-    // callback to update images
-  },
+  padding: /* GridView padding */
+  
 );
 ```
 
@@ -88,7 +110,6 @@ Also controller can perform more actions.
 controller.pickImages();
 controller.hasNoImages; // return bool
 controller.maxImages; // return maxImages
-controller.allowedImageTypes; // return allowedImageTypes
 controller.removeImage(imageFile); // remove image from the images
 controller.clearImages(); // remove all images (clear selection)
 controller.reOrderImage(oldIndex, newIndex); // reorder the image
