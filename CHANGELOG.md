@@ -1,3 +1,23 @@
+## 0.0.17
+- PR #27 (burhankhanzada) Replace hard coded blue color to theme primary color.
+
+## 0.0.16
+- PR #26 (nadialvy) fix addButtonTitle and addMoreButtonTitle not working
+
+## 0.0.15
+- PR #21 (MrNancy) addImage method added in `MultiImagePickerController`
+
+## 0.0.14
+- Fixed Issue #16 'Scrollable.of() ... not contains a Scrollable widget'
+- Fixed Issue #17 'Add property so images can be saved with data'
+- Fixed Issue #3 'imageFile returns zero byte even though it is not equal null'
+- `withData` property added in `MultiImagePickerController`
+- `withReadStream` property added in `MultiImagePickerController`
+- `ImageFileView` widget added
+- `showAddMoreButton` property added in `MultiImagePickerView`
+- `showInitialContainer` property added in `MultiImagePickerView`
+- Material 3 ready
+
 ## 0.0.13
 - Fixed remove item animation bug
 
