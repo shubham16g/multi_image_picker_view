@@ -8,7 +8,7 @@ void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Multi Image Picker View Example',
-    darkTheme: ThemeData(
+    theme: ThemeData(
         useMaterial3: true,
         appBarTheme: AppBarTheme(color: Colors.blue.shade100),
         colorScheme: ColorScheme.fromSeed(
