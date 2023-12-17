@@ -271,6 +271,9 @@ controller.reOrderImage(oldIndex, newIndex); // reorder the image
 
 ### Changes in `MultiImagePickerController`
 - Inbuilt image picker is removed. You have to provide your own image/file picker logic. This will provide you more controls over image/file picking. You have to pass your `picker` in `MultiImagePickerController`.
+- `allowedImageTypes` removed.
+- `withData` removed.
+- `withReadStream` removed.
 
 ### Changes in `MultiImagePickerView`
 - `addMoreBuilder` is removed. Now use `addMoreButton` to define your custom Add More Button.
