@@ -54,7 +54,7 @@ class DefaultDraggableItemWidget extends StatelessWidget {
               alignment: closeButtonAlignment,
               child: Padding(
                 padding: closeButtonMargin,
-                child: DraggableItemAction(
+                child: DraggableItemInkWell(
                   onPressed: () => MultiImagePickerControllerWrapper.of(context)
                       .controller
                       .removeImage(imageFile),

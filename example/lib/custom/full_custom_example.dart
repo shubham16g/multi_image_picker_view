@@ -53,7 +53,7 @@ class _FullCustomExampleState extends State<FullCustomExample> {
               Positioned(
                   top: 4,
                   right: 4,
-                  child: DraggableItemAction(
+                  child: DraggableItemInkWell(
                     borderRadius: BorderRadius.circular(2),
                     onPressed: () => controller.removeImage(imageFile),
                     child: Container(

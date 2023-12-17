@@ -63,7 +63,7 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
         controller: controller,
         padding: const EdgeInsets.all(10),
         builder: (context, imageFile) {
-          return DraggableItemAction(
+          return DraggableItemInkWell(
             borderRadius: BorderRadius.circular(8),
             onPressed: () {
               if (selectedImages.contains(imageFile)) {

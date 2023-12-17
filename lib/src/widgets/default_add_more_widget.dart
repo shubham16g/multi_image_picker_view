@@ -4,8 +4,9 @@ import '../multi_image_picker_controller_wrapper.dart';
 
 class DefaultAddMoreWidget extends StatelessWidget {
   final Widget? icon;
+  final Color? backgroundColor;
 
-  const DefaultAddMoreWidget({super.key, this.icon});
+  const DefaultAddMoreWidget({super.key, this.icon, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class DefaultAddMoreWidget extends StatelessWidget {
       child: Center(
         child: TextButton(
           style: TextButton.styleFrom(
-            backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
+            backgroundColor: backgroundColor ?? Theme.of(context).primaryColor.withOpacity(0.2),
             shape: const CircleBorder(),
           ),
           onPressed: pickerView.controller.pickImages,

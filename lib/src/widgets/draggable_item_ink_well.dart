@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
 
-class DraggableItemAction extends StatelessWidget {
+class DraggableItemInkWell extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget child;
   final BorderRadius? borderRadius;
@@ -12,7 +12,7 @@ class DraggableItemAction extends StatelessWidget {
   final Color? splashColor;
   final InteractiveInkFeatureFactory? splashFactory;
 
-  const DraggableItemAction({
+  const DraggableItemInkWell({
     super.key,
     required this.onPressed,
     required this.child,
