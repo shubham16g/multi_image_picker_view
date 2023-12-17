@@ -121,6 +121,8 @@ final imageFile = ImageFile(
   path: fileFullPath,
 );
 ```
+> **Note:** The package have two Extension functions to convert `XFile` (`image_picker` plugin) and `PlatformFile` (`image_picker` plugin) to `ImageFile` object.
+> `final imageFile = convertXFileToImageFile(xFileObject);` and `final imageFile = convertPlatformFileToImageFile(platformFileObject);`. This functions will help you to write your picker logic easily.
 
 ### ImageFileView
 The `ImageFileView` is a widget which is used to display Image using `ImageFile` object. This will work on web as well as mobile platforms.

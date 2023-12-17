@@ -17,14 +17,7 @@ Future<List<ImageFile>> pickImagesUsingImagePicker(bool allowMultiple) async {
     }
   }
   if (xFiles.isNotEmpty) {
-    return xFiles
-        .map<ImageFile>((e) => ImageFile(
-              UniqueKey().toString(),
-              name: e.name,
-              extension: e.name.contains(".") ? e.name.split(".").last : "",
-              path: e.path,
-            ))
-        .toList();
+    return xFiles.map<ImageFile>((e) => convertXFileToImageFile(e)).toList();
   }
   return [];
 }
@@ -62,13 +55,21 @@ Future<List<ImageFile>> pickFilesUsingFilePicker(bool allowMultiple) async {
   if (result != null && result.files.isNotEmpty) {
     return result.files
         .map(
+          (e) => convertPlatformFileToImageFile(e),
+        )
+        .toList();
+
+    /*
+    the below code can be used if not using convertPlatformFileToImageFile extension.
+    return result.files
+        .map(
           (e) => ImageFile(UniqueKey().toString(),
               name: e.name,
               extension: e.extension!,
               bytes: e.bytes,
               path: !kIsWeb ? e.path : null),
         )
-        .toList();
+        .toList();*/
   }
   return [];
 }

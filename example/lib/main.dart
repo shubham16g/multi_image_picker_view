@@ -1,7 +1,8 @@
 import 'package:example/custom_examples.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
+
+import 'picker.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -32,8 +33,9 @@ class DemoPage extends StatefulWidget {
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
       maxImages: 10,
-      picker: (allowMultiple) => imagePickerExtension(
-          imagePicker: ImagePicker(), allowMultiple: allowMultiple));
+      picker: (allowMultiple) async {
+        return await pickImagesUsingImagePicker(allowMultiple);
+      });
 
   @override
   Widget build(BuildContext context) {

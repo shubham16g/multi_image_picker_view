@@ -2,55 +2,29 @@ import 'package:flutter/foundation.dart';
 
 import 'image_file.dart';
 
-Future<List<ImageFile>> imagePickerExtension({
-  required dynamic imagePicker,
-  required bool allowMultiple,
-  double? maxWidth,
-  double? maxHeight,
-  bool requestFullMetaData = true,
-}) async {
-  final xFiles = await imagePicker.pickMultiImage(
-      maxWidth: maxWidth,
-      maxHeight: maxHeight,
-      requestFullMetadata: requestFullMetaData);
-  if (xFiles.isNotEmpty) {
-    return xFiles
-        .map<ImageFile>((e) => ImageFile(
-              UniqueKey().toString(),
-              name: e.name,
-              extension: e.name.contains(".") ? e.name.split(".").last : "",
-              path: e.path,
-            ))
-        .toList();
+ImageFile convertXFileToImageFile(dynamic xFile) {
+  try {
+    return ImageFile(
+      UniqueKey().toString(),
+      name: xFile.name,
+      extension: xFile.name.contains(".") ? xFile.name.split(".").last : "",
+      path: xFile.path,
+    );
+  } catch (e) {
+    throw Exception(
+        "The object pass in `convertXFileToImageFile` is not type XFile. Provided object is of type: `${xFile.runtimeType}`");
   }
-  return [];
 }
 
-Future<List<ImageFile>> filePickerExtension({
-  required dynamic filePicker,
-  required bool allowMultiple,
-  bool withData = false,
-  bool withReadStream = false,
-  List<String> allowedExtensions = /*const ['png', 'jpeg', 'jpg']*/ const [],
-}) async {
-  final result = await filePicker.pickFiles(
-      allowMultiple: allowMultiple,
-      // type: FileType.custom,
-      withData: kIsWeb ? true : withData,
-      withReadStream: withReadStream);
-  if (result != null && result.files.isNotEmpty) {
-    print("files got: ${result.count}");
-    return result.files
-        /*.where((e) =>
-            e.extension != null &&
-            allowedExtensions.contains(e.extension?.toLowerCase()))
-        */
-        .map((e) => ImageFile(UniqueKey().toString(),
-            name: e.name,
-            extension: e.extension!,
-            bytes: e.bytes,
-            path: !kIsWeb ? e.path : null))
-        .toList();
+ImageFile convertPlatformFileToImageFile(dynamic platformFile) {
+  try {
+    return ImageFile(UniqueKey().toString(),
+        name: platformFile.name,
+        extension: platformFile.extension!,
+        bytes: platformFile.bytes,
+        path: !kIsWeb ? platformFile.path : null);
+  } catch (e) {
+    throw Exception(
+        "The object pass in `convertPlatformFileToImageFile` is not type PlatformFile. Provided object is of type: `${platformFile.runtimeType}`");
   }
-  return [];
 }
