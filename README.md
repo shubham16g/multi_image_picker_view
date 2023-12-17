@@ -23,6 +23,24 @@ A complete widget which can easily pick multiple images from device and display 
 ```console
 flutter pub add multi_image_picker_view
 ```
+For image/file picker
+```console
+flutter pub add image_picker
+```
+OR
+```console
+flutter pub add file_picker
+```
+OR you can use any plugin to pick images/files.
+
+### pubspec.yaml
+```yaml
+  multi_image_picker_view: # latest version
+
+  image_picker: ^1.0.4
+#  or
+  file_picker: ^6.1.1
+```
 
 ## Usage
 
