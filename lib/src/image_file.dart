@@ -6,7 +6,6 @@ class ImageFile {
   final String name;
   final String extension;
   final Uint8List? bytes;
-  final Stream<List<int>>? readStream;
   final String? path;
 
   /// returns true if image has path. (For web path is not available)
@@ -16,11 +15,9 @@ class ImageFile {
   int get size => bytes?.length ?? 0;
 
   ImageFile(this.key,
-      {required this.name,
-      required this.extension,
-      this.bytes,
-      this.readStream,
-      this.path});
+      {required this.name, required this.extension, this.bytes, this.path});
+
+  List<Object?> get props => [path, bytes];
 
   @override
   String toString() {
@@ -29,7 +26,6 @@ class ImageFile {
       'name': $name,
       'extension': $extension,
       'bytes': ${bytes?.length},
-      'readStream': ${readStream != null ? 'Stream<List<int>>' : 'null'},
       'path': $path
     }''';
   }

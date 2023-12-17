@@ -1,216 +1,143 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
+import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_draggable_item_widget.dart';
+import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
 
-import 'list_image_item.dart';
-
-import '../multi_image_picker_view.dart';
+import 'image_file.dart';
+import 'multi_image_picker_controller.dart';
 
 /// Widget that holds entire functionality of the [MultiImagePickerView].
 class MultiImagePickerView extends StatefulWidget {
+  final MultiImagePickerController controller;
+
   const MultiImagePickerView(
-      {Key? key,
+      {super.key,
       required this.controller,
       this.draggable = true,
-      this.showAddMoreButton = true,
-      this.showInitialContainer = true,
-      this.onChange,
+      this.shrinkWrap = false,
+      this.gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 160,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 1,
+      ),
       this.padding,
-      this.initialContainerBuilder,
-      this.gridDelegate,
-      this.itemBuilder,
-      this.addMoreBuilder,
-      this.addButtonTitle,
-      this.addMoreButtonTitle,
-      this.onDragBoxDecoration})
-      : super(key: key);
+      this.initialWidget = const DefaultInitialWidget(),
+      this.addMoreButton = const DefaultAddMoreWidget(),
+      this.longPressDelayMilliseconds = 300,
+      this.builder,
+      this.onDragBoxDecoration});
 
-  final MultiImagePickerController controller;
   final bool draggable;
-  final bool showAddMoreButton;
-  final bool showInitialContainer;
-  final BoxDecoration? onDragBoxDecoration;
-  final Widget Function(BuildContext context, Function() pickerCallback)?
-      initialContainerBuilder;
-  final Widget Function(BuildContext context, ImageFile file,
-      Function(ImageFile) deleteCallback)? itemBuilder;
-
-  final Widget Function(BuildContext context, Function() pickerCallback)?
-      addMoreBuilder;
-
-  final String? addButtonTitle;
-  final String? addMoreButtonTitle;
-
-  final Function(Iterable<ImageFile>)? onChange;
+  final bool shrinkWrap;
+  final int longPressDelayMilliseconds;
   final EdgeInsetsGeometry? padding;
+  final SliverGridDelegate gridDelegate;
+  final Widget? initialWidget;
+  final Widget? addMoreButton;
+  final BoxDecoration? onDragBoxDecoration;
+  final Widget Function(BuildContext context, ImageFile imageFile)? builder;
 
-  final SliverGridDelegate? gridDelegate;
+  static MultiImagePickerControllerWrapper of(BuildContext context) =>
+      MultiImagePickerControllerWrapper.of(context);
 
   @override
   State<MultiImagePickerView> createState() => _MultiImagePickerViewState();
 }
 
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
-  late ScrollController scrollController;
-
-  Widget? _selector(BuildContext context) => widget.showAddMoreButton
-      ? SizedBox(
-          key: const Key("selector"),
-          child: widget.addMoreBuilder != null
-              ? widget.addMoreBuilder!(context, _pickImages)
-              : Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
-                    color: Colors.blueGrey.withOpacity(0.07),
-                  ),
-                  child: InkWell(
-                    borderRadius: BorderRadius.circular(4),
-                    onTap: () {
-                      _pickImages();
-                    },
-                    child: Center(
-                      child: Text(
-                        widget.addMoreButtonTitle ?? 'Add More',
-                        style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-        )
-      : null;
-
-  Widget _initialContainer(BuildContext context) => widget.showInitialContainer
-      ? widget.initialContainerBuilder != null
-          ? widget.initialContainerBuilder!(context, _pickImages)
-          : Container(
-              margin: widget.padding,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Colors.blueGrey.withOpacity(0.05),
-              ),
-              height: 160,
-              clipBehavior: Clip.hardEdge,
-              width: double.infinity,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(4),
-                child: Center(
-                  child: Text(widget.addButtonTitle ?? 'ADD IMAGES',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16)),
-                ),
-                onTap: () {
-                  _pickImages();
-                },
-              ),
-            )
-      : const SizedBox();
-
-  final gridViewKey = GlobalKey();
-  bool isMouse = false;
+  late final ScrollController _scrollController;
+  final _gridViewKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    scrollController = ScrollController();
-    widget.controller.addListener(updateUi);
+    _scrollController = ScrollController();
+    widget.controller.addListener(_updateUi);
   }
 
-  void _pickImages() async {
-    final result = await widget.controller.pickImages();
-    if (!result) return;
-    if (widget.onChange != null) {
-      widget.onChange!(widget.controller.images);
-    }
-  }
-
-  void _deleteImage(ImageFile imageFile) {
-    widget.controller.removeImage(imageFile);
-    if (widget.onChange != null) {
-      widget.onChange!(widget.controller.images);
-    }
-  }
+  bool get _showAddMoreButton =>
+      widget.addMoreButton != null &&
+      widget.controller.images.length < widget.controller.maxImages;
 
   @override
   Widget build(BuildContext context) {
-    if (widget.controller.hasNoImages) {
-      return _initialContainer(context);
-    }
-    final selector = _selector(context);
+    return MultiImagePickerControllerWrapper(
+        padding: widget.padding,
+        controller: widget.controller,
+        child: _build(context));
+  }
 
-    return Scrollable(
-      viewportBuilder: (context, position) => MouseRegion(
-        onEnter: isMouse
-            ? null
-            : (e) {
-                setState(() {
-                  isMouse = true;
-                });
-              },
-        child: Padding(
-          padding: widget.padding ?? EdgeInsets.zero,
-          child: ReorderableBuilder(
-            key: Key(gridViewKey.toString()),
-            scrollController: scrollController,
-            enableDraggable: widget.draggable,
-            dragChildBoxDecoration: widget.onDragBoxDecoration ??
-                BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 3,
-                      spreadRadius: 1,
-                    ),
-                  ],
+  Widget _build(BuildContext context) {
+    final initialWidget = widget.initialWidget;
+    final addMoreButton = SizedBox(
+        key: Key("${_gridViewKey}_add_btn"), child: widget.addMoreButton);
+    if (widget.controller.hasNoImages) {
+      if (initialWidget == null) return const SizedBox();
+      if (!widget.shrinkWrap) {
+        return Column(children: [initialWidget]);
+      }
+      return initialWidget;
+    }
+
+    return MouseRegion(
+      onEnter:
+          widget.controller.isMouse || widget.longPressDelayMilliseconds >= 300
+              ? null
+              : (e) {
+                  setState(() {
+                    widget.controller.isMouse = true;
+                  });
+                },
+      child: ReorderableBuilder(
+        scrollController: _scrollController,
+        enableDraggable: widget.draggable,
+        dragChildBoxDecoration: widget.onDragBoxDecoration ??
+            BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 4,
+                  spreadRadius: 1,
                 ),
-            lockedIndices: [widget.controller.images.length],
-            onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-              for (final orderUpdateEntity in orderUpdateEntities) {
-                widget.controller.reOrderImage(
-                    orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
-                if (widget.onChange != null) {
-                  widget.onChange!(widget.controller.images);
-                }
-              }
-            },
-            longPressDelay: const Duration(milliseconds: 100),
-            builder: (children) {
-              return GridView(
-                key: gridViewKey,
-                controller: scrollController,
-                shrinkWrap: true,
-                gridDelegate: widget.gridDelegate ??
-                    const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 160,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10),
-                children: children,
-              );
-            },
-            children: widget.controller.images
-                    .map<Widget>((e) => SizedBox(
-                          key: Key(e.key),
-                          child: widget.itemBuilder != null
-                              ? widget.itemBuilder!(context, e, _deleteImage)
-                              : ListImageItem(
-                                  file: e,
-                                  onDelete: _deleteImage,
-                                  isMouse: isMouse,
-                                ),
-                        ))
-                    .toList() +
-                (widget.controller.maxImages >
-                            widget.controller.images.length &&
-                        selector != null
-                    ? [selector]
-                    : []),
-          ),
-        ),
+              ],
+            ),
+        onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
+          for (final orderUpdateEntity in orderUpdateEntities) {
+            widget.controller.reOrderImage(
+                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
+          }
+        },
+        longPressDelay:
+            Duration(milliseconds: widget.longPressDelayMilliseconds),
+        builder: (children) {
+          return GridView(
+            key: _gridViewKey,
+            shrinkWrap: widget.shrinkWrap,
+            controller: _scrollController,
+            padding: widget.padding ?? EdgeInsets.zero,
+            gridDelegate: widget.gridDelegate,
+            children: children + [if (_showAddMoreButton) addMoreButton],
+          );
+        },
+        children: widget.controller.images
+            .map<Widget>((imageFile) => SizedBox(
+                  key: Key(imageFile.key),
+                  child: MultiImagePickerControllerWrapper(
+                    controller: widget.controller,
+                    padding: widget.padding,
+                    child: widget.builder?.call(context, imageFile) ??
+                        DefaultDraggableItemWidget(
+                          imageFile: imageFile,
+                          fit: BoxFit.cover,
+                        ),
+                  ),
+                ))
+            .toList(),
       ),
     );
   }
@@ -219,7 +146,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   void didUpdateWidget(MultiImagePickerView? oldWidget) {
     if (oldWidget == null) return;
     if (widget.controller != oldWidget.controller) {
-      _migrate(widget.controller, oldWidget.controller, updateUi);
+      _migrate(widget.controller, oldWidget.controller, _updateUi);
     }
     super.didUpdateWidget(oldWidget);
   }
@@ -229,14 +156,14 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
     a.addListener(listener);
   }
 
-  void updateUi() {
+  void _updateUi() {
     setState(() {});
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(updateUi);
-    scrollController.dispose();
+    widget.controller.removeListener(_updateUi);
+    _scrollController.dispose();
     super.dispose();
   }
 }

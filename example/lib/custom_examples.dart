@@ -1,27 +1,72 @@
+import 'package:example/custom/default_custom_example.dart';
+import 'package:example/custom/files_custom_example.dart';
+import 'package:example/custom/full_custom_example.dart';
+import 'package:example/custom/selectable_custom_example.dart';
 import 'package:flutter/material.dart';
 
-import 'custom/custom_1.dart';
+enum CustomExamples {
+  fullCustom,
+  defaultCustom,
+  selectableCustom,
+  filesCustom;
 
-class CustomExamples extends StatelessWidget {
-  const CustomExamples({Key? key}) : super(key: key);
+  String get name {
+    switch (this) {
+      case CustomExamples.fullCustom:
+        return "Full Custom";
+      case CustomExamples.defaultCustom:
+        return "Default Custom";
+      case CustomExamples.selectableCustom:
+        return "Selectable Images";
+      case CustomExamples.filesCustom:
+        return "File Picker";
+    }
+  }
+
+  Widget builder(BuildContext context) {
+    switch (this) {
+      case CustomExamples.fullCustom:
+        return const FullCustomExample();
+      case CustomExamples.defaultCustom:
+        return const DefaultCustomExample();
+      case CustomExamples.selectableCustom:
+        return const SelectableCustomExample();
+      case CustomExamples.filesCustom:
+        return const FilesCustomExample();
+    }
+  }
+}
+
+class CustomExamplesWidget extends StatelessWidget {
+  const CustomExamplesWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Custom Examples:',
-          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
-        ),
-        SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Custom1()));
-          },
-          child: Text('Custom 1'),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Custom Examples:',
+            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            children: CustomExamples.values
+                .map((e) => ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(builder: e.builder));
+                      },
+                      child: Text(e.name),
+                    ))
+                .toList(),
+          )
+        ],
+      ),
     );
   }
 }
