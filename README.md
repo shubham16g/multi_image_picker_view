@@ -263,7 +263,8 @@ controller.clearImages(); // remove all images (clear selection)
 controller.reOrderImage(oldIndex, newIndex); // reorder the image
 ```
 
-## Custom Look
+## Custom Examples
+> Check the example to access all the custom examples.
 
 ![custom](https://user-images.githubusercontent.com/55009858/178099563-72e26aea-0a06-43c2-8315-25c7a0d039fb.gif)
 
