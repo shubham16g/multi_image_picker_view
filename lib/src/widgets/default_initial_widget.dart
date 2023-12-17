@@ -7,7 +7,8 @@ class DefaultInitialWidget extends StatelessWidget {
   final Widget? centerWidget;
   final Color? backgroundColor;
 
-  const DefaultInitialWidget({super.key, this.centerWidget, this.margin, this.backgroundColor});
+  const DefaultInitialWidget(
+      {super.key, this.centerWidget, this.margin, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,8 @@ class DefaultInitialWidget extends StatelessWidget {
       margin: margin ?? pickerView.padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        color: backgroundColor ?? Theme.of(context).colorScheme.secondary.withOpacity(0.05),
+        color: backgroundColor ??
+            Theme.of(context).colorScheme.secondary.withOpacity(0.05),
       ),
       height: 160,
       clipBehavior: Clip.hardEdge,
