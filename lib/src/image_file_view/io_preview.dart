@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker_view/src/image_file_view/error_preview.dart';
+
 import '../image_file.dart';
 
 class ImageFileView extends StatelessWidget {
@@ -26,14 +28,20 @@ class ImageFileView extends StatelessWidget {
         color: backgroundColor ?? Theme.of(context).colorScheme.background,
         borderRadius: borderRadius ?? BorderRadius.zero,
       ),
-      child: Image.file(
-        File(imageFile.path!),
-        fit: fit,
-        errorBuilder: errorBuilder ??
-            (context, error, stackTrace) {
-              return ErrorPreview(imageFile: imageFile);
-            },
-      ),
+      child: Uri.tryParse(imageFile.path!)?.scheme.startsWith('http') == true
+          ? Image.network(
+              imageFile.path!,
+              fit: fit,
+              errorBuilder: errorBuilder ?? _defaultErrorBuilder,
+            )
+          : Image.file(
+              File(imageFile.path!),
+              fit: fit,
+              errorBuilder: errorBuilder ?? _defaultErrorBuilder,
+            ),
     );
   }
+
+  Widget _defaultErrorBuilder(context, error, stackTrace) =>
+      ErrorPreview(imageFile: imageFile);
 }
