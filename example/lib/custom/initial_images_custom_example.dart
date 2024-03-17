@@ -24,6 +24,13 @@ class _InitialImagesCustomExampleState
         path:
             "https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile",
       ),
+      ImageFile(
+        UniqueKey().toString(),
+        name: "test-document.pdf",
+        extension: "pdf",
+        path:
+            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      ),
     ],
     picker: (bool allowMultiple) {
       return pickImagesUsingImagePicker(allowMultiple);

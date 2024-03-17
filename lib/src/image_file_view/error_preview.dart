@@ -20,7 +20,7 @@ class ErrorPreview extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              Icons.find_in_page_rounded,
+              _getIcon(),
               color: Theme.of(context).colorScheme.secondary,
             ),
             const SizedBox(height: 4),
@@ -37,5 +37,20 @@ class ErrorPreview extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  IconData _getIcon() {
+    switch (imageFile.extension) {
+      case 'pdf':
+        return Icons.picture_as_pdf;
+      case 'png':
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
+      case 'webp':
+        return Icons.image;
+      default:
+        return Icons.find_in_page_rounded;
+    }
   }
 }
