@@ -11,7 +11,8 @@ class ErrorPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: backgroundColor ?? Theme.of(context).colorScheme.surfaceVariant,
+      color:
+          backgroundColor ?? Theme.of(context).colorScheme.secondaryContainer,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 8),
       child: Padding(
@@ -21,7 +22,7 @@ class ErrorPreview extends StatelessWidget {
           children: [
             Icon(
               _getIcon(),
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
             ),
             const SizedBox(height: 4),
             Text(
@@ -32,7 +33,7 @@ class ErrorPreview extends StatelessWidget {
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onSecondaryContainer,
               ),
-            )
+            ),
           ],
         ),
       ),
