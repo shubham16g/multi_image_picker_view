@@ -41,14 +41,26 @@ class ErrorPreview extends StatelessWidget {
 
   IconData _getIcon() {
     switch (imageFile.extension) {
-      case 'pdf':
-        return Icons.picture_as_pdf;
-      case 'png':
-      case 'jpg':
-      case 'jpeg':
-      case 'gif':
-      case 'webp':
+      case "png":
+      case "jpg":
+      case "jpeg":
+      case "svg":
+      case "webp":
         return Icons.image;
+      case "pdf":
+        return Icons.picture_as_pdf;
+      case "mp4":
+      case "mkv":
+      case "wmv":
+      case "avi":
+      case "mov":
+      case "webm":
+        return Icons.play_circle;
+      case "mp3":
+      case "wav":
+      case "m4a":
+      case "ogg":
+        return Icons.music_note;
       default:
         return Icons.find_in_page_rounded;
     }
