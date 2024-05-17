@@ -22,7 +22,7 @@ class ErrorPreview extends StatelessWidget {
           children: [
             Icon(
               _getIcon(),
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             const SizedBox(height: 4),
             Text(
