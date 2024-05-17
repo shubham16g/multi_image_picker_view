@@ -10,6 +10,7 @@ void main() {
     title: 'Multi Image Picker View Example',
     theme: ThemeData(
         useMaterial3: true,
+        splashFactory: InkSparkle.splashFactory,
         appBarTheme: AppBarTheme(color: Colors.purple.shade100),
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.purple,
