@@ -13,7 +13,8 @@ class DefaultInitialWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pickerView = MultiImagePickerControllerWrapper.of(context);
-    final bgColor = backgroundColor ?? Theme.of(context).colorScheme.secondaryContainer;
+    final bgColor =
+        backgroundColor ?? Theme.of(context).colorScheme.secondaryContainer;
     return Container(
       margin: margin ?? pickerView.padding,
       decoration: BoxDecoration(

@@ -87,7 +87,9 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
                   Positioned.fill(
                       child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 10),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 10),
                     ),
                   )),
                 if (selectedImages.contains(imageFile))
@@ -95,7 +97,9 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
                       child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 10),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.primary,
+                          width: 10),
                     ),
                   )),
               ],

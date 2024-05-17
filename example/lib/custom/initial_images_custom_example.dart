@@ -21,7 +21,8 @@ class _InitialImagesCustomExampleState
         UniqueKey().toString(),
         name: "test-image.jpg",
         extension: "jpg",
-        path: "https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile",
+        path:
+            "https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile",
       ),
       ImageFile(
         UniqueKey().toString(),

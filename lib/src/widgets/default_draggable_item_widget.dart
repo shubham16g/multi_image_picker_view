@@ -66,13 +66,11 @@ class DefaultDraggableItemWidget extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                       child: closeButtonIcon ??
-                          Icon(
-                            Icons.close,
-                            size: 18,
+                          Icon(Icons.close,
+                              size: 18,
                               color: Theme.of(context)
                                   .colorScheme
-                                  .onSecondaryContainer
-                          )),
+                                  .onSecondaryContainer)),
                 ),
               ),
             ),
