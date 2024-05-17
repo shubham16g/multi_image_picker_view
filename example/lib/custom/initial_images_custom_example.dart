@@ -30,6 +30,13 @@ class _InitialImagesCustomExampleState
         path:
             "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       ),
+      ImageFile(
+        UniqueKey().toString(),
+        name: "test-document.pdf",
+        extension: "pdf",
+        path:
+            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      ),
     ],
     picker: (bool allowMultiple) {
       return pickImagesUsingImagePicker(allowMultiple);
