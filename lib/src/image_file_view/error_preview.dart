@@ -11,8 +11,6 @@ class ErrorPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:
-          backgroundColor ?? Theme.of(context).colorScheme.secondaryContainer,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 8),
       child: Padding(

@@ -31,13 +31,6 @@ class _InitialImagesCustomExampleState
         path:
             "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
       ),
-      ImageFile(
-        UniqueKey().toString(),
-        name: "test-document.pdf",
-        extension: "pdf",
-        path:
-            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-      ),
     ],
     picker: (bool allowMultiple) {
       return pickImagesUsingImagePicker(allowMultiple);
@@ -53,26 +46,6 @@ class _InitialImagesCustomExampleState
       body: MultiImagePickerView(
         controller: controller,
         padding: const EdgeInsets.all(10),
-        builder: (context, imageFile) {
-          return DefaultDraggableItemWidget(
-            imageFile: imageFile,
-            boxDecoration:
-                BoxDecoration(borderRadius: BorderRadius.circular(20)),
-            closeButtonAlignment: Alignment.topLeft,
-            fit: BoxFit.cover,
-            showCloseButton: true,
-            closeButtonMargin: const EdgeInsets.all(3),
-            closeButtonPadding: const EdgeInsets.all(3),
-          );
-        },
-        initialWidget: DefaultInitialWidget(
-          centerWidget: Icon(Icons.image_search_outlined,
-              color: Theme.of(context).colorScheme.secondary),
-        ),
-        addMoreButton: DefaultAddMoreWidget(
-          icon: Icon(Icons.image_search_outlined,
-              color: Theme.of(context).colorScheme.secondary),
-        ),
       ),
     );
   }
