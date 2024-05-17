@@ -27,13 +27,12 @@ class DefaultInitialWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.07),
-          hoverColor: Theme.of(context).colorScheme.primary.withOpacity(0.07),
-          highlightColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.07),
-          focusColor: Theme.of(context).colorScheme.primary.withOpacity(0.07),
-          overlayColor: MaterialStateProperty.all(
-              Theme.of(context).colorScheme.primary.withOpacity(0.07)),
+          overlayColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.pressed)) {
+              return Theme.of(context).colorScheme.primary.withOpacity(0.15);
+            }
+            return Theme.of(context).colorScheme.primary.withOpacity(0.07);
+          }),
           borderRadius: BorderRadius.circular(4),
           onTap: pickerView.controller.pickImages,
           child: Center(
