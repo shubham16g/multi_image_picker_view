@@ -21,8 +21,7 @@ class _InitialImagesCustomExampleState
         UniqueKey().toString(),
         name: "test-image.jpg",
         extension: "jpg",
-        path:
-            "https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile",
+        path: "https://t.ly/F4XOS",
       ),
       ImageFile(
         UniqueKey().toString(),
@@ -49,11 +48,8 @@ class _InitialImagesCustomExampleState
         builder: (context, imageFile) {
           return DefaultDraggableItemWidget(
             imageFile: imageFile,
-            boxDecoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            )),
+            boxDecoration:
+                BoxDecoration(borderRadius: BorderRadius.circular(20)),
             closeButtonAlignment: Alignment.topLeft,
             fit: BoxFit.cover,
             closeButtonIcon:
@@ -62,11 +58,6 @@ class _InitialImagesCustomExampleState
             showCloseButton: true,
             closeButtonMargin: const EdgeInsets.all(3),
             closeButtonPadding: const EdgeInsets.all(3),
-            showDescriptionField: true,
-            descriptionFieldPadding:
-                const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-            descriptionFieldCallback: (image, descr) =>
-                debugPrint("Description of ${image.key}: $descr"),
           );
         },
         initialWidget: DefaultInitialWidget(
