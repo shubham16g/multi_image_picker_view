@@ -16,10 +16,7 @@ class DefaultDraggableItemWidget extends StatelessWidget {
     this.showCloseButton = true,
     this.closeButtonAlignment = Alignment.topRight,
     this.closeButtonIcon,
-    this.closeButtonBoxDecoration = const BoxDecoration(
-      color: Color(0x55AAAAAA),
-      shape: BoxShape.circle,
-    ),
+    this.closeButtonBoxDecoration,
     this.closeButtonMargin = const EdgeInsets.all(4),
     this.closeButtonPadding = const EdgeInsets.all(3),
   });
@@ -60,9 +57,22 @@ class DefaultDraggableItemWidget extends StatelessWidget {
                       .removeImage(imageFile),
                   child: Container(
                       padding: closeButtonPadding,
-                      decoration: closeButtonBoxDecoration,
-                      child:
-                          closeButtonIcon ?? const Icon(Icons.close, size: 18)),
+                      decoration: closeButtonBoxDecoration ??
+                          BoxDecoration(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surfaceVariant
+                                .withOpacity(0.5),
+                            shape: BoxShape.circle,
+                          ),
+                      child: closeButtonIcon ??
+                          Icon(
+                            Icons.close,
+                            size: 18,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSecondaryContainer
+                          )),
                 ),
               ),
             ),

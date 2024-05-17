@@ -10,14 +10,14 @@ void main() {
     title: 'Multi Image Picker View Example',
     theme: ThemeData(
         useMaterial3: true,
-        appBarTheme: AppBarTheme(color: Colors.blue.shade100),
+        appBarTheme: AppBarTheme(color: Colors.purple.shade100),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: Colors.purple,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               elevation: MaterialStateProperty.all(0),
-              backgroundColor: MaterialStateProperty.all(Colors.blue.shade50)),
+              backgroundColor: MaterialStateProperty.all(Colors.purple.shade50)),
         )),
     home: const DemoPage(),
   ));

@@ -100,9 +100,14 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 4,
-                  spreadRadius: 1,
+                  color: Theme.of(context).shadowColor.withOpacity(0.15),
+                  offset: const Offset(0, 2),
+                  blurRadius: 6,
+                ),
+                BoxShadow(
+                  color: Theme.of(context).shadowColor.withOpacity(0.18),
+                  offset: const Offset(0, 1),
+                  blurRadius: 3,
                 ),
               ],
             ),
