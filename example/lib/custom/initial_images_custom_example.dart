@@ -59,9 +59,6 @@ class _InitialImagesCustomExampleState
                 BoxDecoration(borderRadius: BorderRadius.circular(20)),
             closeButtonAlignment: Alignment.topLeft,
             fit: BoxFit.cover,
-            closeButtonIcon:
-                const Icon(Icons.delete_rounded, color: Colors.red),
-            closeButtonBoxDecoration: null,
             showCloseButton: true,
             closeButtonMargin: const EdgeInsets.all(3),
             closeButtonPadding: const EdgeInsets.all(3),

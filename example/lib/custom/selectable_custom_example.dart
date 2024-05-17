@@ -41,7 +41,7 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
           if (selectedImages.isNotEmpty)
             IconButton(
               icon: const Icon(Icons.remove_circle_outline),
-              color: Colors.red,
+              color: Theme.of(context).colorScheme.error,
               onPressed: () {
                 for (final imageFile in selectedImages) {
                   controller.removeImage(imageFile);
@@ -87,7 +87,7 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
                   Positioned.fill(
                       child: Container(
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue, width: 10),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 10),
                     ),
                   )),
                 if (selectedImages.contains(imageFile))
@@ -95,7 +95,7 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
                       child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.blue, width: 10),
+                      border: Border.all(color: Theme.of(context).colorScheme.primary, width: 10),
                     ),
                   )),
               ],
