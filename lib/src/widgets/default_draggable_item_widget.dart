@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
 
-import '../image_file.dart';
-import '../image_file_view/image_file_view.dart';
-
 class DefaultDraggableItemWidget extends StatelessWidget {
   const DefaultDraggableItemWidget({
     super.key,
@@ -61,7 +58,7 @@ class DefaultDraggableItemWidget extends StatelessWidget {
                           BoxDecoration(
                             color: Theme.of(context)
                                 .colorScheme
-                                .surfaceVariant
+                                .surfaceContainerHighest
                                 .withOpacity(0.5),
                             shape: BoxShape.circle,
                           ),

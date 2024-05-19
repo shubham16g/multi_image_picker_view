@@ -68,7 +68,7 @@ class _FullCustomExampleState extends State<FullCustomExample> {
                         child: Icon(
                           Icons.delete_forever_rounded,
                           size: 18,
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         )),
                   )),
             ],

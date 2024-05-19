@@ -1,3 +1,6 @@
+## 1.0.2
+- Fixed deprecated methods and classes.
+
 ## 1.0.1
 - Added support for network image at `ImageFile` class for initial selected images.
 - Fixed error icon for `DefaultDraggableItemWidget`, Added file type based icon.
