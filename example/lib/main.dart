@@ -1,12 +1,11 @@
 import 'package:example/custom_examples.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 import 'picker.dart';
 
 void main() {
-  timeDilation = 4;
+  // timeDilation = 4;
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Multi Image Picker View Example',
