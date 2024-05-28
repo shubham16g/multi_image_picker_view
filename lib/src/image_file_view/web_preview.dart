@@ -24,7 +24,7 @@ class ImageFileView extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: backgroundColor ??
-            Theme.of(context).colorScheme.surfaceContainerHighest,
+            Theme.of(context).colorScheme.background,
         borderRadius: borderRadius ?? BorderRadius.zero,
       ),
       child: imageFile.path == null
