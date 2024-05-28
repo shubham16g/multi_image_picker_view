@@ -18,8 +18,8 @@ void main() {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-              elevation: WidgetStateProperty.all(0),
-              backgroundColor: WidgetStateProperty.all(Colors.purple.shade50)),
+              elevation: MaterialStateProperty.all(0),
+              backgroundColor: MaterialStateProperty.all(Colors.purple.shade50)),
         )),
     home: const DemoPage(),
   ));

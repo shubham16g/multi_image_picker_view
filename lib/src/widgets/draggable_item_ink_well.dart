@@ -8,7 +8,7 @@ class DraggableItemInkWell extends StatelessWidget {
   final Color? hoverColor;
   final Color? highlightColor;
   final Color? focusColor;
-  final WidgetStateProperty<Color?>? overlayColor;
+  final MaterialStateProperty<Color?>? overlayColor;
   final Color? splashColor;
   final InteractiveInkFeatureFactory? splashFactory;
 
