@@ -1,3 +1,13 @@
+## 1.0.2
+- Fixed deprecated methods and classes.
+
+## 1.0.1
+- Added support for network image at `ImageFile` class for initial selected images.
+- Fixed error icon for `DefaultDraggableItemWidget`, Added file type based icon.
+- Material 3: Color changes and UI improvements.
+- Added Initial Images Example
+- PR #31, #33, #34 merged (author:mauriziopinotti) which includes some of the changes mentioned above.
+
 ## 1.0.0
 - Major Update 🚀
 - Inbuilt image picker is removed. You have to provide your own image/file picker logic. This will provide you more controls over image/file picking. You have to pass your `picker` in `MultiImagePickerController`.

@@ -68,7 +68,7 @@ class _FullCustomExampleState extends State<FullCustomExample> {
                         child: Icon(
                           Icons.delete_forever_rounded,
                           size: 18,
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         )),
                   )),
             ],
@@ -92,7 +92,9 @@ class _FullCustomExampleState extends State<FullCustomExample> {
           child: Center(
             child: TextButton(
               style: TextButton.styleFrom(
-                backgroundColor: Colors.blue.withOpacity(0.2),
+                foregroundColor: Colors.black,
+                surfaceTintColor: Colors.black,
+                backgroundColor: Colors.black.withOpacity(0.2),
                 shape: const CircleBorder(),
               ),
               onPressed: controller.pickImages,
@@ -100,7 +102,6 @@ class _FullCustomExampleState extends State<FullCustomExample> {
                 padding: EdgeInsets.all(10),
                 child: Icon(
                   Icons.add,
-                  color: Colors.blue,
                   size: 30,
                 ),
               ),

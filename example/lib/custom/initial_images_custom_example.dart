@@ -46,37 +46,6 @@ class _InitialImagesCustomExampleState
       body: MultiImagePickerView(
         controller: controller,
         padding: const EdgeInsets.all(10),
-        builder: (context, imageFile) {
-          return DefaultDraggableItemWidget(
-            imageFile: imageFile,
-            boxDecoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            )),
-            closeButtonAlignment: Alignment.topLeft,
-            fit: BoxFit.cover,
-            closeButtonIcon:
-                const Icon(Icons.delete_rounded, color: Colors.red),
-            closeButtonBoxDecoration: null,
-            showCloseButton: true,
-            closeButtonMargin: const EdgeInsets.all(3),
-            closeButtonPadding: const EdgeInsets.all(3),
-            showDescriptionField: true,
-            descriptionFieldPadding:
-                const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-            descriptionFieldCallback: (image, descr) =>
-                debugPrint("Description of ${image.key}: $descr"),
-          );
-        },
-        initialWidget: DefaultInitialWidget(
-          centerWidget: Icon(Icons.image_search_outlined,
-              color: Theme.of(context).colorScheme.secondary),
-        ),
-        addMoreButton: DefaultAddMoreWidget(
-          icon: Icon(Icons.image_search_outlined,
-              color: Theme.of(context).colorScheme.secondary),
-        ),
       ),
     );
   }

@@ -11,8 +11,6 @@ class ErrorPreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color:
-          backgroundColor ?? Theme.of(context).colorScheme.secondaryContainer,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(top: 8),
       child: Padding(
@@ -22,7 +20,7 @@ class ErrorPreview extends StatelessWidget {
           children: [
             Icon(
               _getIcon(),
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             const SizedBox(height: 4),
             Text(
@@ -42,14 +40,26 @@ class ErrorPreview extends StatelessWidget {
 
   IconData _getIcon() {
     switch (imageFile.extension) {
-      case 'pdf':
-        return Icons.picture_as_pdf;
-      case 'png':
-      case 'jpg':
-      case 'jpeg':
-      case 'gif':
-      case 'webp':
+      case "png":
+      case "jpg":
+      case "jpeg":
+      case "svg":
+      case "webp":
         return Icons.image;
+      case "pdf":
+        return Icons.picture_as_pdf;
+      case "mp4":
+      case "mkv":
+      case "wmv":
+      case "avi":
+      case "mov":
+      case "webm":
+        return Icons.play_circle;
+      case "mp3":
+      case "wav":
+      case "m4a":
+      case "ogg":
+        return Icons.music_note;
       default:
         return Icons.find_in_page_rounded;
     }

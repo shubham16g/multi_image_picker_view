@@ -36,7 +36,7 @@ class _FilesCustomExampleState extends State<FilesCustomExample> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   color: Color.lerp(fileColor(imageFile.extension),
-                      Theme.of(context).colorScheme.background, 0.85),
+                      Theme.of(context).colorScheme.surface, 0.85),
                 ),
                 alignment: Alignment.center,
                 padding: const EdgeInsets.only(top: 16),
@@ -83,7 +83,7 @@ class _FilesCustomExampleState extends State<FilesCustomExample> {
                         child: Icon(
                           Icons.close,
                           size: 18,
-                          color: Theme.of(context).colorScheme.background,
+                          color: Theme.of(context).colorScheme.surface,
                         )),
                   )),
             ],

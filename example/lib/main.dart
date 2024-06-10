@@ -5,19 +5,21 @@ import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import 'picker.dart';
 
 void main() {
+  // timeDilation = 4;
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     title: 'Multi Image Picker View Example',
     theme: ThemeData(
         useMaterial3: true,
-        appBarTheme: AppBarTheme(color: Colors.blue.shade100),
+        splashFactory: InkSparkle.splashFactory,
+        appBarTheme: AppBarTheme(color: Colors.purple.shade100),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue,
+          seedColor: Colors.purple,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-              elevation: MaterialStateProperty.all(0),
-              backgroundColor: MaterialStateProperty.all(Colors.blue.shade50)),
+              elevation: WidgetStateProperty.all(0),
+              backgroundColor: WidgetStateProperty.all(Colors.purple.shade50)),
         )),
     home: const DemoPage(),
   ));
