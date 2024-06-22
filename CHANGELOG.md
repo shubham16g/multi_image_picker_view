@@ -1,3 +1,6 @@
+## 1.0.3
+- Reverted/Changed the changes made in 1.0.2 as it only working with the latest Flutter version.
+
 ## 1.0.2
 - Fixed deprecated methods and classes.
 
