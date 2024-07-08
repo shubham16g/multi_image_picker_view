@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
 import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
@@ -51,6 +50,9 @@ class MultiImagePickerView extends StatefulWidget {
 class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   late final ScrollController _scrollController;
   final _gridViewKey = GlobalKey();
+
+  final lockedIndices = <int>[0, 4];
+  final nonDraggableIndices = [0, 2, 3];
 
   @override
   void initState() {
@@ -111,12 +113,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 ),
               ],
             ),
-        onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-          for (final orderUpdateEntity in orderUpdateEntities) {
-            widget.controller.reOrderImage(
-                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
-          }
-        },
+          onReorder: (reOrderCallback) {
+            final newList = reOrderCallback(widget.controller.images.toList());
+            widget.controller.updateImages(newList as List<ImageFile>);
+          },
         longPressDelay:
             Duration(milliseconds: widget.longPressDelayMilliseconds),
         builder: (children) {
