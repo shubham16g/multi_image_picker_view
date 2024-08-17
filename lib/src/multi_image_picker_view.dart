@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_reorderable_grid_view/entities/order_update_entity.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
 import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
 import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
@@ -111,10 +110,13 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 ),
               ],
             ),
-        onReorder: (List<OrderUpdateEntity> orderUpdateEntities) {
-          for (final orderUpdateEntity in orderUpdateEntities) {
+        onReorder: (ReorderedListFunction reorderedListFunction) {
+          List<dynamic> list = reorderedListFunction as List<dynamic>;
+          for (final orderUpdateEntity in list) {
             widget.controller.reOrderImage(
-                orderUpdateEntity.oldIndex, orderUpdateEntity.newIndex);
+              orderUpdateEntity.oldIndex,
+              orderUpdateEntity.newIndex,
+            );
           }
         },
         longPressDelay:
