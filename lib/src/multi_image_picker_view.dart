@@ -111,13 +111,13 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
               ],
             ),
         onReorder: (ReorderedListFunction reorderedListFunction) {
-          List<dynamic> list = reorderedListFunction as List<dynamic>;
-          for (final orderUpdateEntity in list) {
-            widget.controller.reOrderImage(
-              orderUpdateEntity.oldIndex,
-              orderUpdateEntity.newIndex,
-            );
-          }
+          List<ImageFile> list = reorderedListFunction(
+            widget.controller.images.toList(),
+          ) as List<ImageFile>;
+
+          widget.controller.reOrderImage(
+            list,
+          );
         },
         longPressDelay:
             Duration(milliseconds: widget.longPressDelayMilliseconds),

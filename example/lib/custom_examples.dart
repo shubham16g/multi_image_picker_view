@@ -44,7 +44,7 @@ enum CustomExamples {
 }
 
 class CustomExamplesWidget extends StatelessWidget {
-  const CustomExamplesWidget({Key? key}) : super(key: key);
+  const CustomExamplesWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 import '../picker.dart';
 
 class DefaultCustomExample extends StatefulWidget {
-  const DefaultCustomExample({Key? key}) : super(key: key);
+  const DefaultCustomExample({super.key});
 
   @override
   State<DefaultCustomExample> createState() => _DefaultCustomExampleState();

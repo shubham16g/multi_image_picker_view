@@ -6,8 +6,8 @@ class MultiImagePickerControllerWrapper extends InheritedWidget {
     super.key,
     required this.controller,
     required this.padding,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   final MultiImagePickerController controller;
   final EdgeInsetsGeometry? padding;
