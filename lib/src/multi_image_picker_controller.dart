@@ -49,12 +49,15 @@ class MultiImagePickerController with ChangeNotifier {
   }
 
   /// Manually re-order image, i.e. move image from one position to another position.
-  void reOrderImage(List<ImageFile> list) {
-    _images.clear();
-    _images.addAll(
-      list,
-    );
+  void reOrderImage(int oldIndex, int newIndex) {
+    final oldItem = _images.removeAt(oldIndex);
+    _images.insert(newIndex, oldItem);
+    notifyListeners();
+  }
 
+  void updateImages(List<ImageFile> images) {
+    _images.clear();
+    _images.addAll(images);
     notifyListeners();
   }
 
