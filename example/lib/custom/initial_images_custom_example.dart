@@ -22,14 +22,14 @@ class _InitialImagesCustomExampleState
         name: "test-image.jpg",
         extension: "jpg",
         path:
-            "https://cc-prod.scene7.com/is/image/CCProdAuthor/What-is-Stock-Photography_P1_mobile",
+            "https://cdn.pixabay.com/photo/2024/06/18/21/37/bali-8838762_640.jpg",
       ),
       ImageFile(
         UniqueKey().toString(),
-        name: "test-document.pdf",
-        extension: "pdf",
+        name: "test-image-2.jpg",
+        extension: "jpg",
         path:
-            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+            "https://cdn.pixabay.com/photo/2024/07/20/18/49/stars-8908843_640.jpg",
       ),
     ],
     picker: (bool allowMultiple) {
