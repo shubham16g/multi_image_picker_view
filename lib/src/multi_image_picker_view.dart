@@ -51,9 +51,6 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
   late final ScrollController _scrollController;
   final _gridViewKey = GlobalKey();
 
-  final lockedIndices = <int>[0, 4];
-  final nonDraggableIndices = [0, 2, 3];
-
   @override
   void initState() {
     super.initState();
@@ -113,10 +110,10 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                 ),
               ],
             ),
-          onReorder: (reOrderCallback) {
-            final newList = reOrderCallback(widget.controller.images.toList());
-            widget.controller.updateImages(newList as List<ImageFile>);
-          },
+        onReorder: (reOrderCallback) {
+          final newList = reOrderCallback(widget.controller.images.toList());
+          widget.controller.updateImages(newList as List<ImageFile>);
+        },
         longPressDelay:
             Duration(milliseconds: widget.longPressDelayMilliseconds),
         builder: (children) {

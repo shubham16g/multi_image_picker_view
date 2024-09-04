@@ -1,3 +1,10 @@
+## 1.1.0
+- `flutter_reorderable_grid_view` updated to `^5.0.1`
+- iOS simulator issue fixed for example project.
+- Flutter higher version support added.
+- Removed deprecated methods and classes.
+- PR #43 (Upgrade for flutter_reorderable_grid_view) 🚀 merged (author:smocken78) which includes changes mentioned above.
+
 ## 1.0.3
 - Reverted/Changed the changes made in 1.0.2 as it only working with the latest Flutter version.
 

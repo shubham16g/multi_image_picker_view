@@ -57,14 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.8"
-  equatable:
-    dependency: transitive
-    description:
-      name: equatable
-      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -85,10 +77,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: "1bbf65dd997458a08b531042ec3794112a6c39c07c37ff22113d2e7e4f81d4e4"
+      sha256: "167bb619cdddaa10ef2907609feb8a79c16dfa479d3afaf960f8e223f754bf12"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.1"
+    version: "8.1.2"
   file_selector_linux:
     dependency: transitive
     description:
@@ -146,10 +138,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_reorderable_grid_view
-      sha256: ac92a49a8411adfda40f75eff44d0958ee879b0f9d6776bb6154c74aa166aaf1
+      sha256: "40abcc5bff228ebff119326502e7357ee6399956b60b80b17385e9770b7458c0"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "5.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -310,7 +302,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.0.3"
+    version: "1.1.0"
   path:
     dependency: transitive
     description:

@@ -19,8 +19,7 @@ void main() {
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
               elevation: WidgetStateProperty.all(0),
-              backgroundColor:
-                  WidgetStateProperty.all(Colors.purple.shade50)),
+              backgroundColor: WidgetStateProperty.all(Colors.purple.shade50)),
         )),
     home: const DemoPage(),
   ));
