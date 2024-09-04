@@ -55,6 +55,12 @@ class MultiImagePickerController with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateImages(List<ImageFile> images) {
+    _images.clear();
+    _images.addAll(images);
+    notifyListeners();
+  }
+
   /// Manually remove image from list.
   void removeImage(ImageFile imageFile) {
     _images.remove(imageFile);

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
 class FilesCustomExample extends StatefulWidget {
-  const FilesCustomExample({Key? key}) : super(key: key);
+  const FilesCustomExample({super.key});
 
   @override
   State<FilesCustomExample> createState() => _FilesCustomExampleState();

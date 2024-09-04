@@ -25,7 +25,7 @@ class ImageFileView extends StatelessWidget {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: backgroundColor ?? Theme.of(context).colorScheme.background,
+        color: backgroundColor ?? Theme.of(context).colorScheme.surface,
         borderRadius: borderRadius ?? BorderRadius.zero,
       ),
       child: Uri.tryParse(imageFile.path!)?.scheme.startsWith('http') == true

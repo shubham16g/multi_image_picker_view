@@ -27,8 +27,8 @@ class DefaultInitialWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          overlayColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.pressed)) {
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
               return Theme.of(context).colorScheme.primary.withOpacity(0.15);
             }
             return Theme.of(context).colorScheme.primary.withOpacity(0.07);

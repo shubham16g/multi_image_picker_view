@@ -58,7 +58,7 @@ class DefaultDraggableItemWidget extends StatelessWidget {
                           BoxDecoration(
                             color: Theme.of(context)
                                 .colorScheme
-                                .background
+                                .surface
                                 .withOpacity(0.5),
                             shape: BoxShape.circle,
                           ),

@@ -18,16 +18,16 @@ void main() {
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-              elevation: MaterialStateProperty.all(0),
+              elevation: WidgetStateProperty.all(0),
               backgroundColor:
-                  MaterialStateProperty.all(Colors.purple.shade50)),
+                  WidgetStateProperty.all(Colors.purple.shade50)),
         )),
     home: const DemoPage(),
   ));
 }
 
 class DemoPage extends StatefulWidget {
-  const DemoPage({Key? key}) : super(key: key);
+  const DemoPage({super.key});
 
   @override
   State<DemoPage> createState() => _DemoPageState();
