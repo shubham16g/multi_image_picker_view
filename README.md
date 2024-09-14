@@ -6,7 +6,7 @@
 
 A complete widget which can easily pick multiple images from device and display them in UI. Also picked image can be re-ordered and removed easily.
 
-**🚀 LIVE DEMO OF EXAMPLE PROJECT:** https://shubham-gupta-16.github.io/multi_image_picker_view/
+**🚀 LIVE DEMO OF EXAMPLE PROJECT:** https://shubham16g.github.io/multi_image_picker_view/
 
 ![preview](https://user-images.githubusercontent.com/55009858/178099543-d3b576d9-625c-426e-b627-9e48c2f65c17.gif)
 
