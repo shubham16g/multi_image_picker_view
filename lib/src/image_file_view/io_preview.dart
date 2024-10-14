@@ -28,14 +28,20 @@ class ImageFileView extends StatelessWidget {
         color: backgroundColor ?? Theme.of(context).colorScheme.surface,
         borderRadius: borderRadius ?? BorderRadius.zero,
       ),
-      child: Uri.tryParse(imageFile.path!)?.scheme.startsWith('http') == true
-          ? Image.network(
-              imageFile.path!,
-              fit: fit,
-              errorBuilder: errorBuilder ?? _defaultErrorBuilder,
-            )
-          : Image.file(
-              File(imageFile.path!),
+      child: imageFile.path != null
+          ? Uri.tryParse(imageFile.path!)?.scheme.startsWith('http') == true
+              ? Image.network(
+                  imageFile.path!,
+                  fit: fit,
+                  errorBuilder: errorBuilder ?? _defaultErrorBuilder,
+                )
+              : Image.file(
+                  File(imageFile.path!),
+                  fit: fit,
+                  errorBuilder: errorBuilder ?? _defaultErrorBuilder,
+                )
+          : Image.memory(
+              imageFile.bytes!,
               fit: fit,
               errorBuilder: errorBuilder ?? _defaultErrorBuilder,
             ),
