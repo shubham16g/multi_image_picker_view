@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_reorderable_grid_view/widgets/reorderable_builder.dart';
-import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
-import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
-import 'package:multi_image_picker_view/src/widgets/default_draggable_item_widget.dart';
 import 'package:multi_image_picker_view/src/multi_image_picker_controller_wrapper.dart';
+import 'package:multi_image_picker_view/src/widgets/default_add_more_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_draggable_item_widget.dart';
+import 'package:multi_image_picker_view/src/widgets/default_initial_widget.dart';
 
 import 'image_file.dart';
 import 'multi_image_picker_controller.dart';
@@ -91,7 +91,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                     widget.controller.isMouse = true;
                   });
                 },
-      child: ReorderableBuilder(
+      child: ReorderableBuilder<ImageFile>(
         scrollController: _scrollController,
         enableDraggable: widget.draggable,
         dragChildBoxDecoration: widget.onDragBoxDecoration ??
@@ -112,7 +112,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             ),
         onReorder: (reOrderCallback) {
           final newList = reOrderCallback(widget.controller.images.toList());
-          widget.controller.updateImages(newList as List<ImageFile>);
+          widget.controller.updateImages(newList);
         },
         longPressDelay:
             Duration(milliseconds: widget.longPressDelayMilliseconds),
