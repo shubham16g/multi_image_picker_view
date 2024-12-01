@@ -21,6 +21,6 @@ dev_dependencies:
 
 screenshots:
   - description: "Shopping cart with badge for pub.dev preview"
-    path: ./_images/pub_dev_preview.png
+    path: _images/pub_dev_preview.png
 
 flutter:
