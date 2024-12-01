@@ -1,3 +1,6 @@
+## 1.1.1
+- 
+
 ## 1.1.0
 - `flutter_reorderable_grid_view` updated to `^5.0.1`
 - iOS simulator issue fixed for example project.

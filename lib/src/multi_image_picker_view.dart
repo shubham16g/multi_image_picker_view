@@ -91,7 +91,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
                     widget.controller.isMouse = true;
                   });
                 },
-      child: ReorderableBuilder(
+      child: ReorderableBuilder<ImageFile>(
         scrollController: _scrollController,
         enableDraggable: widget.draggable,
         dragChildBoxDecoration: widget.onDragBoxDecoration ??
@@ -112,7 +112,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             ),
         onReorder: (reOrderCallback) {
           final newList = reOrderCallback(widget.controller.images.toList());
-          widget.controller.updateImages(newList as List<ImageFile>);
+          widget.controller.updateImages(newList);
         },
         longPressDelay:
             Duration(milliseconds: widget.longPressDelayMilliseconds),
