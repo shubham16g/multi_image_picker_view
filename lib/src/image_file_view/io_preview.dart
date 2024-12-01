@@ -19,7 +19,6 @@ class ImageFileView extends StatelessWidget {
       this.borderRadius,
       this.errorBuilder,
       this.backgroundColor});
-
   @override
   Widget build(BuildContext context) {
     return Container(
