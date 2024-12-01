@@ -20,7 +20,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 screenshots:
-  - description: "Shopping cart with badge for pub.dev preview"
+  - description: "Screenshot of multiple images picked from device and displayed in UI"
     path: _images/pub_dev_preview.png
 
 flutter:
