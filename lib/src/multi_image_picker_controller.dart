@@ -24,6 +24,13 @@ class MultiImagePickerController with ChangeNotifier {
   /// Returns [Iterable] of [ImageFile] that user has selected.
   Iterable<ImageFile> get images => _images;
 
+  /// Set images manually.
+  set images(Iterable<ImageFile> images) {
+    _images.clear();
+    _images.addAll(images);
+    notifyListeners();
+  }
+
   /// Returns true if user has selected no images.
   bool get hasNoImages => _images.isEmpty;
 
@@ -58,6 +65,24 @@ class MultiImagePickerController with ChangeNotifier {
   void updateImages(List<ImageFile> images) {
     _images.clear();
     _images.addAll(images);
+    notifyListeners();
+  }
+
+  /// Add image manually.
+  void addImage(ImageFile image) {
+    _images.add(image);
+    notifyListeners();
+  }
+
+  /// Insert image manually at index.
+  void insertImage(int index, ImageFile image) {
+    _images.insert(index, image);
+    notifyListeners();
+  }
+
+  /// Remove image manually using index.
+  void removeImageAt(int index) {
+    _images.removeAt(index);
     notifyListeners();
   }
 
