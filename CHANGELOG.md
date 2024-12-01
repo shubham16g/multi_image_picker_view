@@ -1,5 +1,10 @@
-## 1.1.1
-- 
+## 2.0.0
+- PR #46 (@smocken78) merged. IO Preview support for data bytes.
+- PR #48 (@Lukas2019) merged. Example project android upgrade.
+- PR #50 (@evan8133) merged. `flutter_reorderable_grid_view` version fixed. updated to `^5.4.0`.
+- Issue #44 : io_preview with byte data | fixed
+- Issue #47 : Type Mismatch Error in multi_image_picker_view.dart | fixed
+- Issue #49 : errror running app using this multi_image_picker_view: ^1.1.0 using | fixed
 
 ## 1.1.0
 - `flutter_reorderable_grid_view` updated to `^5.0.1`
@@ -7,6 +12,7 @@
 - Flutter higher version support added.
 - Removed deprecated methods and classes.
 - PR #43 (Upgrade for flutter_reorderable_grid_view) 🚀 merged (author:smocken78) which includes changes mentioned above.
+> *Note*: To use this version, add `flutter_reorderable_grid_view: ^5.0.1` in your `pubspec.yaml` file.
 
 ## 1.0.3
 - Reverted/Changed the changes made in 1.0.2 as it only working with the latest Flutter version.
