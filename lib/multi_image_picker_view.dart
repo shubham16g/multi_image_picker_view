@@ -1,4 +1,4 @@
-library multi_image_picker_view;
+library;
 
 export './src/multi_image_picker_view.dart';
 export './src/multi_image_picker_controller.dart';
