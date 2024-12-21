@@ -6,9 +6,11 @@ class DefaultInitialWidget extends StatelessWidget {
   final EdgeInsetsGeometry? margin;
   final Widget? centerWidget;
   final Color? backgroundColor;
+  final double? height;
+  final double? width;
 
   const DefaultInitialWidget(
-      {super.key, this.centerWidget, this.margin, this.backgroundColor});
+      {super.key, this.centerWidget, this.margin, this.backgroundColor, this.height, this.width});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +23,9 @@ class DefaultInitialWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         color: bgColor,
       ),
-      height: 160,
+      height: height ?? 160,
       clipBehavior: Clip.hardEdge,
-      width: double.infinity,
+      width: width ?? double.infinity,
       child: Material(
         color: Colors.transparent,
         child: InkWell(
