@@ -10,7 +10,12 @@ class DefaultInitialWidget extends StatelessWidget {
   final double? width;
 
   const DefaultInitialWidget(
-      {super.key, this.centerWidget, this.margin, this.backgroundColor, this.height, this.width});
+      {super.key,
+      this.centerWidget,
+      this.margin,
+      this.backgroundColor,
+      this.height,
+      this.width});
 
   @override
   Widget build(BuildContext context) {

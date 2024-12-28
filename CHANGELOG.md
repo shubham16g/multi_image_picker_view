@@ -1,3 +1,6 @@
+## 2.0.1
+- PR #52 (@IndigoSoftwares21) merged. Added option to set the height and width of DefaultInitialWidget.
+
 ## 2.0.0
 - PR #46 (@smocken78) merged. IO Preview support for data bytes.
 - PR #48 (@Lukas2019) merged. Example project android upgrade.
