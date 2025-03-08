@@ -13,8 +13,8 @@ class FilesCustomExample extends StatefulWidget {
 class _FilesCustomExampleState extends State<FilesCustomExample> {
   final controller = MultiImagePickerController(
     maxImages: 12,
-    picker: (bool allowMultiple) async {
-      return await pickFilesUsingFilePicker(allowMultiple);
+    picker: (imageCount, params) async {
+      return await pickFilesUsingFilePicker(imageCount);
     },
   );
 

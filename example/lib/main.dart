@@ -35,7 +35,7 @@ class DemoPage extends StatefulWidget {
 class _DemoPageState extends State<DemoPage> {
   final controller = MultiImagePickerController(
       maxImages: 10,
-      picker: (allowMultiple) async {
+      picker: (allowMultiple, params) async {
         return await pickImagesUsingImagePicker(allowMultiple);
       });
 

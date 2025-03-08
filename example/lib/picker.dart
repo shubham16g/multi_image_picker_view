@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker_view/multi_image_picker_view.dart';
 
-Future<List<ImageFile>> pickImagesUsingImagePicker(bool allowMultiple) async {
+Future<List<ImageFile>> pickImagesUsingImagePicker(int imageCount) async {
   final picker = ImagePicker();
   final List<XFile> xFiles;
-  if (allowMultiple) {
-    xFiles = await picker.pickMultiImage(maxWidth: 1080, maxHeight: 1080);
+  if (imageCount > 1) {
+    xFiles = await picker.pickMultiImage(maxWidth: 1080, maxHeight: 1080, limit: imageCount);
   } else {
     xFiles = [];
     final xFile = await picker.pickImage(
@@ -22,10 +22,10 @@ Future<List<ImageFile>> pickImagesUsingImagePicker(bool allowMultiple) async {
   return [];
 }
 
-Future<List<ImageFile>> pickImagesUsingFilePicker(bool allowMultiple) async {
+Future<List<ImageFile>> pickImagesUsingFilePicker(int imageCount) async {
   const allowedExtensions = ['png', 'jpeg', 'jpg'];
   final result = await FilePicker.platform.pickFiles(
-    allowMultiple: allowMultiple,
+    allowMultiple: imageCount > 1,
     type: FileType.custom,
     withData: kIsWeb,
     allowedExtensions: allowedExtensions,
@@ -47,9 +47,9 @@ Future<List<ImageFile>> pickImagesUsingFilePicker(bool allowMultiple) async {
   return [];
 }
 
-Future<List<ImageFile>> pickFilesUsingFilePicker(bool allowMultiple) async {
+Future<List<ImageFile>> pickFilesUsingFilePicker(int fileCount) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
-    allowMultiple: allowMultiple,
+    allowMultiple: fileCount > 1,
     withData: kIsWeb,
   );
   if (result != null && result.files.isNotEmpty) {

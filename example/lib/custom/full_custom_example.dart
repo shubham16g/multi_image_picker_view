@@ -14,8 +14,8 @@ class FullCustomExample extends StatefulWidget {
 class _FullCustomExampleState extends State<FullCustomExample> {
   final controller = MultiImagePickerController(
     maxImages: 12,
-    picker: (bool allowMultiple) async {
-      return await pickImagesUsingImagePicker(allowMultiple);
+    picker: (int imageCount, Object? params) async {
+      return await pickImagesUsingImagePicker(imageCount);
     },
   );
 
