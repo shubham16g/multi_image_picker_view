@@ -47,9 +47,11 @@ OR you can use any plugin to pick images/files.
 ### Define the controller
 ```dart
 final controller = MultiImagePickerController(
-    picker: (bool allowMultiple) async {
+    picker: (int pickCount, Object? params) async {
       // use image_picker or file_picker to pick images `pickImages`
-      final pickedImages = await pickImages(allowMultiple);
+      // use pickCount to pass as limit to the picker. Don't need to limit as it is handled internally.
+      // params are the extras that can be pass if you are calling `controller.pickImages(params: yourParams)` manually.
+      final pickedImages = await pickImages(pickCount);
       // convert the picked image list to `ImageFile` list and return it.
       return pickedImages.map((e) => convertToImageFile(e)).toList();
     }
@@ -60,7 +62,7 @@ OR
 final controller = MultiImagePickerController(
     maxImages: 15,
     images: <ImageFile>[], // array of pre/default selected images
-    picker: (bool allowMultiple) async {
+    picker: (int pickCount, Object? params) async {
       return await pickConvertedImages(allowMultiple);
     },
 );
