@@ -7,7 +7,8 @@ Future<List<ImageFile>> pickImagesUsingImagePicker(int pickCount) async {
   final picker = ImagePicker();
   final List<XFile> xFiles;
   if (pickCount > 1) {
-    xFiles = await picker.pickMultiImage(maxWidth: 1080, maxHeight: 1080, limit: pickCount);
+    xFiles = await picker.pickMultiImage(
+        maxWidth: 1080, maxHeight: 1080, limit: pickCount);
   } else {
     xFiles = [];
     final xFile = await picker.pickImage(

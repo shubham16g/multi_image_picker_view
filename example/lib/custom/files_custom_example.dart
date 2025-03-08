@@ -28,7 +28,7 @@ class _FilesCustomExampleState extends State<FilesCustomExample> {
         controller: controller,
         padding: const EdgeInsets.all(10),
         initialWidget: DefaultInitialWidget(
-          centerWidget:Column(
+          centerWidget: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.file_present,
