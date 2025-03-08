@@ -6,7 +6,7 @@ import '../multi_image_picker_view.dart';
 /// This controller contains all them images that the user has selected.
 class MultiImagePickerController with ChangeNotifier {
   final int maxImages;
-  final Future<List<ImageFile>> Function(int imageCount, Object? params) picker;
+  final Future<List<ImageFile>> Function(int pickCount, Object? params) picker;
 
   MultiImagePickerController(
       {this.maxImages = 10,

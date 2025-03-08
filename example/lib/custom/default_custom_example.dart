@@ -14,8 +14,8 @@ class DefaultCustomExample extends StatefulWidget {
 class _DefaultCustomExampleState extends State<DefaultCustomExample> {
   final controller = MultiImagePickerController(
     maxImages: 12,
-    picker: (int imageCount, Object? params) {
-      return pickImagesUsingImagePicker(imageCount);
+    picker: (int pickCount, Object? params) {
+      return pickImagesUsingImagePicker(pickCount);
     },
   );
 
