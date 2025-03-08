@@ -29,7 +29,8 @@ class _SelectableCustomExampleState extends State<SelectableCustomExample> {
 
   final controller = MultiImagePickerController(
     maxImages: 10,
-    picker: (allowMultiple) => pickImagesUsingImagePicker(allowMultiple),
+    picker: (int pickCount, Object? params) =>
+        pickImagesUsingImagePicker(pickCount),
   );
 
   @override

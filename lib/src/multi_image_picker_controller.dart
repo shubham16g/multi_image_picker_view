@@ -6,7 +6,7 @@ import '../multi_image_picker_view.dart';
 /// This controller contains all them images that the user has selected.
 class MultiImagePickerController with ChangeNotifier {
   final int maxImages;
-  final Future<List<ImageFile>> Function(bool allowMultiple) picker;
+  final Future<List<ImageFile>> Function(int pickCount, Object? params) picker;
 
   MultiImagePickerController(
       {this.maxImages = 10,
@@ -37,8 +37,11 @@ class MultiImagePickerController with ChangeNotifier {
   /// manually pick images. i.e. on click on external button.
   /// this method open Image picking window.
   /// It returns [Future] of [bool], true if user has selected images.
-  Future<bool> pickImages() async {
-    final pickedImages = await picker(maxImages > 1 ? true : false);
+  Future<bool> pickImages({Object? params}) async {
+    if (maxImages <= _images.length) {
+      return false;
+    }
+    final pickedImages = await picker(maxImages - _images.length, params);
     if (pickedImages.isNotEmpty) {
       _addImages(pickedImages);
       notifyListeners();

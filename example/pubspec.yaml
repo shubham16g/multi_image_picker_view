@@ -12,10 +12,8 @@ dependencies:
   multi_image_picker_view:
     path: ../
   
-  file_picker: ^8.1.2
+  file_picker: ^9.0.2
   image_picker: ^1.1.2
-
-  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:

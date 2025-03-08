@@ -1,3 +1,7 @@
+## 3.0.0
+- Issue #45 : max count is quite confusing | fixed by providing `pickCount` to `picker` callback.
+- Issue #41 : Additional parameter for picker | added optional `params` field to `pickImages` method which will be received in `picker` callback.
+
 ## 2.0.1
 - PR #52 (@IndigoSoftwares21) merged. Added option to set the height and width of DefaultInitialWidget.
 

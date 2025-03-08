@@ -32,8 +32,8 @@ class _InitialImagesCustomExampleState
             "https://cdn.pixabay.com/photo/2024/07/20/18/49/stars-8908843_640.jpg",
       ),
     ],
-    picker: (bool allowMultiple) {
-      return pickImagesUsingImagePicker(allowMultiple);
+    picker: (int pickCount, Object? params) {
+      return pickImagesUsingImagePicker(pickCount);
     },
   );
 

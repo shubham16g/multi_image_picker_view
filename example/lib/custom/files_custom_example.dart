@@ -13,8 +13,8 @@ class FilesCustomExample extends StatefulWidget {
 class _FilesCustomExampleState extends State<FilesCustomExample> {
   final controller = MultiImagePickerController(
     maxImages: 12,
-    picker: (bool allowMultiple) async {
-      return await pickFilesUsingFilePicker(allowMultiple);
+    picker: (pickCount, params) async {
+      return await pickFilesUsingFilePicker(pickCount);
     },
   );
 
@@ -27,6 +27,21 @@ class _FilesCustomExampleState extends State<FilesCustomExample> {
       body: MultiImagePickerView(
         controller: controller,
         padding: const EdgeInsets.all(10),
+        initialWidget: DefaultInitialWidget(
+          centerWidget: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.file_present,
+                  size: 30, color: Theme.of(context).primaryColor),
+              const SizedBox(height: 4),
+              Text('PICK FILES',
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14))
+            ],
+          ),
+        ),
         builder: (context, imageFile) {
           return Stack(
             children: [
