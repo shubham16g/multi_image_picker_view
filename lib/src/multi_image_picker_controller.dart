@@ -38,7 +38,7 @@ class MultiImagePickerController with ChangeNotifier {
   /// this method open Image picking window.
   /// It returns [Future] of [bool], true if user has selected images.
   Future<bool> pickImages({Object? params}) async {
-    if (maxImages >= _images.length) {
+    if (maxImages <= _images.length) {
       return false;
     }
     final pickedImages = await picker(maxImages - _images.length, params);
