@@ -1,3 +1,6 @@
+## 3.0.1
+- Issue #56 : add `physics` to `MultiImagePickerView`.
+
 ## 3.0.0
 - Issue #45 : max count is quite confusing | fixed by providing `pickCount` to `picker` callback.
 - Issue #41 : Additional parameter for picker | added optional `params` field to `pickImages` method which will be received in `picker` callback.
