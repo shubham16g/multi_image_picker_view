@@ -23,6 +23,7 @@ class MultiImagePickerView extends StatefulWidget {
         mainAxisSpacing: 10,
         childAspectRatio: 1,
       ),
+      this.physics,
       this.padding,
       this.initialWidget = const DefaultInitialWidget(),
       this.addMoreButton = const DefaultAddMoreWidget(),
@@ -33,6 +34,7 @@ class MultiImagePickerView extends StatefulWidget {
   final bool draggable;
   final bool shrinkWrap;
   final int longPressDelayMilliseconds;
+  final ScrollPhysics? physics;
   final EdgeInsetsGeometry? padding;
   final SliverGridDelegate gridDelegate;
   final Widget? initialWidget;
@@ -121,6 +123,7 @@ class _MultiImagePickerViewState extends State<MultiImagePickerView> {
             key: _gridViewKey,
             shrinkWrap: widget.shrinkWrap,
             controller: _scrollController,
+            physics: widget.physics,
             padding: widget.padding ?? EdgeInsets.zero,
             gridDelegate: widget.gridDelegate,
             children: children + [if (_showAddMoreButton) addMoreButton],
